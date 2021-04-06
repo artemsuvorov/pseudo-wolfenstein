@@ -16,9 +16,20 @@ namespace PseudoWolfenstein.View
 
         public static bool Enabled { get; private set; }
 
-        public static void Update()
+        private readonly Player player;
+        private readonly Input input;
+        private readonly Viewport viewport;
+
+        public Gizmos(Viewport viewport, Input input, Player player)
         {
-            if (Input.IsKeyToggled(Keys.F4))
+            this.viewport = viewport;
+            this.input = input;
+            this.player = player;
+        }
+
+        public void Update()
+        {
+            if (input.IsKeyToggled(Keys.F4))
                 Enabled = !isGizmosEnabledByDefault;
             else
                 Enabled = isGizmosEnabledByDefault;
@@ -41,10 +52,10 @@ namespace PseudoWolfenstein.View
             using var gizmosFillBrush = new SolidBrush(Settings.GizmosFillColor);
             using var gizmosStrokePen1 = new Pen(Settings.GizmosStrokeColor1);
 
-            var centerPoint = Camera.ScreenCenterPosition;
+            var centerPoint = viewport.Center;
 
             var points = RaycastData.CrossingPoints.Select(vec => new PointF(centerPoint.X + vec.X, centerPoint.Y + vec.Y))
-                .Concat(new[] { new PointF(centerPoint.X + Player.X, centerPoint.Y + Player.Y) }).ToArray();
+                .Concat(new[] { new PointF(centerPoint.X + player.X, centerPoint.Y + player.Y) }).ToArray();
 
             graphics.DrawPolygon(gizmosStrokePen1, points);
             graphics.FillPolygon(gizmosFillBrush, points);
@@ -54,7 +65,7 @@ namespace PseudoWolfenstein.View
         {
             using var gizmosStrokePen1 = new Pen(Settings.GizmosStrokeColor1);
 
-            var centerPoint = Camera.ScreenCenterPosition;
+            var centerPoint = viewport.Center;
 
             foreach (var ray in RaycastData.Rays)
             {
@@ -68,7 +79,7 @@ namespace PseudoWolfenstein.View
         {
             using var gizmosFillBrush = new SolidBrush(Settings.GizmosFillColor);
 
-            var centerPoint = Camera.ScreenCenterPosition;
+            var centerPoint = viewport.Center;
 
             foreach (var crossingPoint in RaycastData.CrossingPoints)
                 graphics.FillEllipse(gizmosFillBrush, centerPoint.X + crossingPoint.X - 5, centerPoint.Y + crossingPoint.Y - 5, 10, 10);
@@ -80,9 +91,9 @@ namespace PseudoWolfenstein.View
             using var gizmosStrokePen1 = new Pen(Settings.GizmosStrokeColor1);
 
             var fovRadius = 480f;
-            var x = Camera.ClientRectangle.Width/2f + Player.Position.X - fovRadius/2f;
-            var y = Camera.ClientRectangle.Height/2f + Player.Position.Y - fovRadius/2f;
-            var r = MathF2D.ToDegrees(Player.Rotation);
+            var x = viewport.ClientRectangle.Width/2f + player.Position.X - fovRadius/2f;
+            var y = viewport.ClientRectangle.Height/2f + player.Position.Y - fovRadius/2f;
+            var r = MathF2D.ToDegrees(player.Rotation);
             var fov = MathF2D.ToDegrees(Player.FieldOfView);
             graphics.FillPie(gizmosFillBrush, x, y, fovRadius, fovRadius, r-fov/2f, fov);
             graphics.DrawPie(gizmosStrokePen1, x, y, fovRadius, fovRadius, r-fov/2f, fov);
@@ -93,22 +104,22 @@ namespace PseudoWolfenstein.View
             using var gizmosStrokePen2 = new Pen(Settings.GizmosStrokeColor2, width: 8f);
 
             graphics.DrawLine(gizmosStrokePen2,
-                Camera.ClientRectangle.Width/2 + Player.X, Camera.ClientRectangle.Height/2 + Player.Y, 
-                Player.MotionDirection.X*100 + Camera.ClientRectangle.Width/2 + Player.X, 
-                Player.MotionDirection.Y*100 + Camera.ClientRectangle.Height/2 + Player.Y);
+                viewport.ClientRectangle.Width/2 + player.X, viewport.ClientRectangle.Height/2 + player.Y,
+                player.MotionDirection.X*100 + viewport.ClientRectangle.Width/2 + player.X,
+                player.MotionDirection.Y*100 + viewport.ClientRectangle.Height/2 + player.Y);
         }
 
         private void DrawPostions(Graphics graphics)
         {
             using var gizmosFillBrush = new SolidBrush(Settings.GizmosFillColor);
 
-            var centerPoint = Camera.ScreenCenterPosition;
+            var centerPoint = viewport.Center;
             var center = new System.Numerics.Vector2(centerPoint.X, centerPoint.Y);
 
-            var relMousePos = Input.RelMousePosition;
+            var relMousePos = input.RelMousePosition;
             var target = new System.Numerics.Vector2(relMousePos.X, relMousePos.Y);
 
-            var t1 = (System.Numerics.Vector2.UnitX + center + Player.Position);
+            var t1 = (System.Numerics.Vector2.UnitX + center + player.Position);
             var t2 = (target);
 
             graphics.FillEllipse(gizmosFillBrush, t1.X - 5, t1.Y - 5, 10, 10);

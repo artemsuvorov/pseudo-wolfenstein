@@ -1,5 +1,5 @@
-﻿using PseudoWolfenstein.Utils;
-using PseudoWolfenstein.View;
+﻿using PseudoWolfenstein.Core;
+using PseudoWolfenstein.Utils;
 using System;
 using System.Drawing;
 using System.Numerics;
@@ -8,7 +8,7 @@ using System.Windows.Forms;
 
 namespace PseudoWolfenstein
 {
-    internal static class Input
+    public class Input
     {
         [Flags]
         private enum KeyStates
@@ -18,26 +18,33 @@ namespace PseudoWolfenstein
             Toggled = 2
         }
 
-        public static Point MousePosition => Cursor.Position;
-        public static Point RelMousePosition => GameForm.Instance.PointToClient(Cursor.Position);
-        public static MouseButtons MouseButtons => Control.MouseButtons;
+        private readonly Viewport viewport;
 
-        public static int VerticalAxis =>
+        public Point MousePosition => Cursor.Position;
+        public Point RelMousePosition => viewport.PointToClient(Cursor.Position);
+        public MouseButtons MouseButtons => Control.MouseButtons;
+
+        public int VerticalAxis =>
             Convert.ToInt32(IsKeyDown(Keys.W)) - Convert.ToInt32(IsKeyDown(Keys.S));
-        public static int HorizontalAxis =>
+        public int HorizontalAxis =>
             Convert.ToInt32(IsKeyDown(Keys.D)) - Convert.ToInt32(IsKeyDown(Keys.A));
 
-        public static Vector2 MotionDirection =>
+        public Vector2 MotionDirection =>
             new Vector2(x: HorizontalAxis, y: VerticalAxis).SafeNormalize();
+
+        public Input(Viewport viewport)
+        {
+            this.viewport = viewport;
+        }
 
         // source : https://stackoverflow.com/a/9356006
         // author : https://stackoverflow.com/users/264822/parsley72
 
-        public static bool IsKeyDown(Keys key)
+        public bool IsKeyDown(Keys key)
         {
             return KeyStates.Down == (GetKeyState(key) & KeyStates.Down);
         }
-        public static bool IsKeyToggled(Keys key)
+        public bool IsKeyToggled(Keys key)
         {
             return KeyStates.Toggled == (GetKeyState(key) & KeyStates.Toggled);
         }
@@ -45,7 +52,7 @@ namespace PseudoWolfenstein
         [DllImport("user32.dll", CharSet = CharSet.Auto, ExactSpelling = true)]
         private static extern short GetKeyState(int keyCode);
 
-        private static KeyStates GetKeyState(Keys key)
+        private KeyStates GetKeyState(Keys key)
         {
             KeyStates state = KeyStates.None;
 

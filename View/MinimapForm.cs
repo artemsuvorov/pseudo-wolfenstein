@@ -6,25 +6,35 @@ namespace PseudoWolfenstein.View
 {
     public class MinimapForm : Form
     {
-        private static readonly Gizmos gizmos = new Gizmos();
+        private readonly Viewport viewport;
+        private readonly Input input;
+        private readonly GameScene scene;
 
-        private static MinimapForm instance;
-        public static MinimapForm Instance
-        {
-            get
-            {
-                if (instance is null)
-                    instance = new MinimapForm();
-                return instance;
-            }
-        }
+        internal Gizmos Gizmos { get; private set; }
 
-        public MinimapForm()
+        //private static MinimapForm instance;
+        //public static MinimapForm Instance
+        //{
+        //    get
+        //    {
+        //        if (instance is null)
+        //            instance = new MinimapForm();
+        //        return instance;
+        //    }
+        //}
+
+        public MinimapForm(Viewport viewport, Input input, GameScene scene)
         {
+            this.viewport = viewport;
+            this.input = input;
+            this.scene = scene;
+
             DoubleBuffered = true;
             Size = new Size(600, 400);
+
+            Gizmos = new Gizmos(this.viewport, this.input, this.scene.Player);
             Paint += Redraw;
-            Paint += gizmos.Redraw;
+            Paint += Gizmos.Redraw;
         }
 
         private void Redraw(object sender, PaintEventArgs e)
@@ -34,7 +44,7 @@ namespace PseudoWolfenstein.View
 
             e.Graphics.FillRectangle(backgroundBrush, e.ClipRectangle);
 
-            var center = Camera.ScreenCenterPosition;
+            var center = viewport.Center;
             e.Graphics.TranslateTransform(center.X, center.Y);
             DrawGameObjects(e.Graphics);
             e.Graphics.TranslateTransform(-center.X, -center.Y);
@@ -42,10 +52,9 @@ namespace PseudoWolfenstein.View
 
         private void DrawGameObjects(Graphics graphics)
         {
-            Player.Draw(graphics);
-
-            foreach (var polygon in GameScene.Polygons)
-                polygon.Draw(graphics);
+            scene.Player.Draw(graphics);
+            foreach (var shape in scene.Obstacles)
+                shape.Draw(graphics);
         }
     }
 }

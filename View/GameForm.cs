@@ -15,39 +15,50 @@ namespace PseudoWolfenstein.View
         event MouseEventHandler MouseUp;
     }
 
-    public interface IGameForm : IInputClient
+    public interface IGameForm : IInputClient, IViewport
     {
-        //event EventHandler Load;
+        event EventHandler Load;
 
-        //UserInterface UserInterface { get; }
+        UserInterface UserInterface { get; }
+        Viewport Viewport { get; }
 
+        void Refresh();
         //void Update();
         //void Invalidate();
     }
 
-    public partial class GameForm : Form, IGameForm, IInputClient
+    public partial class GameForm : Form, IGameForm, IInputClient, IViewport
     {
-        public static UserInterface UserInterface 
-        { 
-            get => userInterface;
-            private set => userInterface = value;
-        }
+        public UserInterface UserInterface { get; private set; }
+        public Viewport Viewport { get; private set; }
 
-        private static GameForm instance;
-        public static GameForm Instance
-        {
-            get
-            {
-                if (instance is null)
-                    instance = new GameForm();
-                return instance;
-            }
-        }
+        private readonly Camera camera;
 
-        private GameForm()
+        //private static GameForm instance;
+        //public static GameForm Instance
+        //{
+        //    get
+        //    {
+        //        if (instance is null)
+        //            instance = new GameForm();
+        //        return instance;
+        //    }
+        //}
+
+        public GameForm()
         {
             InitializeComponent();
+
+            Viewport = new Viewport(this);
+            camera = new Camera(Viewport);
+
             Paint += Redraw;
+        }
+
+        public void Initialize(Input input, Player player)
+        {
+            UserInterface = new UserInterface(input, player);
+            Controls.Add(UserInterface);
         }
 
         private void Redraw(object sender, PaintEventArgs e)
@@ -56,8 +67,7 @@ namespace PseudoWolfenstein.View
             e.Graphics.SmoothingMode = Settings.GraphicsSmoothingMode;
 
             e.Graphics.FillRectangle(backgroundBrush, e.ClipRectangle);
-
-            Camera.DrawView(e.Graphics);
+            camera.DrawView(e.Graphics);
         }
     }
 }

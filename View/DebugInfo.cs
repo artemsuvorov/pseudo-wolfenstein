@@ -13,19 +13,27 @@ namespace PseudoWolfenstein.View
         private static readonly bool isDebugModeOnByDefault = false;
 #endif
 
-        private static string DebugInfoMessage =>
+        private readonly Input input;
+        private readonly Player player;
+
+        private string DebugInfoMessage =>
             $"DEBUG SESSION INFO PseudoWolfenstein\r\n" +
             $"FPS: {Time.FPS:0} deltaTime: {Time.DeltaTime}\r\n" +
-            $"Player Position: { Player.Position }\r\n" +
-            $"Player Rotation: { MathF2D.ToDegrees(Player.Rotation) }\r\n" +
-            $"Rel Mouse Position: { Input.RelMousePosition }";
+            $"Player Position: { player.Position }\r\n" +
+            $"Player Rotation: { MathF2D.ToDegrees(player.Rotation) }\r\n" +
+            $"Rel Mouse Position: { input.RelMousePosition }";
 
-        private static readonly int lineCount = StringUtils.CountLines(DebugInfoMessage);
+        private readonly int lineCount;
 
-        public static bool IsDebugMode { get; private set; }
+        public bool IsDebugMode { get; private set; }
 
-        public DebugInfo()
+        public DebugInfo(Input input, Player player)
         {
+            this.input = input;
+            this.player = player;
+
+            lineCount = StringUtils.CountLines(DebugInfoMessage);
+            
             DoubleBuffered = true;
             BackColor = Color.Transparent;
             Dock = DockStyle.Fill;
@@ -33,9 +41,9 @@ namespace PseudoWolfenstein.View
             Paint += Redraw;
         }
 
-        public static new void Update()
+        public new void Update()
         {
-            if (Input.IsKeyToggled(Keys.F3))
+            if (input.IsKeyToggled(Keys.P))
                 IsDebugMode = !isDebugModeOnByDefault;
             else
                 IsDebugMode = isDebugModeOnByDefault;

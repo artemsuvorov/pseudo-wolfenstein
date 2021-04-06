@@ -1,17 +1,23 @@
 ﻿using PseudoWolfenstein.Core.Raycasting;
-using PseudoWolfenstein.View;
 using System.Drawing;
 
 namespace PseudoWolfenstein.Core
 {
-    public static class Camera
+    public class Camera
     {
-        public static Rectangle ClientRectangle => GameForm.Instance.ClientRectangle;
+        private readonly Viewport viewport;
 
-        public static Point ScreenCenterPosition =>
-            new Point(GameForm.Instance.ClientSize.Width/2, GameForm.Instance.ClientSize.Height/2);
+        //public static Rectangle ClientRectangle => GameForm.Instance.ClientRectangle;
 
-        public static void DrawView(Graphics graphics)
+        //public static Point ScreenCenterPosition =>
+        //    new Point(GameForm.Instance.ClientSize.Width/2, GameForm.Instance.ClientSize.Height/2);
+
+        public Camera(Viewport viewport)
+        {
+            this.viewport = viewport;
+        }
+
+        public void DrawView(Graphics graphics)
         {
             //using var objectStrokePen = new Pen(Settings.GameObjectStrokeColor, Settings.ObjectStrokeWidth);
             //using var objectFillBrush = new SolidBrush(Settings.GameObjectFillColor);
@@ -25,20 +31,20 @@ namespace PseudoWolfenstein.Core
             {
                 //var ceiling = ClientRectangle.Height / 2.0f + 35.0f * ClientRectangle.Height * Player.FieldOfView / distances[i];
                 float dst = distances[i] / 40.0f;
-                var ceiling = ClientRectangle.Height / 2.0f - ClientRectangle.Height * Player.FieldOfView / dst;
-                var floor = ClientRectangle.Height - ceiling;
+                var ceiling = viewport.Height / 2.0f - viewport.Height * Player.FieldOfView / dst;
+                var floor = viewport.Height - ceiling;
                 //var eq = System.MathF.Abs(ceiling+floor - ClientRectangle.Height) <= System.MathF.Abs(ceiling+floor * .0001f);
                 //if (eq == false) { }
 
-                var topCeilingPointLeft   = new PointF(i     * ClientRectangle.Width/distances.Count, 0);
-                var topCeilingPointRight  = new PointF((i+1) * ClientRectangle.Width/distances.Count, 0);
-                var bottomFloorPointRight = new PointF((i+1) * ClientRectangle.Width/distances.Count, ClientRectangle.Height);
-                var bottomFloorPointLeft  = new PointF(i     * ClientRectangle.Width/distances.Count, ClientRectangle.Height);
+                var topCeilingPointLeft   = new PointF(i     * viewport.Width/distances.Count, 0);
+                var topCeilingPointRight  = new PointF((i+1) * viewport.Width/distances.Count, 0);
+                var bottomFloorPointRight = new PointF((i+1) * viewport.Width/distances.Count, viewport.Height);
+                var bottomFloorPointLeft  = new PointF(i     * viewport.Width/distances.Count, viewport.Height);
 
-                var ceilingPointLeft  = new PointF(i     * ClientRectangle.Width/distances.Count, ceiling);
-                var ceilingPointRight = new PointF((i+1) * ClientRectangle.Width/distances.Count, ceiling);
-                var floorPointRight   = new PointF((i+1) * ClientRectangle.Width/distances.Count, floor);
-                var floorPointLeft    = new PointF(i     * ClientRectangle.Width/distances.Count, floor);
+                var ceilingPointLeft  = new PointF(i     * viewport.Width/distances.Count, ceiling);
+                var ceilingPointRight = new PointF((i+1) * viewport.Width/distances.Count, ceiling);
+                var floorPointRight   = new PointF((i+1) * viewport.Width/distances.Count, floor);
+                var floorPointLeft    = new PointF(i     * viewport.Width/distances.Count, floor);
 
                 //ceilingPoints[i] = ceilingPointLeft;
                 //floorPoints[i] = floorPointLeft;
