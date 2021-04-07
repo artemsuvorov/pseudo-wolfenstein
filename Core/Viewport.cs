@@ -20,19 +20,19 @@ namespace PseudoWolfenstein.Core
 
         public bool IsEmpty => ClientRectangle.IsEmpty;
 
-        public float Width => ClientRectangle.Width;
-        public float Height => ClientRectangle.Height;
+        public int Width => ClientRectangle.Width;
+        public int Height => ClientRectangle.Height;
 
         public Size Size => ClientRectangle.Size;
         public Point Location => ClientRectangle.Location;
 
-        public float Top => ClientRectangle.Top;
-        public float Right => ClientRectangle.Right;
-        public float Left => ClientRectangle.Left;
-        public float Bottom => ClientRectangle.Bottom;
+        public int Top => ClientRectangle.Top;
+        public int Right => ClientRectangle.Right;
+        public int Left => ClientRectangle.Left;
+        public int Bottom => ClientRectangle.Bottom;
 
-        public float X => ClientRectangle.X;
-        public float Y => ClientRectangle.Y;
+        public int X => ClientRectangle.X;
+        public int Y => ClientRectangle.Y;
 
         public Viewport(IGameForm gameForm)
         {

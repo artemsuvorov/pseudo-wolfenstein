@@ -10,7 +10,7 @@ namespace PseudoWolfenstein.Core
 
         public const float RaycastRayDencity =
 #if DEBUG
-            2.0f;
+            0.5f;
 #else
             0.25f;
 #endif

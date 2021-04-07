@@ -31,7 +31,7 @@ namespace PseudoWolfenstein.Core.Raycasting
 
             var fov = MathF2D.ToDegrees(Player.FieldOfView);
 
-            for (var angle = 0.0f; angle <= fov; angle += Settings.RaycastRayDencity)
+            for (var angle = 0.0f; angle < fov; angle += Settings.RaycastRayDencity)
             {
                 var ray = new Ray(player.Position, MathF2D.ToRadians(angle) - player.Rotation - Player.FieldOfView/2f);
                 RaycastData.Rays.Add(ray);
