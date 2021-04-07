@@ -1,21 +1,25 @@
-﻿using System.Numerics;
+﻿using System.Collections.Generic;
+using System.Numerics;
 
 namespace PseudoWolfenstein.Core
 {
     public class GameScene
     {
-        private static readonly Polygon square1;
-        private static readonly Polygon square2;
+        public Player Player { get; private set; }
+        public IEnumerable<Polygon> Obstacles { get; private set; }
 
-        private static readonly Polygon wall1;
-        private static readonly Polygon wall2;
-        private static readonly Polygon wall3;
-        private static readonly Polygon wall4;
+        private readonly Polygon square1;
+        private readonly Polygon square2;
 
-        public static Polygon[] Polygons { get; private set; }
+        private readonly Polygon wall1;
+        private readonly Polygon wall2;
+        private readonly Polygon wall3;
+        private readonly Polygon wall4;
 
-        static GameScene()
+        public GameScene(Player player)
         {
+            Player = player;
+
             square1 = new Square(new Vector2(+250f, +100f), size: 120f);
             square2 = new Square(new Vector2(-450f, -250f), size: 120f);
 
@@ -24,7 +28,7 @@ namespace PseudoWolfenstein.Core
             wall3 = new Polygon(new Vector2(-530f, +310f), new Vector2(+580f, +310f), new Vector2(+580f, +360f), new Vector2(-530f, +360f));
             wall4 = new Polygon(new Vector2(-580f, -310f), new Vector2(-530f, -310f), new Vector2(-530f, +360f), new Vector2(-580f, +360f));
 
-            Polygons = new Polygon[]
+            Obstacles = new Polygon[]
             {
                 wall1, wall2, wall3, wall4,
                 square1, square2

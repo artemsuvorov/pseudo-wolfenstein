@@ -8,26 +8,35 @@ namespace PseudoWolfenstein
 {
     internal class GamePresenter
     {
-        private static Timer timer;
-        private static GameForm gameForm;
-        private static MinimapForm minimapForm;
+        private readonly Timer timer;
+        private readonly Viewport viewport;
+        private readonly Input input;
+        private readonly IGameForm gameForm;
+        private readonly MinimapForm minimapForm;
+        private readonly Player player;
+        private readonly GameScene scene;
+        private readonly Raycast raycast;
 
-        public GamePresenter()
+        public GamePresenter(Viewport viewport, Input input, GameScene scene, IGameForm gameForm)
         {
             timer = new Timer { Interval = 16 };
             timer.Tick += Update;
             timer.Tick += Time.OnGlobalTick;
 
-            minimapForm = MinimapForm.Instance;
-            gameForm = GameForm.Instance;
-            gameForm.Load += Start;
+            this.viewport = viewport;
+            this.input = input;
+            this.scene = scene;
+            this.player = scene.Player;
+            raycast = new Raycast(scene);
+
+            minimapForm = new MinimapForm(viewport, input, scene);
+            this.gameForm = gameForm;
+            this.gameForm.Load += Start;
         }
 
         ~GamePresenter()
         {
             timer.Dispose();
-            gameForm.Dispose();
-            minimapForm.Dispose();
         }
 
         private void Start(object sender, EventArgs e)
@@ -38,11 +47,11 @@ namespace PseudoWolfenstein
 
         private void Update(object sender, EventArgs e)
         {
-            Player.Update();
-            Raycast.UpdateRaycastData();
+            player.Update();
+            raycast.UpdateRaycastData();
 
-            DebugInfo.Update();
-            Gizmos.Update();
+            gameForm.UserInterface.DebugInfo.Update();
+            minimapForm.Gizmos.Update();
 
             minimapForm.Invalidate();
             gameForm.Refresh();

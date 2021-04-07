@@ -7,8 +7,14 @@ namespace PseudoWolfenstein.Core
     {
         public const SmoothingMode MinimapSmoothingMode = SmoothingMode.None;
         public const SmoothingMode GraphicsSmoothingMode = SmoothingMode.AntiAlias;
-        
-        public const float RaycastRayDencity = 0.25f;
+
+        public const float RaycastRayDencity =
+#if DEBUG
+            2.0f;
+#else
+            0.25f;
+#endif
+
         public const float Depth = 128.0f;
 
         public const float ObjectStrokeWidth = 4.0f;

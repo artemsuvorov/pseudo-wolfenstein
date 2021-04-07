@@ -1,14 +1,15 @@
 using System;
+using System.Numerics;
 
 namespace PseudoWolfenstein.Tests
 {
-    internal class Player_Tests
+    internal static class Player_Tests
     {
-        private readonly static string playerPosition = Player.Position.ToString();
+        private static readonly Vector2 playerPosition = new Vector2(42, 1337);
 
-        public void TestPlayer()
+        public static void TestPlayer()
         {
-            Console.WriteLine($"Testing player! Player position: {playerPosition}!");
+            Console.WriteLine($"Player test! Player position : {playerPosition}");
         }
     }
 }

@@ -12,9 +12,18 @@ namespace PseudoWolfenstein.Core.Raycasting
         public static readonly List<Ray> Rays = new List<Ray>();
     }
 
-    public static class Raycast
+    public class Raycast
     {
-        public static void UpdateRaycastData()
+        private readonly GameScene scene;
+        private readonly Player player;
+
+        public Raycast(GameScene scene)
+        {
+            this.scene = scene;
+            this.player = this.scene.Player;
+        }
+
+        public void UpdateRaycastData()
         {
             RaycastData.CrossingPoints.Clear();
             RaycastData.CrossingPointsDistances.Clear();
@@ -24,15 +33,15 @@ namespace PseudoWolfenstein.Core.Raycasting
 
             for (var angle = 0.0f; angle <= fov; angle += Settings.RaycastRayDencity)
             {
-                var ray = new Ray(Player.Position, MathF2D.ToRadians(angle) - Player.Rotation - Player.FieldOfView/2f);
+                var ray = new Ray(player.Position, MathF2D.ToRadians(angle) - player.Rotation - Player.FieldOfView/2f);
                 RaycastData.Rays.Add(ray);
 
-                var crossingPoint = GetMinDistanceCrossingPoint(ray, GameScene.Polygons);
+                var crossingPoint = GetMinDistanceCrossingPoint(ray, scene.Obstacles);
                 RaycastData.CrossingPoints.Add(crossingPoint);
             }
         }
 
-        public static Vector2 GetMinDistanceCrossingPoint(Ray ray, Polygon[] polygons)
+        public Vector2 GetMinDistanceCrossingPoint(Ray ray, IEnumerable<Polygon> polygons)
         {
             var minDistanceCrossingPoint = default(Vector2);
             var minDistance = float.MaxValue;
@@ -41,10 +50,11 @@ namespace PseudoWolfenstein.Core.Raycasting
             {
                 for (var index = 1; index < polygon.Vertices.Length + 1; index++)
                 {
-                    Vector2 vertex1 = polygon.Vertices[index-1], vertex2 = polygon.Vertices[index % polygon.Vertices.Length];
+                    Vector2 vertex1 = polygon.Vertices[index-1], 
+                        vertex2 = polygon.Vertices[index % polygon.Vertices.Length];
 
                     var isCrossing = ray.IsCrossing(vertex1, vertex2, out Vector2 crossingPoint);
-                    var distance = (crossingPoint-Player.Position).Length();
+                    var distance = (crossingPoint-player.Position).Length();
 
                     if (isCrossing && distance < minDistance)
                     {

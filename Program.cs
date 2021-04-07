@@ -1,3 +1,4 @@
+using PseudoWolfenstein.Core;
 using PseudoWolfenstein.View;
 using System;
 using System.Windows.Forms;
@@ -16,8 +17,13 @@ namespace PseudoWolfenstein
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            var gameForm = GameForm.Instance;
-            _ = new GamePresenter();
+            var gameForm = new GameForm();
+            var viewport = gameForm.Viewport;
+            var input = new Input(viewport);
+            var player = new Player(input);
+            var scene = new GameScene(player);
+            gameForm.Initialize(input, player);
+            _ = new GamePresenter(viewport, input, scene, gameForm);
             Application.Run(gameForm);
         }
     }

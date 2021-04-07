@@ -5,16 +5,22 @@ namespace PseudoWolfenstein.View
 {
     public class UserInterface : UserControl
     {
-        private readonly DebugInfo debugInfo;
+        private readonly Input input;
+        private readonly Player player;
 
-        public UserInterface()
+        internal DebugInfo DebugInfo { get; private set; }
+
+        public UserInterface(Input input, Player player)
         {
+            this.input = input;
+            this.player = player;
+
             DoubleBuffered = true;
             BackColor = Color.Transparent;
             Dock = DockStyle.Fill;
 
-            debugInfo = new DebugInfo();
-            Controls.Add(debugInfo);
+            DebugInfo = new DebugInfo(this.input, this.player);
+            Controls.Add(DebugInfo);
         }
     }
 }

@@ -7,36 +7,44 @@ using System.Windows.Forms;
 
 namespace PseudoWolfenstein
 {
-    // todo: make it derive from shape and apply singleton pattern
-    public static class Player
+    // todo: make it derive from shape
+    public class Player : Shape
     {
+        private readonly Input input;
+
         public const float MoveSpeed = 6.5f;
         public const float RotationSpeed = 0.05f;
         public const float FieldOfView = MathF.PI / 3.0f;
 
-        private static Vector2 position = new Vector2(0f, 0f);
+        //private Vector2 position = new Vector2(0f, 0f);
 
         // in radians
-        public static float Rotation = 0.0f;
+        public float Rotation = 0.0f;
 
-        public static Vector2 Position 
+        //public Vector2 Position 
+        //{
+        //    get => position; 
+        //    set => position = value;
+        //}
+
+        //public float X => position.X;
+        //public float Y => position.Y;
+
+        public Vector2 MotionDirection => Vector2.UnitX.RotateCounterClockwise(Rotation);
+
+        public Player(Input input)
         {
-            get => position; 
-            set => position = value;
+            this.input = input;
         }
 
-        public static float X => position.X;
-        public static float Y => position.Y;
-
-        public static Vector2 MotionDirection => Vector2.UnitX.RotateCounterClockwise(Rotation);
-
-        public static void Update()
+        public void Update()
         {
             MoveRel();
             Rotate();
         }
 
-        public static void Draw(Graphics graphics)
+        // todo: remove this from player class
+        public override void Draw(Graphics graphics)
         {
             using var objectFillBrush = new SolidBrush(Settings.GameObjectFillColor);
             using var objectStrokePen = new Pen(Settings.GameObjectStrokeColor, Settings.ObjectStrokeWidth);
@@ -46,47 +54,46 @@ namespace PseudoWolfenstein
             graphics.DrawEllipse(objectStrokePen, x, y, Settings.PlayerRadius, Settings.PlayerRadius);
         }
 
-        private static void MoveAbs()
+        private void MoveAbs()
         {
-            if (Input.IsKeyDown(Keys.Space))
-                position = Vector2.Zero;
+            if (input.IsKeyDown(Keys.Space))
+                Position = Vector2.Zero;
 
-            var dir = Input.MotionDirection;
+            var dir = input.MotionDirection;
             if (dir == Vector2.Zero) return;
 
-            position.X += dir.X * MoveSpeed;
-            position.Y -= dir.Y * MoveSpeed;
+            X += dir.X * MoveSpeed;
+            Y -= dir.Y * MoveSpeed;
         }
 
-        private static void MoveRel()
+        private void MoveRel()
         {
-            position.X += Input.VerticalAxis * MathF.Cos(Rotation) * MoveSpeed;
-            position.Y += Input.VerticalAxis * MathF.Sin(Rotation) * MoveSpeed;
-
-            position.X += +Input.HorizontalAxis * MathF.Sin(Rotation) * MoveSpeed;
-            position.Y += -Input.HorizontalAxis * MathF.Cos(Rotation) * MoveSpeed;
+            X += input.VerticalAxis * MathF.Cos(Rotation) * MoveSpeed;
+            Y += input.VerticalAxis * MathF.Sin(Rotation) * MoveSpeed;
+            X += +input.HorizontalAxis * MathF.Sin(Rotation) * MoveSpeed;
+            Y += -input.HorizontalAxis * MathF.Cos(Rotation) * MoveSpeed;
         }
 
-        private static void Rotate()
+        private void Rotate()
         {
-            if (Input.IsKeyDown(Keys.Q))
+            if (input.IsKeyDown(Keys.Q))
                 Rotation += RotationSpeed;
-            if (Input.IsKeyDown(Keys.E))
+            if (input.IsKeyDown(Keys.E))
                 Rotation -= RotationSpeed;
         }
 
-        private static void FollowCursor()
-        {
-            var relMousePos = Input.RelMousePosition;
-            var cursorPos = new Vector2(relMousePos.X, relMousePos.Y);
-            LookAt(cursorPos);
-        }
+        //private static void FollowCursor()
+        //{
+        //    var relMousePos = Input.RelMousePosition;
+        //    var cursorPos = new Vector2(relMousePos.X, relMousePos.Y);
+        //    LookAt(cursorPos);
+        //}
 
-        private static void LookAt(Vector2 target)
-        {
-            var centerPoint = Camera.ScreenCenterPosition;
-            var center = new Vector2(centerPoint.X, centerPoint.Y);
-            Rotation = (Vector2.UnitX + center + Player.Position).AngleTo(target);
-        }
+        //private static void LookAt(Vector2 target)
+        //{
+        //    var centerPoint = Camera.ScreenCenterPosition;
+        //    var center = new Vector2(centerPoint.X, centerPoint.Y);
+        //    Rotation = (Vector2.UnitX + center + Player.Position).AngleTo(target);
+        //}
     }
 }

@@ -6,17 +6,29 @@ namespace PseudoWolfenstein.Core
 {
     public abstract class Shape
     {
-        private Vector2 position = new Vector2(0f, 0f);
+        public float X { get; set; }
+        public float Y { get; set; }
 
         public Vector2 Position
         {
-            get => position;
-            set => position = value;
+            get
+            {
+                return new Vector2(X, Y);
+            }
+            set
+            {
+                X = value.X;
+                Y = value.Y;
+            }
         }
 
-        public float X => position.X;
-        public float Y => position.Y;
-
+        public Shape() 
+            : this(x:default, y:default) 
+        { }
+        public Shape(float x, float y)
+        {
+            X = x; Y = y;
+        }
         public Shape(Vector2 position)
         {
             Position = position;

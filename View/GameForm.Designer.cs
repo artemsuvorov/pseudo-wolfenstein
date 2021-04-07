@@ -26,20 +26,12 @@
         /// </summary>
         private void InitializeComponent()
         {
-            userInterface = new PseudoWolfenstein.View.UserInterface();
             this.SuspendLayout();
-            // 
-            // button1
-            // 
-            userInterface.Name = "userInterface";
-            userInterface.Dock = System.Windows.Forms.DockStyle.Fill;
-            userInterface.TabIndex = 0;
             // 
             // GameForm
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.ClientSize = new System.Drawing.Size(1184, 761);
-            this.Controls.Add(userInterface);
             this.DoubleBuffered = true;
             this.Font = new System.Drawing.Font("Consolas", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.KeyPreview = true;
@@ -48,7 +40,5 @@
             this.Text = "PseudoWolfenstein";
             this.ResumeLayout(false);
         }
-
-        private static PseudoWolfenstein.View.UserInterface userInterface;
     }
 }
