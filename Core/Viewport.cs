@@ -12,9 +12,11 @@ namespace PseudoWolfenstein.Core
 
     public class Viewport : IViewport
     {
+        public const int DefaultWidth = 800, DefaultHeight = 600;
+
         private readonly IViewport display;
 
-        public Rectangle ClientRectangle => display.ClientRectangle;
+        public Rectangle ClientRectangle => GetClientRectangleCentered();
 
         public Point Center => new Point(ClientRectangle.Width / 2, ClientRectangle.Height / 2);
 
@@ -42,6 +44,14 @@ namespace PseudoWolfenstein.Core
         public Point PointToClient(Point point)
         {
             return display.PointToClient(point);
+        }
+
+        public Rectangle GetClientRectangleCentered()
+        {
+            const int Width = DefaultWidth, Height = DefaultHeight;
+            var x = (display.ClientRectangle.Width - Width) / 2;
+            var y = (display.ClientRectangle.Height - Height) / 2;
+            return new Rectangle(x, y, Width, Height);
         }
     }
 }

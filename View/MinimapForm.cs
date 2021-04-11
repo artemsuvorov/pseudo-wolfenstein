@@ -28,7 +28,7 @@ namespace PseudoWolfenstein.View
 
         private void Redraw(object sender, PaintEventArgs e)
         {
-            using var backgroundBrush = new SolidBrush(Settings.BackgroundColor);
+            using var backgroundBrush = new SolidBrush(Settings.FormBackgroundColor);
             e.Graphics.SmoothingMode = Settings.MinimapSmoothingMode;
 
             e.Graphics.FillRectangle(backgroundBrush, e.ClipRectangle);

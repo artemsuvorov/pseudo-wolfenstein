@@ -22,7 +22,8 @@ namespace PseudoWolfenstein.Core
         public const float ObjectStrokeWidth = 4.0f;
         public const int PlayerRadius = 32;
 
-        public static readonly Color BackgroundColor = Color.FromArgb(38, 38, 38);
+        public static readonly Color ViewportBackgroundColor = Color.FromArgb(56, 56, 56);
+        public static readonly Color FormBackgroundColor = Color.FromArgb(0, 64, 64);
         public static readonly Color GameObjectFillColor = Color.FromArgb(207, 0, 49);
         public static readonly Color GameObjectStrokeColor = Color.FromArgb(128, 0, 25);
 
