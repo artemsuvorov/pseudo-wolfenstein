@@ -12,7 +12,7 @@ namespace PseudoWolfenstein
     {
         private readonly Input input;
 
-        public const float MoveSpeed = 6.5f;
+        public const float MoveSpeed = 10.0f;
         public const float RotationSpeed = 0.05f;
         public const float FieldOfView = MathF.PI / 3.0f;
 
@@ -28,8 +28,30 @@ namespace PseudoWolfenstein
 
         public void Update()
         {
-            MoveRel();
+            Move();
             Rotate();
+        }
+
+        private void Move()
+        {
+            if (input.IsKeyDown(Keys.W) || input.IsKeyDown(Keys.Up))
+            {
+                X += 1 * MathF.Cos(Rotation) * MoveSpeed;
+                Y += 1 * MathF.Sin(Rotation) * MoveSpeed;
+            }
+            else if (input.IsKeyDown(Keys.S) || input.IsKeyDown(Keys.Down))
+            {
+                X += -1 * MathF.Cos(Rotation) * MoveSpeed;
+                Y += -1 * MathF.Sin(Rotation) * MoveSpeed;
+            }
+        }
+
+        private void Rotate()
+        {
+            if (input.IsKeyDown(Keys.A) || input.IsKeyDown(Keys.Left))
+                Rotation += RotationSpeed;
+            if (input.IsKeyDown(Keys.D) || input.IsKeyDown(Keys.Right))
+                Rotation -= RotationSpeed;
         }
 
         // todo: remove this from player class
@@ -38,37 +60,9 @@ namespace PseudoWolfenstein
             using var objectFillBrush = new SolidBrush(Settings.GameObjectFillColor);
             using var objectStrokePen = new Pen(Settings.GameObjectStrokeColor, Settings.ObjectStrokeWidth);
 
-            float x = X - Settings.PlayerRadius/2f, y = Y - Settings.PlayerRadius/2f;
+            float x = X - Settings.PlayerRadius / 2f, y = Y - Settings.PlayerRadius / 2f;
             graphics.FillEllipse(objectFillBrush, x, y, Settings.PlayerRadius, Settings.PlayerRadius);
             graphics.DrawEllipse(objectStrokePen, x, y, Settings.PlayerRadius, Settings.PlayerRadius);
-        }
-
-        private void MoveAbs()
-        {
-            if (input.IsKeyDown(Keys.Space))
-                Position = Vector2.Zero;
-
-            var dir = input.MotionDirection;
-            if (dir == Vector2.Zero) return;
-
-            X += dir.X * MoveSpeed;
-            Y -= dir.Y * MoveSpeed;
-        }
-
-        private void MoveRel()
-        {
-            X += input.VerticalAxis * MathF.Cos(Rotation) * MoveSpeed;
-            Y += input.VerticalAxis * MathF.Sin(Rotation) * MoveSpeed;
-            X += +input.HorizontalAxis * MathF.Sin(Rotation) * MoveSpeed;
-            Y += -input.HorizontalAxis * MathF.Cos(Rotation) * MoveSpeed;
-        }
-
-        private void Rotate()
-        {
-            if (input.IsKeyDown(Keys.Q))
-                Rotation += RotationSpeed;
-            if (input.IsKeyDown(Keys.E))
-                Rotation -= RotationSpeed;
         }
     }
 }
