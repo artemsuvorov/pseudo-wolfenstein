@@ -3,7 +3,7 @@ using System.Numerics;
 
 namespace PseudoWolfenstein.Utils
 {
-    public static class Vector2Extension
+    public static class VectorExtensions
     {
         public static Vector2 SafeNormalize(this Vector2 vector)
         {

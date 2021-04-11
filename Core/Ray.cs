@@ -1,7 +1,7 @@
 ﻿using PseudoWolfenstein.Utils;
 using System.Numerics;
 
-namespace PseudoWolfenstein.Core.Raycasting
+namespace PseudoWolfenstein.Core
 {
     public class Ray
     {

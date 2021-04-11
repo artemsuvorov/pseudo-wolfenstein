@@ -23,8 +23,6 @@ namespace PseudoWolfenstein.View
         Viewport Viewport { get; }
 
         void Refresh();
-        //void Update();
-        //void Invalidate();
     }
 
     public partial class GameForm : Form, IGameForm, IInputClient, IViewport
@@ -32,32 +30,20 @@ namespace PseudoWolfenstein.View
         public UserInterface UserInterface { get; private set; }
         public Viewport Viewport { get; private set; }
 
-        private readonly Camera camera;
-
-        //private static GameForm instance;
-        //public static GameForm Instance
-        //{
-        //    get
-        //    {
-        //        if (instance is null)
-        //            instance = new GameForm();
-        //        return instance;
-        //    }
-        //}
+        private Camera camera;
+        private Scene scene;
 
         public GameForm()
         {
             InitializeComponent();
-
             Viewport = new Viewport(this);
-            camera = new Camera(Viewport);
-
             Paint += Redraw;
         }
 
-        public void Initialize(Input input, Player player)
+        public void Initialize(Input input, Player player, Scene scene)
         {
             UserInterface = new UserInterface(input, player);
+            camera = new Camera(Viewport, scene);
             Controls.Add(UserInterface);
         }
 

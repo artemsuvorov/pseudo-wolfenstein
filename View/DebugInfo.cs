@@ -20,7 +20,7 @@ namespace PseudoWolfenstein.View
             $"DEBUG SESSION INFO PseudoWolfenstein\r\n" +
             $"FPS: {Time.FPS:0} deltaTime: {Time.DeltaTime}\r\n" +
             $"Player Position: { player.Position }\r\n" +
-            $"Player Rotation: { MathF2D.ToDegrees(player.Rotation) }\r\n" +
+            $"Player Rotation: { player.Rotation.ToDegrees() }\r\n" +
             $"Rel Mouse Position: { input.RelMousePosition }";
 
         private readonly int lineCount;

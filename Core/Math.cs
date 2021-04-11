@@ -5,16 +5,6 @@ namespace PseudoWolfenstein.Core
 {
     public static class MathF2D
     {
-        public static float ToRadians(float degrees)
-        {
-            return MathF.PI / 180.0f * degrees;
-        }
-
-        public static float ToDegrees(float radians)
-        {
-            return 180.0f / MathF.PI * radians;
-        }
-
         // returns z value of the resulting vector3
         public static float CrossProduct(Vector2 first, Vector2 second)
         {

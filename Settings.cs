@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using PseudoWolfenstein.Utils;
+using System.Drawing;
 using System.Drawing.Drawing2D;
 
 namespace PseudoWolfenstein.Core
@@ -8,7 +9,8 @@ namespace PseudoWolfenstein.Core
         public const SmoothingMode MinimapSmoothingMode = SmoothingMode.None;
         public const SmoothingMode GraphicsSmoothingMode = SmoothingMode.AntiAlias;
 
-        public const float RaycastRayDencity =
+        public static readonly int RaycastRayCount = (int)(Player.FieldOfView.ToDegrees() / RaycastRayDensity);
+        public const float RaycastRayDensity =
 #if DEBUG
             0.5f;
 #else

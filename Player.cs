@@ -16,19 +16,8 @@ namespace PseudoWolfenstein
         public const float RotationSpeed = 0.05f;
         public const float FieldOfView = MathF.PI / 3.0f;
 
-        //private Vector2 position = new Vector2(0f, 0f);
-
         // in radians
         public float Rotation = 0.0f;
-
-        //public Vector2 Position 
-        //{
-        //    get => position; 
-        //    set => position = value;
-        //}
-
-        //public float X => position.X;
-        //public float Y => position.Y;
 
         public Vector2 MotionDirection => Vector2.UnitX.RotateCounterClockwise(Rotation);
 
@@ -81,19 +70,5 @@ namespace PseudoWolfenstein
             if (input.IsKeyDown(Keys.E))
                 Rotation -= RotationSpeed;
         }
-
-        //private static void FollowCursor()
-        //{
-        //    var relMousePos = Input.RelMousePosition;
-        //    var cursorPos = new Vector2(relMousePos.X, relMousePos.Y);
-        //    LookAt(cursorPos);
-        //}
-
-        //private static void LookAt(Vector2 target)
-        //{
-        //    var centerPoint = Camera.ScreenCenterPosition;
-        //    var center = new Vector2(centerPoint.X, centerPoint.Y);
-        //    Rotation = (Vector2.UnitX + center + Player.Position).AngleTo(target);
-        //}
     }
 }

@@ -3,7 +3,7 @@ using System.Numerics;
 
 namespace PseudoWolfenstein.Core
 {
-    public class GameScene
+    public class Scene
     {
         public Player Player { get; private set; }
         public IEnumerable<Polygon> Obstacles { get; private set; }
@@ -16,7 +16,7 @@ namespace PseudoWolfenstein.Core
         private readonly Polygon wall3;
         private readonly Polygon wall4;
 
-        public GameScene(Player player)
+        public Scene(Player player)
         {
             Player = player;
 

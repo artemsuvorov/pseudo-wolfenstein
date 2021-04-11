@@ -8,22 +8,11 @@ namespace PseudoWolfenstein.View
     {
         private readonly Viewport viewport;
         private readonly Input input;
-        private readonly GameScene scene;
+        private readonly Scene scene;
 
         internal Gizmos Gizmos { get; private set; }
 
-        //private static MinimapForm instance;
-        //public static MinimapForm Instance
-        //{
-        //    get
-        //    {
-        //        if (instance is null)
-        //            instance = new MinimapForm();
-        //        return instance;
-        //    }
-        //}
-
-        public MinimapForm(Viewport viewport, Input input, GameScene scene)
+        public MinimapForm(Viewport viewport, Input input, Scene scene)
         {
             this.viewport = viewport;
             this.input = input;
