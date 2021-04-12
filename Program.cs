@@ -21,8 +21,8 @@ namespace PseudoWolfenstein
             var viewport = gameForm.Viewport;
             var input = new Input(viewport);
             var player = new Player(input);
-            var scene = new GameScene(player);
-            gameForm.Initialize(input, player);
+            var scene = new Scene(player);
+            gameForm.Initialize(input, player, scene);
             _ = new GamePresenter(viewport, input, scene, gameForm);
             Application.Run(gameForm);
         }

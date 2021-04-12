@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using PseudoWolfenstein.Utils;
+using System.Drawing;
 using System.Drawing.Drawing2D;
 
 namespace PseudoWolfenstein.Core
@@ -8,9 +9,10 @@ namespace PseudoWolfenstein.Core
         public const SmoothingMode MinimapSmoothingMode = SmoothingMode.None;
         public const SmoothingMode GraphicsSmoothingMode = SmoothingMode.AntiAlias;
 
-        public const float RaycastRayDencity =
+        public static readonly int RaycastRayCount = (int)(Player.FieldOfView.ToDegrees() / RaycastRayDensity);
+        public const float RaycastRayDensity =
 #if DEBUG
-            2.0f;
+            0.5f;
 #else
             0.25f;
 #endif
@@ -20,7 +22,8 @@ namespace PseudoWolfenstein.Core
         public const float ObjectStrokeWidth = 4.0f;
         public const int PlayerRadius = 32;
 
-        public static readonly Color BackgroundColor = Color.FromArgb(38, 38, 38);
+        public static readonly Color ViewportBackgroundColor = Color.FromArgb(56, 56, 56);
+        public static readonly Color FormBackgroundColor = Color.FromArgb(0, 64, 64);
         public static readonly Color GameObjectFillColor = Color.FromArgb(207, 0, 49);
         public static readonly Color GameObjectStrokeColor = Color.FromArgb(128, 0, 25);
 
