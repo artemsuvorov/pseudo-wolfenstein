@@ -12,7 +12,7 @@ namespace PseudoWolfenstein
     {
         private readonly Input input;
 
-        public const float MoveSpeed = 10.0f;
+        public const float MoveSpeed = 0.14f;
         public const float RotationSpeed = 0.05f;
         public const float FieldOfView = MathF.PI / 3.0f;
 

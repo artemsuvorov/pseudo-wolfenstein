@@ -38,7 +38,7 @@ namespace PseudoWolfenstein.Core
             var sliceWidth = viewport.Width / (float)sliceCount + 1f;
             for (var i = 0; i < sliceCount; i++)
             {
-                float dst = distances[i] / 64f;
+                float dst = distances[i];
                 var ceiling = (int)MathF.Max(0, MathF.Round(viewport.Height * 0.5f - Player.FieldOfView * viewport.Height / dst));
                 var floor = viewport.Height - ceiling;
                 var wallHeight = floor - ceiling;
