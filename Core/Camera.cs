@@ -48,21 +48,21 @@ namespace PseudoWolfenstein.Core
                 graphics.FillRectangle(wallFillBrush, wallRectangle);
             }
 
-            DrawWallTextureInCenter(graphics, 16);
+            //DrawWallTextureInCenter(graphics, 16);
             graphics.ResetTransform();
         }
 
-        private void DrawWallTextureInCenter(Graphics graphics, int sliceCount)
-        {
-            var center = viewport.Center - texture.Size / 2;
-            var sliceWidth = texture.Width / sliceCount;
+        //private void DrawWallTextureInCenter(Graphics graphics, int sliceCount)
+        //{
+        //    var center = viewport.Center - texture.Size / 2;
+        //    var sliceWidth = texture.Width / sliceCount;
 
-            for (var i = 0; i < sliceCount; i++)
-            {
-                var destRect = new Rectangle(center.X+sliceWidth*i, center.Y-i*2, sliceWidth, texture.Height+i*4);
-                var sourceRect = new Rectangle(sliceWidth*i, 0, sliceWidth, texture.Height);
-                graphics.DrawImage(texture, destRect, sourceRect, GraphicsUnit.Pixel);
-            }
-        }
+        //    for (var i = 0; i < sliceCount; i++)
+        //    {
+        //        var destRect = new Rectangle(center.X+sliceWidth*i, center.Y-i*2, sliceWidth, texture.Height+i*4);
+        //        var sourceRect = new Rectangle(sliceWidth*i, 0, sliceWidth, texture.Height);
+        //        graphics.DrawImage(texture, destRect, sourceRect, GraphicsUnit.Pixel);
+        //    }
+        //}
     }
 }
