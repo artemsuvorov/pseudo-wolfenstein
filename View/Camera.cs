@@ -10,20 +10,10 @@ namespace PseudoWolfenstein.View
         private readonly Viewport viewport;
         private readonly Raycast raycast;
 
-        private readonly Image texture;
-
         public Camera(Viewport viewport, Scene scene)
         {
             this.viewport = viewport;
             this.raycast = new Raycast(scene);
-
-            var path = Repository.GetTexturePath("WALL14.bmp");
-            texture = Image.FromFile(path);
-        }
-
-        ~Camera()
-        {
-            texture.Dispose();
         }
 
         public void DrawView(Graphics graphics)
@@ -46,8 +36,10 @@ namespace PseudoWolfenstein.View
                 var wallHeight = floor - ceiling;
                 var wallRectangle = new RectangleF(0.5f + i * (sliceWidth - 1f), ceiling, sliceWidth, wallHeight);
 
-                using var wallFillBrush = new SolidBrush(Settings.GameObjectFillColor);
-                graphics.FillRectangle(wallFillBrush, wallRectangle);
+                //using var wallFillBrush = new SolidBrush(Settings.GameObjectFillColor);
+                //graphics.FillRectangle(wallFillBrush, wallRectangle);
+
+                graphics.DrawImage(texture, destRect, sourceRect, GraphicsUnit.Pixel);
             }
 
             //DrawWallTextureInCenter(graphics, 16);
