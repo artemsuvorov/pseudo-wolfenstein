@@ -38,14 +38,5 @@ namespace PseudoWolfenstein
         public static readonly Color GizmosFillColor = Color.FromArgb(100, 0, 128, 0);
         public static readonly Color GizmosStrokeColor1 = Color.FromArgb(255, 0, 128, 0);
         public static readonly Color GizmosStrokeColor2 = Color.FromArgb(255, 0, 0, 128);
-
-        public static string ProjectDirectoryPath =>
-            System.IO.Path.GetFullPath(System.IO.Path.Combine(
-                AppContext.BaseDirectory, "..\\..\\..\\"));
-
-        public static string GetTexturePath(string textureName)
-        {
-            return System.IO.Path.Combine(ProjectDirectoryPath, "Textures", textureName);
-        }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using PseudoWolfenstein.Core;
+using PseudoWolfenstein.Model;
 using System.Drawing;
 using System.Windows.Forms;
 

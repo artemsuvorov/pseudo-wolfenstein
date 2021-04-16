@@ -1,4 +1,5 @@
-﻿using PseudoWolfenstein.Utils;
+﻿using PseudoWolfenstein.Model;
+using PseudoWolfenstein.Utils;
 using System.Collections.Generic;
 using System.Numerics;
 

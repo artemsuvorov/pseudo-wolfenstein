@@ -1,5 +1,5 @@
 ﻿using PseudoWolfenstein.Core;
-using PseudoWolfenstein.Models;
+using PseudoWolfenstein.Model;
 using System;
 using System.Drawing;
 
@@ -17,7 +17,7 @@ namespace PseudoWolfenstein.View
             this.viewport = viewport;
             this.raycast = new Raycast(scene);
 
-            var path = Settings.GetTexturePath("WALL14.bmp");
+            var path = Repository.GetTexturePath("WALL14.bmp");
             texture = Image.FromFile(path);
         }
 
