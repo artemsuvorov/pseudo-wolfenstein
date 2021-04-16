@@ -10,21 +10,19 @@ namespace PseudoWolfenstein
     {
         private readonly Timer timer;
         private readonly Viewport viewport;
-        private readonly Input input;
         private readonly IGameForm gameForm;
         //private readonly MinimapForm minimapForm;
         private readonly Player player;
         private readonly Scene scene;
         private readonly Raycast raycast;
 
-        public GamePresenter(Viewport viewport, Input input, Scene scene, IGameForm gameForm)
+        public GamePresenter(Viewport viewport, Scene scene, IGameForm gameForm)
         {
             timer = new Timer { Interval = 16 };
             timer.Tick += Update;
             timer.Tick += Time.OnGlobalTick;
 
             this.viewport = viewport;
-            this.input = input;
             this.scene = scene;
             this.player = scene.Player;
             raycast = new Raycast(scene);

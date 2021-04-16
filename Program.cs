@@ -1,4 +1,3 @@
-using PseudoWolfenstein.Core;
 using PseudoWolfenstein.Model;
 using PseudoWolfenstein.View;
 using System;
@@ -20,11 +19,9 @@ namespace PseudoWolfenstein
 
             var gameForm = new GameForm();
             var viewport = gameForm.Viewport;
-            var input = new Input(viewport);
-            var player = new Player(input);
-            var scene = Scene.Default(player);
-            gameForm.Initialize(input, player, scene);
-            _ = new GamePresenter(viewport, input, scene, gameForm);
+            var scene = Scene.Builder.SingleBlockScene;
+            gameForm.Initialize(scene.Player, scene);
+            _ = new GamePresenter(viewport, scene, gameForm);
             Application.Run(gameForm);
         }
     }

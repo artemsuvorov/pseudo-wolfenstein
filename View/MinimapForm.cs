@@ -8,21 +8,19 @@ namespace PseudoWolfenstein.View
     public class MinimapForm : Form
     {
         private readonly Viewport viewport;
-        private readonly Input input;
         private readonly Scene scene;
 
         internal Gizmos Gizmos { get; private set; }
 
-        public MinimapForm(Viewport viewport, Input input, Scene scene)
+        public MinimapForm(Viewport viewport, Scene scene)
         {
             this.viewport = viewport;
-            this.input = input;
             this.scene = scene;
 
             DoubleBuffered = true;
             Size = new Size(600, 400);
 
-            Gizmos = new Gizmos(this.viewport, this.input, this.scene.Player);
+            Gizmos = new Gizmos(this.viewport, this.scene.Player);
             Paint += Redraw;
             Paint += Gizmos.Redraw;
         }

@@ -10,8 +10,6 @@ namespace PseudoWolfenstein.Model
     // todo: make it derive from shape
     public class Player : Shape
     {
-        private readonly Input input;
-
         public const float MoveSpeed = Settings.PlayerMoveSpeed;
         public const float RotationSpeed = Settings.PlayerRotationSpeed;
         public const float FieldOfView = Settings.PlayerFieldOfView;
@@ -21,10 +19,8 @@ namespace PseudoWolfenstein.Model
 
         public Vector2 MotionDirection => Vector2.UnitX.RotateCounterClockwise(Rotation);
 
-        public Player(Input input)
-        {
-            this.input = input;
-        }
+        public Player(float x, float y) : base(x, y) { }
+        public Player(Vector2 position) : base(position) { }
 
         public void Update()
         {
@@ -34,12 +30,12 @@ namespace PseudoWolfenstein.Model
 
         private void Move()
         {
-            if (input.IsKeyDown(Keys.W) || input.IsKeyDown(Keys.Up))
+            if (Input.IsKeyDown(Keys.W) || Input.IsKeyDown(Keys.Up))
             {
                 X += 1 * MathF.Cos(Rotation) * MoveSpeed;
                 Y += 1 * MathF.Sin(Rotation) * MoveSpeed;
             }
-            else if (input.IsKeyDown(Keys.S) || input.IsKeyDown(Keys.Down))
+            else if (Input.IsKeyDown(Keys.S) || Input.IsKeyDown(Keys.Down))
             {
                 X += -1 * MathF.Cos(Rotation) * MoveSpeed;
                 Y += -1 * MathF.Sin(Rotation) * MoveSpeed;
@@ -48,9 +44,9 @@ namespace PseudoWolfenstein.Model
 
         private void Rotate()
         {
-            if (input.IsKeyDown(Keys.A) || input.IsKeyDown(Keys.Left))
+            if (Input.IsKeyDown(Keys.A) || Input.IsKeyDown(Keys.Left))
                 Rotation += RotationSpeed;
-            if (input.IsKeyDown(Keys.D) || input.IsKeyDown(Keys.Right))
+            if (Input.IsKeyDown(Keys.D) || Input.IsKeyDown(Keys.Right))
                 Rotation -= RotationSpeed;
         }
 

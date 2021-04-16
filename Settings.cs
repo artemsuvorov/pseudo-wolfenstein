@@ -10,6 +10,8 @@ namespace PseudoWolfenstein
         public const SmoothingMode MinimapSmoothingMode = SmoothingMode.None;
         public const SmoothingMode GraphicsSmoothingMode = SmoothingMode.AntiAlias;
 
+        public const float WorldWallSize = 2.0f;
+
         public const float PlayerMoveSpeed = 0.14f;
         public const float PlayerRotationSpeed = 0.05f;
         public const float PlayerFieldOfView = MathF.PI / 3.0f;

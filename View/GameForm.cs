@@ -42,9 +42,9 @@ namespace PseudoWolfenstein.View
             Paint += Redraw;
         }
 
-        public void Initialize(Input input, Player player, Scene scene)
+        public void Initialize(Player player, Scene scene)
         {
-            UserInterface = new UserInterface(input, player);
+            UserInterface = new UserInterface(player);
             camera = new Camera(Viewport, scene);
             Controls.Add(UserInterface);
         }
