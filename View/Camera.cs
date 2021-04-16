@@ -1,7 +1,9 @@
-﻿using System;
+﻿using PseudoWolfenstein.Core;
+using PseudoWolfenstein.Models;
+using System;
 using System.Drawing;
 
-namespace PseudoWolfenstein.Core
+namespace PseudoWolfenstein.View
 {
     public class Camera
     {

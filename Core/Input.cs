@@ -1,12 +1,12 @@
-﻿using PseudoWolfenstein.Core;
-using PseudoWolfenstein.Utils;
+﻿using PseudoWolfenstein.Utils;
+using PseudoWolfenstein.View;
 using System;
 using System.Drawing;
 using System.Numerics;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
-namespace PseudoWolfenstein
+namespace PseudoWolfenstein.Core
 {
     public class Input
     {

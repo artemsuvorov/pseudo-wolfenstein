@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Numerics;
 
-namespace PseudoWolfenstein.Core
+namespace PseudoWolfenstein.Models
 {
     public class Scene
     {

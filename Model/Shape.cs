@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Numerics;
 
-namespace PseudoWolfenstein.Core
+namespace PseudoWolfenstein.Model
 {
     public abstract class Shape
     {

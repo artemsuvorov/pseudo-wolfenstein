@@ -1,8 +1,6 @@
-﻿using PseudoWolfenstein.View;
-using System;
-using System.Drawing;
+﻿using System.Drawing;
 
-namespace PseudoWolfenstein.Core
+namespace PseudoWolfenstein.View
 {
     public interface IViewport
     {

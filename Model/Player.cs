@@ -5,16 +5,16 @@ using System.Drawing;
 using System.Numerics;
 using System.Windows.Forms;
 
-namespace PseudoWolfenstein
+namespace PseudoWolfenstein.Model
 {
     // todo: make it derive from shape
     public class Player : Shape
     {
         private readonly Input input;
 
-        public const float MoveSpeed = 0.14f;
-        public const float RotationSpeed = 0.05f;
-        public const float FieldOfView = MathF.PI / 3.0f;
+        public const float MoveSpeed = Settings.PlayerMoveSpeed;
+        public const float RotationSpeed = Settings.PlayerRotationSpeed;
+        public const float FieldOfView = Settings.PlayerFieldOfView;
 
         // in radians
         public float Rotation = 0.0f;

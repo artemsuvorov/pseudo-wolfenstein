@@ -1,15 +1,21 @@
 ﻿using PseudoWolfenstein.Utils;
+using System;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 
-namespace PseudoWolfenstein.Core
+namespace PseudoWolfenstein
 {
     public static class Settings
     {
         public const SmoothingMode MinimapSmoothingMode = SmoothingMode.None;
         public const SmoothingMode GraphicsSmoothingMode = SmoothingMode.AntiAlias;
 
-        public static readonly int RaycastRayCount = (int)(Player.FieldOfView.ToDegrees() / RaycastRayDensity);
+        public const float PlayerMoveSpeed = 0.14f;
+        public const float PlayerRotationSpeed = 0.05f;
+        public const float PlayerFieldOfView = MathF.PI / 3.0f;
+        public const int PlayerRadius = 32;
+
+        public static readonly int RaycastRayCount = (int)(PlayerFieldOfView.ToDegrees() / RaycastRayDensity);
         public const float RaycastRayDensity =
 #if DEBUG
             0.5f;
@@ -20,7 +26,6 @@ namespace PseudoWolfenstein.Core
         public const float Depth = 128.0f;
 
         public const float ObjectStrokeWidth = 4.0f;
-        public const int PlayerRadius = 32;
 
         public static readonly Color ViewportBackgroundColor = Color.FromArgb(56, 56, 56);
         public static readonly Color FormBackgroundColor = Color.FromArgb(0, 64, 64);
@@ -36,7 +41,7 @@ namespace PseudoWolfenstein.Core
 
         public static string ProjectDirectoryPath =>
             System.IO.Path.GetFullPath(System.IO.Path.Combine(
-                System.AppContext.BaseDirectory, "..\\..\\..\\"));
+                AppContext.BaseDirectory, "..\\..\\..\\"));
 
         public static string GetTexturePath(string textureName)
         {
