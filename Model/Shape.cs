@@ -8,6 +8,8 @@ namespace PseudoWolfenstein.Model
         public float X { get; set; }
         public float Y { get; set; }
 
+        public Image Texture { get; protected set; }
+
         public Vector2 Position
         {
             get
@@ -31,6 +33,21 @@ namespace PseudoWolfenstein.Model
         public Shape(Vector2 position)
         {
             Position = position;
+        }
+        public Shape(float x, float y, Image texture)
+            : this(x, y)
+        {
+            Texture = texture;
+        }
+        public Shape(Vector2 position, Image texture)
+            : this(position)
+        {
+            Texture = texture;
+        }
+
+        ~Shape()
+        {
+            Texture.Dispose();
         }
 
         public abstract void Draw(Graphics graphics);

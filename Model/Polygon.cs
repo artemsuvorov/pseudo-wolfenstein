@@ -17,6 +17,12 @@ namespace PseudoWolfenstein.Model
             points = vertices.Select(vec => new PointF(vec.X, vec.Y)).ToArray();
         }
 
+        public Polygon(Image texture, params Vector2[] vertices)
+            : this(vertices)
+        {
+            Texture = texture;
+        }
+
         public override void Draw(Graphics graphics)
         {
             using var objectFillBrush = new SolidBrush(Settings.GameObjectFillColor);

@@ -1,4 +1,5 @@
-﻿using System.Numerics;
+﻿using System.Drawing;
+using System.Numerics;
 
 namespace PseudoWolfenstein.Model
 {
@@ -13,5 +14,11 @@ namespace PseudoWolfenstein.Model
                 new Vector2(position.X,      position.Y+size),
             })
         { }
+
+        public Square(Vector2 position, float size, Image texture)
+            : this(position, size)
+        {
+            Texture = texture;
+        }
     }
 }
