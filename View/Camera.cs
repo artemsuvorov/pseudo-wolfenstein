@@ -34,7 +34,7 @@ namespace PseudoWolfenstein.View
             var sliceWidth = viewport.Width / (float)sliceCount;
             for (var i = 0; i < sliceCount; i++)
             {
-                float dst = distances[i] * 1.75f;
+                float dst = distances[i] * Settings.RaycastProjectionCoeff / Settings.WorldWallSize;
                 var ceiling = 0.5f * viewport.Height - Player.FieldOfView * viewport.Height / dst;
                 var floor = viewport.Height - ceiling;
                 var wallHeight = floor - ceiling;

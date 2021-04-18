@@ -10,13 +10,14 @@ namespace PseudoWolfenstein
         public const SmoothingMode MinimapSmoothingMode = SmoothingMode.None;
         public const SmoothingMode GraphicsSmoothingMode = SmoothingMode.None;
 
-        public const float WorldWallSize = 1.0f;
+        public const float WorldWallSize = 4.0f;
 
-        public const float PlayerMoveSpeed = 0.14f * WorldWallSize / 2.0f;
+        public const float PlayerMoveSpeed = 0.14f * WorldWallSize;
         public const float PlayerRotationSpeed = 0.05f;
         public const float PlayerFieldOfView = MathF.PI / 3.0f;
         public const int PlayerRadius = 32;
 
+        public const float RaycastProjectionCoeff = 1.5f;
         public static readonly int RaycastRayCount = (int)(PlayerFieldOfView.ToDegrees() / RaycastRayDensity);
         public const float RaycastRayDensity =
 #if DEBUG
