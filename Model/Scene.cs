@@ -26,16 +26,25 @@ namespace PseudoWolfenstein.Model
 
         public class SceneBuilder
         {
-            private const string DefaultSceneStr =
-                "SSSBSSS\r\n" +
-                "S     B\r\n" +
-                "S     B\r\n" +
-                "S  P  B\r\n" +
-                "S     B\r\n" +
-                "S     B\r\n" +
+            internal const string DefaultSceneStr =
+                "SSSSSSS\r\n" +
+                "S     S\r\n" +
+                "S     S\r\n" +
+                "S  P  S\r\n" +
+                "S     S\r\n" +
+                "S     S\r\n" +
                 "SSSSSSS\r\n";
 
-            private const string SingleBlockSceneStr =
+            internal const string DebugSceneStr =
+                "SSSBSSSBBBBBS\r\n" +
+                "S     B     S\r\n" +
+                "S     B     S\r\n" +
+                "S  P        S\r\n" +
+                "S     B     S\r\n" +
+                "S     B     S\r\n" +
+                "SSSSSSSSSSSSS\r\n";
+
+            internal const string SingleBlockSceneStr =
                 "           \r\n" +
                 "           \r\n" +
                 "           \r\n" +

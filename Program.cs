@@ -17,7 +17,8 @@ namespace PseudoWolfenstein
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            var scene = Scene.Builder.Default;
+            var src = Scene.SceneBuilder.DebugSceneStr;
+            var scene = Scene.Builder.FromString(src);
             var gameForm = new GameForm(scene);
             _ = new GamePresenter(scene, gameForm);
             Application.Run(gameForm);
