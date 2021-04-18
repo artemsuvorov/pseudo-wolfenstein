@@ -11,10 +11,6 @@ namespace PseudoWolfenstein.Core
 
     public static class Time
     {
-        private static DateTime lastCheckTime = DateTime.Now;
-        private static long lastCheckTimeTicks = DateTime.Now.Ticks;
-        private static long frameCount = 0;
-
         public static double FPS { get; private set; }
         public static double DeltaTime { get; private set; }
 
@@ -26,6 +22,10 @@ namespace PseudoWolfenstein.Core
 
         // source : https://stackoverflow.com/a/6738258
         // author : https://stackoverflow.com/users/69809/groo
+
+        private static DateTime lastCheckTime = DateTime.Now;
+        private static long frameCount = 0;
+
         internal static void OnGlobalTick(object sender, EventArgs e)
         {
             Interlocked.Increment(ref frameCount);
@@ -44,16 +44,12 @@ namespace PseudoWolfenstein.Core
         // author : https://stackoverflow.com/users/12019652/grave18
         private static DateTime time1 = DateTime.Now;
         private static DateTime time2 = DateTime.Now;
+
         private static void CalculateDeltaTime()
         {
-            //DeltaTime = 1 / FPS;
             time2 = DateTime.Now;
             DeltaTime = (time2.Ticks - time1.Ticks) / 10000000f;
             time1 = time2;
-            //long now = DateTime.Now.Ticks;
-            //double deltaTime = (now - lastCheckTimeTicks) / 100000.0;
-            //lastCheckTimeTicks = now;
-            //return deltaTime;
         }
     }
 }
