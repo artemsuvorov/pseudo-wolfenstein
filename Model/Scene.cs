@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Numerics;
 
 namespace PseudoWolfenstein.Model
 {
@@ -27,43 +26,23 @@ namespace PseudoWolfenstein.Model
 
         public class SceneBuilder
         {
-            private const float wallSize = Settings.WorldWallSize;
-
             private const string DefaultSceneStr =
-                "#######\r\n" +
-                "#     #\r\n" +
-                "#     #\r\n" +
-                "#  P  #\r\n" +
-                "#     #\r\n" +
-                "#     #\r\n" +
-                "#######\r\n";
+                "SSSSSSS\r\n" +
+                "S     S\r\n" +
+                "S     S\r\n" +
+                "S  P  S\r\n" +
+                "S     S\r\n" +
+                "S     S\r\n" +
+                "SSSSSSS\r\n";
 
             private const string SingleBlockSceneStr =
                 "           \r\n" +
                 "           \r\n" +
                 "           \r\n" +
-                "     P #   \r\n" +
+                "    P  S   \r\n" +
                 "           \r\n" +
                 "           \r\n" +
                 "           \r\n";
-
-            private readonly IReadOnlyDictionary<char, Func<int, int, Shape>> shapeCtorByChar;
-
-            public SceneBuilder()
-            {
-                shapeCtorByChar = new Dictionary<char, Func<int, int, Shape>>
-                {
-                    {
-                        '#', (x, y) =>  {
-                            var position = new Vector2(x * wallSize, y * wallSize);
-                            return new Square(position, wallSize);
-                        }
-                    },
-                    {
-                        'P', (x, y) => new Player(x * wallSize, y * wallSize)
-                    }
-                };
-            }
 
             public Scene Default => FromString(DefaultSceneStr);
             public Scene SingleBlockScene => FromString(SingleBlockSceneStr);
@@ -86,8 +65,8 @@ namespace PseudoWolfenstein.Model
                     for (var x = 0; x < lines[y].Length; x++)
                     {
                         var c = lines[y][x];
-                        if (shapeCtorByChar.ContainsKey(c))
-                            yield return shapeCtorByChar[c](x, y);
+                        var shape = ShapeFactory.InstantiateShapeAtOrDefault(x, y, c);
+                        if (shape is object) yield return shape;
                     }
             }
         }
