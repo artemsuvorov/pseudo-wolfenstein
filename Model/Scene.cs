@@ -42,7 +42,7 @@ namespace PseudoWolfenstein.Model
                 "           \r\n" +
                 "           \r\n" +
                 "           \r\n" +
-                "  P    #   \r\n" +
+                "     P #   \r\n" +
                 "           \r\n" +
                 "           \r\n" +
                 "           \r\n";

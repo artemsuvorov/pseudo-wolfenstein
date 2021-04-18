@@ -1,5 +1,4 @@
-﻿using PseudoWolfenstein.Core;
-using PseudoWolfenstein.Model;
+﻿using PseudoWolfenstein.Model;
 using System;
 using System.Drawing;
 using System.Windows.Forms;
@@ -19,34 +18,32 @@ namespace PseudoWolfenstein.View
     public interface IGameForm : IInputClient, IViewport
     {
         event EventHandler Load;
-
         UserInterface UserInterface { get; }
-        Viewport Viewport { get; }
-
+        Viewport GetViewport();
         void Refresh();
     }
 
     public partial class GameForm : Form, IGameForm, IInputClient, IViewport
     {
         public UserInterface UserInterface { get; private set; }
-        public Viewport Viewport { get; private set; }
 
-        private Camera camera;
-        private Scene scene;
+        private readonly Viewport viewport;
+        private readonly Camera camera;
 
-        public GameForm()
+        public GameForm(Scene scene)
         {
             InitializeComponent();
-            Viewport = new Viewport(this);
+            viewport = new Viewport(this);
+            UserInterface = new UserInterface(scene.Player);
+            camera = new Camera(viewport, scene);
+            Controls.Add(UserInterface);
             MinimumSize = new Size(Viewport.DefaultWidth, Viewport.DefaultHeight);
             Paint += Redraw;
         }
 
-        public void Initialize(Player player, Scene scene)
+        public Viewport GetViewport()
         {
-            UserInterface = new UserInterface(player);
-            camera = new Camera(Viewport, scene);
-            Controls.Add(UserInterface);
+            return viewport;
         }
 
         private void Redraw(object sender, PaintEventArgs e)

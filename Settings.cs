@@ -8,7 +8,7 @@ namespace PseudoWolfenstein
     public static class Settings
     {
         public const SmoothingMode MinimapSmoothingMode = SmoothingMode.None;
-        public const SmoothingMode GraphicsSmoothingMode = SmoothingMode.AntiAlias;
+        public const SmoothingMode GraphicsSmoothingMode = SmoothingMode.None;
 
         public const float WorldWallSize = 2.0f;
 
@@ -20,7 +20,7 @@ namespace PseudoWolfenstein
         public static readonly int RaycastRayCount = (int)(PlayerFieldOfView.ToDegrees() / RaycastRayDensity);
         public const float RaycastRayDensity =
 #if DEBUG
-            0.5f;
+            0.25f;
 #else
             0.25f;
 #endif

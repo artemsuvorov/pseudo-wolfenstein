@@ -20,16 +20,18 @@ namespace PseudoWolfenstein.Core
 
         internal class TextureRepository
         {
-            public Image Wall { get; private set; }
+            public Bitmap StoneWall { get; private set; }
+            public Bitmap BlueWall { get; private set; }
 
             public TextureRepository()
             {
-                Wall = Image.FromFile(GetTexturePath("WALL14.bmp"));
+                StoneWall = new Bitmap(GetTexturePath("WALL0.bmp"));
+                BlueWall = new Bitmap(GetTexturePath("WALL14.bmp"));
             }
 
             ~TextureRepository()
             {
-                Wall.Dispose();
+                BlueWall.Dispose();
             }
         }
     }
