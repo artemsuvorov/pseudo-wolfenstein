@@ -1,6 +1,7 @@
 ﻿using PseudoWolfenstein.Core;
 using PseudoWolfenstein.Utils;
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Numerics;
 using System.Windows.Forms;
@@ -17,28 +18,50 @@ namespace PseudoWolfenstein.Model
         // in radians
         public float Rotation = 0.0f;
 
+        public Vector2 Motion { get; private set; }
         public Vector2 MotionDirection => Vector2.UnitX.RotateCounterClockwise(Rotation);
 
         public Player(float x, float y) : base(x, y) { }
         public Player(Vector2 position) : base(position) { }
 
-        public void Update()
+        public void Update(Scene scene)
         {
-            Move();
+            Move(scene);
             Rotate();
         }
 
-        private void Move()
+        private void Collide(IEnumerable<Shape> obstacles, out int front, out int back)
         {
+            const float collisionMagnitude = 2f;
+            (front, back) = (1, 1);
+
+            foreach (Polygon polygon in obstacles)
+            {
+                for (var index = 1; index < polygon.Vertices.Length + 1; index++)
+                {
+                    Vector2 vertex1 = polygon.Vertices[index-1], vertex2 = polygon.Vertices[index % polygon.Vertices.Length];
+                    Vector2 dirFront = Position + MotionDirection * collisionMagnitude, dirBack = Position - MotionDirection * collisionMagnitude;
+                    var isCrossingFront = MathF2D.AreSegmentsCrossing(Position, dirFront, vertex1, vertex2, out _);
+                    var isCrossingBack = MathF2D.AreSegmentsCrossing(Position, dirBack, vertex1, vertex2, out _);
+                    if (isCrossingFront) front = 0;
+                    if (isCrossingBack) back = 0;
+                }
+            }
+        }
+
+        private void Move(Scene scene)
+        {
+            Collide(scene.Obstacles, out int front, out int back);
+
             if (Input.IsKeyDown(Keys.W) || Input.IsKeyDown(Keys.Up))
             {
-                X += 1 * MathF.Cos(Rotation) * MoveSpeed * TimeF.DeltaTime;
-                Y += 1 * MathF.Sin(Rotation) * MoveSpeed * TimeF.DeltaTime;
+                X += 1.0f * MathF.Cos(Rotation) * MoveSpeed * TimeF.DeltaTime * front;
+                Y += 1.0f * MathF.Sin(Rotation) * MoveSpeed * TimeF.DeltaTime * front;
             }
             else if (Input.IsKeyDown(Keys.S) || Input.IsKeyDown(Keys.Down))
             {
-                X += -1 * MathF.Cos(Rotation) * MoveSpeed * TimeF.DeltaTime;
-                Y += -1 * MathF.Sin(Rotation) * MoveSpeed * TimeF.DeltaTime;
+                X += -1.0f * MathF.Cos(Rotation) * MoveSpeed * TimeF.DeltaTime * back;
+                Y += -1.0f * MathF.Sin(Rotation) * MoveSpeed * TimeF.DeltaTime * back;
             }
         }
 
