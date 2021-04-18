@@ -45,6 +45,7 @@ namespace PseudoWolfenstein
 
         private void Update(object sender, EventArgs e)
         {
+            Time.Update();
             player.Update();
 
             gameForm.UserInterface.DebugInfo.Update();
