@@ -12,8 +12,8 @@ namespace PseudoWolfenstein
 
         public const float WorldWallSize = 4.0f;
 
-        public const float PlayerMoveSpeed = 0.14f * WorldWallSize;
-        public const float PlayerRotationSpeed = 0.05f;
+        public const float PlayerMoveSpeed = 6f * WorldWallSize;
+        public const float PlayerRotationSpeed = 2.5f;
         public const float PlayerFieldOfView = MathF.PI / 3.0f;
         public const int PlayerRadius = 32;
 

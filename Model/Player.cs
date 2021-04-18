@@ -32,22 +32,28 @@ namespace PseudoWolfenstein.Model
         {
             if (Input.IsKeyDown(Keys.W) || Input.IsKeyDown(Keys.Up))
             {
-                X += 1 * MathF.Cos(Rotation) * MoveSpeed;
-                Y += 1 * MathF.Sin(Rotation) * MoveSpeed;
+                X += 1 * MathF.Cos(Rotation) * MoveSpeed * TimeF.DeltaTime;
+                Y += 1 * MathF.Sin(Rotation) * MoveSpeed * TimeF.DeltaTime;
             }
             else if (Input.IsKeyDown(Keys.S) || Input.IsKeyDown(Keys.Down))
             {
-                X += -1 * MathF.Cos(Rotation) * MoveSpeed;
-                Y += -1 * MathF.Sin(Rotation) * MoveSpeed;
+                X += -1 * MathF.Cos(Rotation) * MoveSpeed * TimeF.DeltaTime;
+                Y += -1 * MathF.Sin(Rotation) * MoveSpeed * TimeF.DeltaTime;
             }
         }
 
         private void Rotate()
         {
             if (Input.IsKeyDown(Keys.A) || Input.IsKeyDown(Keys.Left))
-                Rotation += RotationSpeed;
+            {
+                var a = RotationSpeed * TimeF.DeltaTime;
+                Rotation += RotationSpeed * TimeF.DeltaTime;
+            }
             if (Input.IsKeyDown(Keys.D) || Input.IsKeyDown(Keys.Right))
-                Rotation -= RotationSpeed;
+            {
+                var a = RotationSpeed * TimeF.DeltaTime;
+                Rotation -= RotationSpeed * TimeF.DeltaTime;
+            }
         }
 
         // todo: remove this from player class
