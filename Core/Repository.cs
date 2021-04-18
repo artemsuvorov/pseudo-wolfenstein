@@ -31,6 +31,7 @@ namespace PseudoWolfenstein.Core
 
             ~TextureRepository()
             {
+                StoneWall.Dispose();
                 BlueWall.Dispose();
             }
         }

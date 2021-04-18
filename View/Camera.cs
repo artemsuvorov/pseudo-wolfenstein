@@ -10,15 +10,11 @@ namespace PseudoWolfenstein.View
     {
         private readonly Viewport viewport;
         private readonly Raycast raycast;
-        private readonly Scene scene;
-        private readonly Player player;
 
         public Camera(Viewport viewport, Scene scene)
         {
             this.viewport = viewport;
-            this.scene = scene;
-            this.player = scene.Player;
-            this.raycast = new Raycast(this.scene);
+            this.raycast = new Raycast(scene);
         }
 
         public void DrawView(Graphics graphics)
@@ -38,23 +34,21 @@ namespace PseudoWolfenstein.View
             var sliceWidth = viewport.Width / (float)sliceCount;
             for (var i = 0; i < sliceCount; i++)
             {
-                float dst = distances[i];
+                float dst = distances[i] * 1.75f;
                 var ceiling = 0.5f * viewport.Height - Player.FieldOfView * viewport.Height / dst;
                 var floor = viewport.Height - ceiling;
                 var wallHeight = floor - ceiling;
                 if (wallHeight < 1e-5) continue;
 
-                var rayDir = raycastData.Rays[i].End.SafeNormalize();
-
-                var crossedSide = crossedSides[i];
-                var wallX = crossedSide == Side.Vertical ? player.Y + dst * rayDir.Y : player.X + dst * rayDir.X;
-                wallX -= MathF.Floor(wallX);
-
                 var texture = Repository.Textures.StoneWall;
 
-                var d = ceiling * 64f - viewport.Height * 32f + wallHeight * 32f;
-                var texX = wallX * texture.Width;
-                var texY = d * texture.Height / wallHeight / 64;
+                var crossedSide = crossedSides[i];
+                var wallX = crossedSide == Side.Vertical ? crossingPoints[i].Y : crossingPoints[i].X;
+                wallX /= Settings.WorldWallSize;
+                var frqX = wallX - MathF.Floor(wallX);
+                var d = ceiling * 32f - viewport.Height * 16f + wallHeight * 16f;
+                var texX = frqX * texture.Width;
+                var texY = d * texture.Height / wallHeight / 32f;
 
                 var destRect = new RectangleF(i*sliceWidth, ceiling, sliceWidth, wallHeight);
                 var sourceRect = new RectangleF(texX, texY, 1f, texture.Height);
