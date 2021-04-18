@@ -18,7 +18,7 @@ namespace PseudoWolfenstein.View
 
         private string DebugInfoMessage =>
             $"DEBUG SESSION INFO PseudoWolfenstein\r\n" +
-            $"FPS: {Time.FPS:0} deltaTime: {Time.DeltaTime}\r\n" +
+            $"FPS: {Time.FPS:0} deltaTime: {Time.DeltaTime:0.000000}\r\n" +
             $"Player Position: { player.Position }\r\n" +
             $"Player Rotation: { player.Rotation.ToDegrees() }";
 
