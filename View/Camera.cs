@@ -40,7 +40,7 @@ namespace PseudoWolfenstein.View
                 var wallHeight = floor - ceiling;
                 if (wallHeight < 1e-5) continue;
 
-                var texture = Repository.Textures.StoneWall;
+                var texture = crossedObstacles[i].Texture;
 
                 var crossedSide = crossedSides[i];
                 var wallX = crossedSide == Side.Vertical ? crossingPoints[i].Y : crossingPoints[i].X;

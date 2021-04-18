@@ -45,10 +45,10 @@ namespace PseudoWolfenstein.Model
             Texture = texture;
         }
 
-        ~Shape()
-        {
-            Texture.Dispose();
-        }
+        //~Shape()
+        //{
+        //    Texture.Dispose();
+        //}
 
         public abstract void Draw(Graphics graphics);
     }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PseudoWolfenstein.Core;
+using System;
 using System.Collections.Generic;
 using System.Numerics;
 
@@ -15,7 +16,15 @@ namespace PseudoWolfenstein.Model
                     {
                         'S', (x, y) =>  {
                             var position = new Vector2(x * Settings.WorldWallSize, y * Settings.WorldWallSize);
-                            return new Square(position, Settings.WorldWallSize);
+                            var texture = Repository.Textures.StoneWall;
+                            return new Square(position, Settings.WorldWallSize, texture);
+                        }
+                    },
+                    {
+                        'B', (x, y) =>  {
+                            var position = new Vector2(x * Settings.WorldWallSize, y * Settings.WorldWallSize);
+                            var texture = Repository.Textures.BlueWall;
+                            return new Square(position, Settings.WorldWallSize, texture);
                         }
                     },
                     {
