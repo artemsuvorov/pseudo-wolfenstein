@@ -38,7 +38,7 @@ namespace PseudoWolfenstein.Model
             internal const string DebugSceneStr =
                 "SSSBSSSBBBBBS\r\n" +
                 "S     B     S\r\n" +
-                "S     B     S\r\n" +
+                "S     B  C  S\r\n" +
                 "S  P        S\r\n" +
                 "S     B     S\r\n" +
                 "S     B     S\r\n" +

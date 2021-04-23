@@ -28,6 +28,13 @@ namespace PseudoWolfenstein.Model
                         }
                     },
                     {
+                        'C', (x, y) => {
+                            var position = new Vector2(x * Settings.WorldWallSize, y * Settings.WorldWallSize);
+                            var texture = Repository.Textures.GreyColmun;
+                            return new Square(position, Settings.WorldWallSize, texture);
+                        }
+                    },
+                    {
                         'P', (x, y) => new Player(x * Settings.WorldWallSize, y * Settings.WorldWallSize)
                     }
                 };
