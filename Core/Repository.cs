@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 
@@ -20,19 +21,34 @@ namespace PseudoWolfenstein.Core
 
         internal class TextureRepository
         {
+            private const int TextureRepoCapactity = 256;
+
             public Bitmap StoneWall { get; private set; }
             public Bitmap BlueWall { get; private set; }
+            public Bitmap GreyColmun { get; private set; }
+
+            private readonly IList<Bitmap> textures = new List<Bitmap>(TextureRepoCapactity);
 
             public TextureRepository()
             {
-                StoneWall = new Bitmap(GetTexturePath("WALL0.bmp"));
-                BlueWall = new Bitmap(GetTexturePath("WALL14.bmp"));
+                StoneWall = LoadTexture("WALL0.bmp");
+                BlueWall = LoadTexture("WALL14.bmp");
+                GreyColmun = LoadTexture("GreyColumn.bmp");
+            }
+
+            private Bitmap LoadTexture(string textureName)
+            {
+                var filepath = GetTexturePath(textureName);
+                var texture = new Bitmap(GetTexturePath(filepath));
+                textures.Add(texture);
+                return texture;
             }
 
             ~TextureRepository()
             {
                 StoneWall.Dispose();
                 BlueWall.Dispose();
+                GreyColmun.Dispose();
             }
         }
     }
