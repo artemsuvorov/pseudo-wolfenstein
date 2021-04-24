@@ -1,5 +1,6 @@
 ﻿using PseudoWolfenstein.Core;
 using PseudoWolfenstein.Model;
+using PseudoWolfenstein.Utils;
 using System;
 using System.Drawing;
 
@@ -23,16 +24,16 @@ namespace PseudoWolfenstein.View
 
             var raycastData = raycast.GetCrossingPointsAndDistances();
             if (raycastData is null || raycastData.Length <= 0) return;
-            var distances = raycastData.CrossingPointsDistances;
 
             var sliceCount = raycastData.Length;
             var sliceWidth = viewport.Width / (float)sliceCount;
             for (var i = 0; i < sliceCount; i++)
             {
-                var dst = distances[i] * Settings.RaycastProjectionCoeff / Settings.WorldWallSize;
+                var totalDistance = raycastData[i].Distance;
+                var dst = totalDistance * Settings.RaycastProjectionCoeff / Settings.WorldWallSize;
                 var ceiling = 0.5f * viewport.Height - Player.FieldOfView * viewport.Height / dst;
                 var wallHeight = viewport.Height - 2.0f*ceiling;
-                if (wallHeight < 1e-5) continue;
+                if (wallHeight.IsEqual(0.0f)) continue;
 
                 DrawSlice(graphics, raycastData, i, sliceWidth, ceiling, wallHeight);
             }
@@ -48,12 +49,11 @@ namespace PseudoWolfenstein.View
 
         private void DrawSlice(Graphics graphics, RaycastData raycastData, int i, float sliceWidth, float ceiling, float wallHeight)
         {
-            var texture = raycastData.CrossedObstacles[i].Texture;
-            var crossingPoints = raycastData.CrossingPoints;
-            var crossedSides = raycastData.CrossedSides;
+            var texture = raycastData[i].CrossedObstacle.Texture;
+            var crossingPoint = raycastData[i].CrossingPoint;
+            var crossedSide = raycastData[i].CrossedSide;
 
-            var crossedSide = crossedSides[i];
-            var wallX = crossedSide == SideDirection.Vertical ? crossingPoints[i].Y : crossingPoints[i].X;
+            var wallX = crossedSide == SideDirection.Vertical ? crossingPoint.Y : crossingPoint.X;
             wallX /= Settings.WorldWallSize;
             var frqX = wallX - MathF.Floor(wallX);
             var d = ceiling * 32f - viewport.Height * 16f + wallHeight * 16f;

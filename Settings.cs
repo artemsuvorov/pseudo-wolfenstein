@@ -19,12 +19,7 @@ namespace PseudoWolfenstein
 
         public const float RaycastProjectionCoeff = 1.5f;
         public static readonly int RaycastRayCount = (int)(PlayerFieldOfView.ToDegrees() / RaycastRayDensity);
-        public const float RaycastRayDensity =
-#if DEBUG
-            0.25f;
-#else
-            0.25f;
-#endif
+        public const float RaycastRayDensity = 0.25f;
 
         public const float Depth = 128.0f;
 

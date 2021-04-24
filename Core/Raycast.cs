@@ -17,21 +17,40 @@ namespace PseudoWolfenstein.Core
     {
         public int Length { get; private set; }
 
-        public Vector2[] CrossingPoints { get; private set; }
-        public float[] CrossingPointsDistances { get; private set; }
-        public Polygon[] CrossedObstacles { get; private set; }
-        public SideDirection[] CrossedSides { get; private set; }
-        public Ray[] Rays { get; private set; }
+        public RaycastDataEntry this[int index]
+        {
+            get => entries[index];
+        }
 
-        public RaycastData(int length, Vector2[] crossingPoints, float[] crossingPointsDistances, 
+        private readonly RaycastDataEntry[] entries;
+
+        public RaycastData(int length, Vector2[] crossingPoints, float[] distances, 
             Polygon[] crossedObstacles, SideDirection[] crossedSides, Ray[] rays)
         {
             Length = length;
-            CrossingPoints = crossingPoints;
-            CrossingPointsDistances = crossingPointsDistances;
-            CrossedObstacles = crossedObstacles;
-            CrossedSides = crossedSides;
-            Rays = rays;
+
+            var entries = new RaycastDataEntry[Length];
+            for (var i = 0; i < Length; i++)
+                entries[i] = new RaycastDataEntry(crossingPoints[i], distances[i], crossedObstacles[i],crossedSides[i], rays[i]);
+        }
+
+        public class RaycastDataEntry
+        {
+            public Vector2 CrossingPoint { get; private set; }
+            public float Distance { get; private set; }
+            public Polygon CrossedObstacle { get; private set; }
+            public SideDirection CrossedSide { get; private set; }
+            public Ray Ray { get; private set; }
+
+            public RaycastDataEntry(Vector2 crossingPoint, float distance, 
+                Polygon crossedObstacle, SideDirection crossedSide, Ray ray)
+            {
+                CrossingPoint = crossingPoint;
+                Distance = distance;
+                CrossedObstacle = crossedObstacle;
+                CrossedSide = crossedSide;
+                Ray = ray;
+            }
         }
     }
 
@@ -41,7 +60,7 @@ namespace PseudoWolfenstein.Core
         private readonly Player player;
 
         private readonly Vector2[] crossingPoints = new Vector2[Settings.RaycastRayCount];
-        private readonly float[] crossingPointsDistances = new float[Settings.RaycastRayCount];
+        private readonly float[] distances = new float[Settings.RaycastRayCount];
         private readonly Polygon[] crossedObstacles = new Polygon[Settings.RaycastRayCount];
         private readonly SideDirection[] crossedSides = new SideDirection[Settings.RaycastRayCount];
         private readonly Ray[] rays = new Ray[Settings.RaycastRayCount];
@@ -62,14 +81,13 @@ namespace PseudoWolfenstein.Core
                 var crossingPoint = GetMinDistanceCrossingPoint(ray, scene.Obstacles, 
                     out float minDistance, out Polygon crossedObstacle, out SideDirection crossedSide);
                 crossingPoints[index] = crossingPoint;
-                crossingPointsDistances[index] = minDistance;
+                distances[index] = minDistance;
                 crossedObstacles[index] = crossedObstacle;
                 crossedSides[index] = crossedSide;
                 rays[index] = ray;
             }
 
-            return new RaycastData(length, crossingPoints, 
-                crossingPointsDistances, crossedObstacles, crossedSides, rays);
+            return new RaycastData(length, crossingPoints, distances, crossedObstacles, crossedSides, rays);
         }
 
         public Vector2 GetMinDistanceCrossingPoint(Ray ray, IEnumerable<Polygon> polygons, 
