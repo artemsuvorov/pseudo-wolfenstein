@@ -31,7 +31,12 @@ namespace PseudoWolfenstein.Core
 
             var entries = new RaycastDataEntry[Length];
             for (var i = 0; i < Length; i++)
-                entries[i] = new RaycastDataEntry(crossingPoints[i], distances[i], crossedObstacles[i],crossedSides[i], rays[i]);
+            {
+                entries[i] = new RaycastDataEntry(crossingPoints[i],
+                    distances[i], crossedObstacles[i], crossedSides[i], rays[i]);
+            }
+
+            this.entries = entries;
         }
 
         public class RaycastDataEntry
