@@ -11,33 +11,32 @@ namespace PseudoWolfenstein.Model
 
         static ShapeFactory()
         {
-            shapeCtorByChar = new Dictionary<char, Func<int, int, Shape>>
+            shapeCtorByChar = new Dictionary<char, Func<int, int, Shape>> 
+            {
+                ['S'] = (x, y) => 
                 {
-                    {
-                        'S', (x, y) =>  {
-                            var position = new Vector2(x * Settings.WorldWallSize, y * Settings.WorldWallSize);
-                            var texture = Repository.Textures.StoneWall;
-                            return new Wall(position, Settings.WorldWallSize, texture);
-                        }
-                    },
-                    {
-                        'B', (x, y) =>  {
-                            var position = new Vector2(x * Settings.WorldWallSize, y * Settings.WorldWallSize);
-                            var texture = Repository.Textures.BlueWall;
-                            return new Wall(position, Settings.WorldWallSize, texture);
-                        }
-                    },
-                    {
-                        'C', (x, y) => {
-                            var position = new Vector2((x+0.5f)*Settings.WorldWallSize, (y+0.5f)*Settings.WorldWallSize);
-                            var texture = Repository.Textures.GreyColmun;
-                            return new Pane(position, texture);
-                        }
-                    },
-                    {
-                        'P', (x, y) => new Player(x * Settings.WorldWallSize, y * Settings.WorldWallSize)
-                    }
-                };
+                    var position = new Vector2(x * Settings.WorldWallSize, y * Settings.WorldWallSize);
+                    var texture = Repository.Textures.StoneWall;
+                    return new Wall(position, Settings.WorldWallSize, texture);
+                },
+                ['B'] = (x, y) => 
+                {
+                    var position = new Vector2(x * Settings.WorldWallSize, y * Settings.WorldWallSize);
+                    var texture = Repository.Textures.BlueWall;
+                    return new Wall(position, Settings.WorldWallSize, texture);
+                },
+                ['C'] = (x, y) => 
+                {
+                    var position = new Vector2((x+0.5f)*Settings.WorldWallSize, (y+0.5f)*Settings.WorldWallSize);
+                    var texture = Repository.Textures.GreyColmun;
+                    return new Pane(position, texture);
+                },
+                ['P'] = (x, y) =>
+                { 
+                    var position = new Vector2(x * Settings.WorldWallSize, y * Settings.WorldWallSize);
+                    return new Player(position);
+                }
+            };
         }
 
         public static Shape InstantiateShapeAt(int x, int y, char c)
