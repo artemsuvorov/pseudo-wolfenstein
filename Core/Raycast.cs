@@ -1,12 +1,14 @@
 ﻿using PseudoWolfenstein.Model;
 using PseudoWolfenstein.Utils;
+using System;
 using System.Collections.Generic;
 using System.Numerics;
 
 namespace PseudoWolfenstein.Core
 {
-    public enum Side
+    public enum SideDirection
     {
+        None,
         Horizontal,
         Vertical,
     }
@@ -18,11 +20,11 @@ namespace PseudoWolfenstein.Core
         public Vector2[] CrossingPoints { get; private set; }
         public float[] CrossingPointsDistances { get; private set; }
         public Polygon[] CrossedObstacles { get; private set; }
-        public Side[] CrossedSides { get; private set; }
+        public SideDirection[] CrossedSides { get; private set; }
         public Ray[] Rays { get; private set; }
 
         public RaycastData(int length, Vector2[] crossingPoints, float[] crossingPointsDistances, 
-            Polygon[] crossedObstacles, Side[] crossedSides, Ray[] rays)
+            Polygon[] crossedObstacles, SideDirection[] crossedSides, Ray[] rays)
         {
             Length = length;
             CrossingPoints = crossingPoints;
@@ -41,7 +43,7 @@ namespace PseudoWolfenstein.Core
         private readonly Vector2[] crossingPoints = new Vector2[Settings.RaycastRayCount];
         private readonly float[] crossingPointsDistances = new float[Settings.RaycastRayCount];
         private readonly Polygon[] crossedObstacles = new Polygon[Settings.RaycastRayCount];
-        private readonly Side[] crossedSides = new Side[Settings.RaycastRayCount];
+        private readonly SideDirection[] crossedSides = new SideDirection[Settings.RaycastRayCount];
         private readonly Ray[] rays = new Ray[Settings.RaycastRayCount];
 
         public Raycast(Scene scene)
@@ -58,7 +60,7 @@ namespace PseudoWolfenstein.Core
                 var angle = index * Settings.RaycastRayDensity;
                 var ray = new Ray(player.Position, angle.ToRadians() - player.Rotation - Player.FieldOfView/2f);
                 var crossingPoint = GetMinDistanceCrossingPoint(ray, scene.Obstacles, 
-                    out float minDistance, out Polygon crossedObstacle, out Side crossedSide);
+                    out float minDistance, out Polygon crossedObstacle, out SideDirection crossedSide);
                 crossingPoints[index] = crossingPoint;
                 crossingPointsDistances[index] = minDistance;
                 crossedObstacles[index] = crossedObstacle;
@@ -71,21 +73,23 @@ namespace PseudoWolfenstein.Core
         }
 
         public Vector2 GetMinDistanceCrossingPoint(Ray ray, IEnumerable<Polygon> polygons, 
-            out float minDistance, out Polygon crossedObstacle, out Side crossedSide)
+            out float minDistance, out Polygon crossedObstacle, out SideDirection crossedSide)
         {
             Vector2 minDistanceCrossingPoint = default;
             minDistance = float.MaxValue;
             crossedObstacle = default;
             crossedSide = default;
 
-            var side = Side.Vertical;
             foreach (Polygon polygon in polygons)
             {
-                for (var index = 1; index < polygon.Vertices.Length + 1; index++)
+                for (var index = 1; index < polygon.Vertices.Length+1; index++)
                 {
                     Vector2 vertex1 = polygon.Vertices[index-1], 
-                        vertex2 = polygon.Vertices[index % polygon.Vertices.Length];
-                    side = side == Side.Vertical ? Side.Horizontal : Side.Vertical;
+                            vertex2 = polygon.Vertices[index % polygon.Vertices.Length],
+                            edge = vertex2 - vertex1;
+
+                    var sideDir = MathF.Abs(Vector2.Dot(edge, Vector2.UnitX)) < MathF.Abs(Vector2.Dot(edge, Vector2.UnitY)) ?
+                        SideDirection.Vertical : SideDirection.Horizontal;
 
                     var isCrossing = ray.IsCrossing(vertex1, vertex2, out Vector2 crossingPoint);
                     var distance = (crossingPoint-player.Position).Length();
@@ -95,7 +99,7 @@ namespace PseudoWolfenstein.Core
                         minDistanceCrossingPoint = crossingPoint;
                         minDistance = distance;
                         crossedObstacle = polygon;
-                        crossedSide = side;
+                        crossedSide = sideDir;
                     }
                 }
             }

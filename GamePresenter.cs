@@ -46,7 +46,7 @@ namespace PseudoWolfenstein
         private void Update(object sender, EventArgs e)
         {
             Time.Update();
-            player.Update(scene);
+            scene.Update();
 
             gameForm.UserInterface.DebugInfo.Update();
             //minimapForm.Gizmos.Update();

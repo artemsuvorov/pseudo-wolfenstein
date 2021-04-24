@@ -27,13 +27,13 @@ namespace PseudoWolfenstein.Core
             public Bitmap BlueWall { get; private set; }
             public Bitmap GreyColmun { get; private set; }
 
-            private readonly IList<Bitmap> textures = new List<Bitmap>(TextureRepoCapactity);
+            private readonly ISet<Bitmap> textures = new HashSet<Bitmap>(TextureRepoCapactity);
 
             public TextureRepository()
             {
                 StoneWall = LoadTexture("WALL0.bmp");
                 BlueWall = LoadTexture("WALL14.bmp");
-                GreyColmun = LoadTexture("GreyColumn.bmp");
+                GreyColmun = LoadTexture("GreyColumn.bmp", texture => texture.GetPixel(0,0));
             }
 
             private Bitmap LoadTexture(string textureName)
@@ -44,11 +44,19 @@ namespace PseudoWolfenstein.Core
                 return texture;
             }
 
+            private Bitmap LoadTexture(string textureName, Func<Bitmap, Color> transparentPicker)
+            {
+                var filepath = GetTexturePath(textureName);
+                var texture = new Bitmap(GetTexturePath(filepath));
+                texture.MakeTransparent(transparentPicker(texture));
+                textures.Add(texture);
+                return texture;
+            }
+
             ~TextureRepository()
             {
-                StoneWall.Dispose();
-                BlueWall.Dispose();
-                GreyColmun.Dispose();
+                foreach (var texture in textures)
+                    texture.Dispose();
             }
         }
     }

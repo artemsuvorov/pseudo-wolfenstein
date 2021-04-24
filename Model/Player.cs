@@ -32,7 +32,7 @@ namespace PseudoWolfenstein.Model
 
         private void Collide(IEnumerable<Shape> obstacles, out int front, out int back)
         {
-            const float collisionMagnitude = 2f;
+            const float collisionMagnitude = 0.5f * Settings.WorldWallSize;
             (front, back) = (1, 1);
 
             foreach (Polygon polygon in obstacles)
@@ -68,15 +68,9 @@ namespace PseudoWolfenstein.Model
         private void Rotate()
         {
             if (Input.IsKeyDown(Keys.A) || Input.IsKeyDown(Keys.Left))
-            {
-                var a = RotationSpeed * TimeF.DeltaTime;
                 Rotation += RotationSpeed * TimeF.DeltaTime;
-            }
             if (Input.IsKeyDown(Keys.D) || Input.IsKeyDown(Keys.Right))
-            {
-                var a = RotationSpeed * TimeF.DeltaTime;
                 Rotation -= RotationSpeed * TimeF.DeltaTime;
-            }
         }
 
         // todo: remove this from player class

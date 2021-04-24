@@ -6,18 +6,15 @@ namespace PseudoWolfenstein.Model
 {
     public class Polygon : Shape
     {
-        private readonly PointF[] points;
-        
-        public Vector2[] Vertices { get; private set; }
+        public Vector2[] Vertices { get; protected set; }
 
         public Polygon(params Vector2[] vertices)
             : base(position: vertices[0])
         {
             Vertices = vertices;
-            points = vertices.Select(vec => new PointF(vec.X, vec.Y)).ToArray();
         }
 
-        public Polygon(Image texture, params Vector2[] vertices)
+        public Polygon(Bitmap texture, params Vector2[] vertices)
             : this(vertices)
         {
             Texture = texture;
@@ -28,6 +25,7 @@ namespace PseudoWolfenstein.Model
             using var objectFillBrush = new SolidBrush(Settings.GameObjectFillColor);
             using var objectStrokePen = new Pen(Settings.GameObjectStrokeColor, Settings.ObjectStrokeWidth);
 
+            var points = Vertices.Select(vec => new PointF(vec.X, vec.Y)).ToArray();
             graphics.DrawPolygon(objectStrokePen, points);
             graphics.FillPolygon(objectFillBrush, points);
         }

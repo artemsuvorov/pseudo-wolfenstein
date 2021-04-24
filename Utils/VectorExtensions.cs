@@ -11,6 +11,11 @@ namespace PseudoWolfenstein.Utils
             return Vector2.Normalize(vector);
         }
 
+        public static bool IsOrthogonal(this Vector2 self, Vector2 other)
+        {
+            return Vector2.Dot(self, other).IsEqual(0.0f);
+        }
+
         public static float AngleTo(this Vector2 self, Vector2 other)
         {
             return MathF.Atan2(other.Y-self.Y, other.X-self.X);

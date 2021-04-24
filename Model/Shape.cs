@@ -8,7 +8,7 @@ namespace PseudoWolfenstein.Model
         public float X { get; set; }
         public float Y { get; set; }
 
-        public Image Texture { get; protected set; }
+        public Bitmap Texture { get; protected set; }
 
         public Vector2 Position
         {
@@ -34,12 +34,12 @@ namespace PseudoWolfenstein.Model
         {
             Position = position;
         }
-        public Shape(float x, float y, Image texture)
+        public Shape(float x, float y, Bitmap texture)
             : this(x, y)
         {
             Texture = texture;
         }
-        public Shape(Vector2 position, Image texture)
+        public Shape(Vector2 position, Bitmap texture)
             : this(position)
         {
             Texture = texture;

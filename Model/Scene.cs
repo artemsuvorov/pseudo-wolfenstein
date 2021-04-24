@@ -12,16 +12,29 @@ namespace PseudoWolfenstein.Model
         public int Height { get; private set; }
 
         public Player Player { get; private set; }
-        public IEnumerable<Polygon> Obstacles { get; private set; }
+
+        public IEnumerable<Polygon> Obstacles => Walls.Concat(Panes);
+        public IReadOnlyCollection<Polygon> Walls { get; private set; }
+        public IReadOnlyCollection<Polygon> Panes { get; private set; }
 
         public static SceneBuilder Builder => builder ??= new SceneBuilder();
 
-        private Scene(Player player, IEnumerable<Polygon> obstacles, int width, int height)
+        private Scene(Player player, IReadOnlyCollection<Polygon> walls, IReadOnlyCollection<Polygon> panes, int width, int height)
         {
             Player = player;
-            Obstacles = obstacles;
+            Walls = walls;
+            Panes = panes;
             Width = width;
             Height = height;
+        }
+
+
+        public void Update()
+        {
+            foreach (Pane pane in Panes)
+                pane.UpdateTransform(Player);
+
+            Player.Update(this);
         }
 
         public class SceneBuilder
@@ -47,8 +60,10 @@ namespace PseudoWolfenstein.Model
             internal const string SingleBlockSceneStr =
                 "           \r\n" +
                 "           \r\n" +
+                "    C      \r\n" +
                 "           \r\n" +
-                "    P  S   \r\n" +
+                "           \r\n" +
+                "    P      \r\n" +
                 "           \r\n" +
                 "           \r\n" +
                 "           \r\n";
@@ -63,9 +78,10 @@ namespace PseudoWolfenstein.Model
                 var width = lines[0].Length;
 
                 var shapes = ParseShapes(lines);
-                var obstacles = shapes.Where(shape => shape is Polygon).Cast<Polygon>();
+                var walls = shapes.Where(shape => shape is Wall).Cast<Polygon>().ToArray();
+                var panes = shapes.Where(shape => shape is Pane).Cast<Polygon>().ToArray();
                 var player = (Player)shapes.First(shape => shape is Player);
-                return new Scene(player, obstacles, width, height);
+                return new Scene(player, walls, panes, width, height);
             }
 
             private IEnumerable<Shape> ParseShapes(string[] lines)

@@ -1,6 +1,5 @@
 ﻿using PseudoWolfenstein.Core;
 using PseudoWolfenstein.Model;
-using PseudoWolfenstein.Utils;
 using System;
 using System.Drawing;
 
@@ -19,43 +18,51 @@ namespace PseudoWolfenstein.View
 
         public void DrawView(Graphics graphics)
         {
-            using var backgroundBrush = new SolidBrush(Settings.ViewportBackgroundColor);
-            graphics.FillRectangle(backgroundBrush, viewport.ClientRectangle);
+            ClearViewport(graphics);
             graphics.TranslateTransform(viewport.X, viewport.Y);
 
             var raycastData = raycast.GetCrossingPointsAndDistances();
-            var crossingPoints = raycastData.CrossingPoints;
-            var distances = raycastData.CrossingPointsDistances;
-            var crossedObstacles = raycastData.CrossedObstacles;
-            var crossedSides = raycastData.CrossedSides;
             if (raycastData is null || raycastData.Length <= 0) return;
+            var distances = raycastData.CrossingPointsDistances;
 
             var sliceCount = raycastData.Length;
             var sliceWidth = viewport.Width / (float)sliceCount;
             for (var i = 0; i < sliceCount; i++)
             {
-                float dst = distances[i] * Settings.RaycastProjectionCoeff / Settings.WorldWallSize;
+                var dst = distances[i] * Settings.RaycastProjectionCoeff / Settings.WorldWallSize;
                 var ceiling = 0.5f * viewport.Height - Player.FieldOfView * viewport.Height / dst;
-                var floor = viewport.Height - ceiling;
-                var wallHeight = floor - ceiling;
+                var wallHeight = viewport.Height - 2.0f*ceiling;
                 if (wallHeight < 1e-5) continue;
 
-                var texture = crossedObstacles[i].Texture;
-
-                var crossedSide = crossedSides[i];
-                var wallX = crossedSide == Side.Vertical ? crossingPoints[i].Y : crossingPoints[i].X;
-                wallX /= Settings.WorldWallSize;
-                var frqX = wallX - MathF.Floor(wallX);
-                var d = ceiling * 32f - viewport.Height * 16f + wallHeight * 16f;
-                var texX = frqX * texture.Width;
-                var texY = d * texture.Height / wallHeight / 32f;
-
-                var destRect = new RectangleF(i*sliceWidth, ceiling, sliceWidth, wallHeight);
-                var sourceRect = new RectangleF(texX, texY, 1f, texture.Height);
-                graphics.DrawImage(texture, destRect, sourceRect, GraphicsUnit.Pixel);
+                DrawSlice(graphics, raycastData, i, sliceWidth, ceiling, wallHeight);
             }
 
             graphics.ResetTransform();
+        }
+
+        private void ClearViewport(Graphics graphics)
+        {
+            var backgroundBrush = new SolidBrush(Settings.ViewportBackgroundColor);
+            graphics.FillRectangle(backgroundBrush, viewport.ClientRectangle);
+        }
+
+        private void DrawSlice(Graphics graphics, RaycastData raycastData, int i, float sliceWidth, float ceiling, float wallHeight)
+        {
+            var texture = raycastData.CrossedObstacles[i].Texture;
+            var crossingPoints = raycastData.CrossingPoints;
+            var crossedSides = raycastData.CrossedSides;
+
+            var crossedSide = crossedSides[i];
+            var wallX = crossedSide == SideDirection.Vertical ? crossingPoints[i].Y : crossingPoints[i].X;
+            wallX /= Settings.WorldWallSize;
+            var frqX = wallX - MathF.Floor(wallX);
+            var d = ceiling * 32f - viewport.Height * 16f + wallHeight * 16f;
+            var texX = frqX * texture.Width;
+            var texY = d * texture.Height / wallHeight / 32f;
+
+            var destRect = new RectangleF(i * sliceWidth, ceiling, sliceWidth, wallHeight);
+            var sourceRect = new RectangleF(texX, texY, 1f, texture.Height);
+            graphics.DrawImage(texture, destRect, sourceRect, GraphicsUnit.Pixel);
         }
 
         //public void DrawView2(Graphics graphics)

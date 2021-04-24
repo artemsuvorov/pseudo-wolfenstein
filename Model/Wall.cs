@@ -3,9 +3,11 @@ using System.Numerics;
 
 namespace PseudoWolfenstein.Model
 {
-    public class Square : Polygon
+    public class Wall : Polygon
     {
-        public Square(Vector2 position, float size)
+        public float Size { get; set; }
+
+        public Wall(Vector2 position, float size)
             : base(new Vector2[4]
             {
                 position,
@@ -13,9 +15,12 @@ namespace PseudoWolfenstein.Model
                 new Vector2(position.X+size, position.Y+size),
                 new Vector2(position.X,      position.Y+size),
             })
-        { }
+        {
+            Size = size;
+        }
 
-        public Square(Vector2 position, float size, Image texture)
+
+        public Wall(Vector2 position, float size, Bitmap texture)
             : this(position, size)
         {
             Texture = texture;

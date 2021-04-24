@@ -17,21 +17,21 @@ namespace PseudoWolfenstein.Model
                         'S', (x, y) =>  {
                             var position = new Vector2(x * Settings.WorldWallSize, y * Settings.WorldWallSize);
                             var texture = Repository.Textures.StoneWall;
-                            return new Square(position, Settings.WorldWallSize, texture);
+                            return new Wall(position, Settings.WorldWallSize, texture);
                         }
                     },
                     {
                         'B', (x, y) =>  {
                             var position = new Vector2(x * Settings.WorldWallSize, y * Settings.WorldWallSize);
                             var texture = Repository.Textures.BlueWall;
-                            return new Square(position, Settings.WorldWallSize, texture);
+                            return new Wall(position, Settings.WorldWallSize, texture);
                         }
                     },
                     {
                         'C', (x, y) => {
-                            var position = new Vector2(x * Settings.WorldWallSize, y * Settings.WorldWallSize);
+                            var position = new Vector2((x+0.5f)*Settings.WorldWallSize, (y+0.5f)*Settings.WorldWallSize);
                             var texture = Repository.Textures.GreyColmun;
-                            return new Square(position, Settings.WorldWallSize, texture);
+                            return new Pane(position, texture);
                         }
                     },
                     {
