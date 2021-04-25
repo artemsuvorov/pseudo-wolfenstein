@@ -1,4 +1,5 @@
 ﻿using PseudoWolfenstein.Core;
+using PseudoWolfenstein.Model;
 using PseudoWolfenstein.Utils;
 using System.Drawing;
 using System.Windows.Forms;
@@ -13,23 +14,20 @@ namespace PseudoWolfenstein.View
         private static readonly bool isDebugModeOnByDefault = false;
 #endif
 
-        private readonly Input input;
         private readonly Player player;
 
         private string DebugInfoMessage =>
             $"DEBUG SESSION INFO PseudoWolfenstein\r\n" +
-            $"FPS: {Time.FPS:0} deltaTime: {Time.DeltaTime}\r\n" +
+            $"FPS: {Time.FPS:0} deltaTime: {Time.DeltaTime:0.000000}\r\n" +
             $"Player Position: { player.Position }\r\n" +
-            $"Player Rotation: { player.Rotation.ToDegrees() }\r\n" +
-            $"Rel Mouse Position: { input.RelMousePosition }";
+            $"Player Rotation: { player.Rotation.ToDegrees() }";
 
         private readonly int lineCount;
 
         public bool IsDebugMode { get; private set; }
 
-        public DebugInfo(Input input, Player player)
+        public DebugInfo(Player player)
         {
-            this.input = input;
             this.player = player;
 
             lineCount = StringUtils.CountLines(DebugInfoMessage);
@@ -43,7 +41,7 @@ namespace PseudoWolfenstein.View
 
         public new void Update()
         {
-            if (input.IsKeyToggled(Keys.P))
+            if (Input.IsKeyToggled(Keys.P))
                 IsDebugMode = !isDebugModeOnByDefault;
             else
                 IsDebugMode = isDebugModeOnByDefault;

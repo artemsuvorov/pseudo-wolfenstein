@@ -1,4 +1,5 @@
 ﻿using PseudoWolfenstein.Core;
+using PseudoWolfenstein.Model;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -7,21 +8,19 @@ namespace PseudoWolfenstein.View
     public class MinimapForm : Form
     {
         private readonly Viewport viewport;
-        private readonly Input input;
         private readonly Scene scene;
 
         internal Gizmos Gizmos { get; private set; }
 
-        public MinimapForm(Viewport viewport, Input input, Scene scene)
+        public MinimapForm(Viewport viewport, Scene scene)
         {
             this.viewport = viewport;
-            this.input = input;
             this.scene = scene;
 
             DoubleBuffered = true;
-            Size = new Size(600, 400);
+            Size = new Size(1000, 800);
 
-            Gizmos = new Gizmos(this.viewport, this.input, this.scene.Player);
+            Gizmos = new Gizmos(this.viewport, this.scene.Player);
             Paint += Redraw;
             Paint += Gizmos.Redraw;
         }
@@ -44,6 +43,29 @@ namespace PseudoWolfenstein.View
             scene.Player.Draw(graphics);
             foreach (var shape in scene.Obstacles)
                 shape.Draw(graphics);
+
+            using var gizmosStrokePen1 = new Pen(Settings.GizmosStrokeColor1, 0.1f);
+            var player = scene.Player;
+            graphics.DrawLine(gizmosStrokePen1,
+                player.X, player.Y,
+                player.MotionDirection.X * 100 + player.X,
+                player.MotionDirection.Y * 100 + player.Y);
+
+            var raycast = new Raycast(scene).GetCrossingPointsAndDistances();
+            using var gizmosFillBrush = new SolidBrush(Settings.GizmosFillColor);
+
+            foreach (var entry in raycast)
+            foreach (var cross in entry)
+                if (cross is object)
+                graphics.FillEllipse(gizmosFillBrush, cross.Location.X - 5, cross.Location.Y - 5, 10, 10);
+
+            var rays = new[] { raycast[0].Ray, raycast[^1].Ray };
+            foreach (var ray in rays)
+            {
+                var start = new PointF(ray.Start.X, ray.Start.Y);
+                var end = new PointF(ray.End.X, ray.End.Y);
+                graphics.DrawLine(gizmosStrokePen1, start, end);
+            }
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using PseudoWolfenstein.Core;
+using PseudoWolfenstein.Model;
 using PseudoWolfenstein.Utils;
 using System.Drawing;
 using System.Linq;
@@ -17,19 +18,17 @@ namespace PseudoWolfenstein.View
         public static bool Enabled { get; private set; }
 
         private readonly Player player;
-        private readonly Input input;
         private readonly Viewport viewport;
 
-        public Gizmos(Viewport viewport, Input input, Player player)
+        public Gizmos(Viewport viewport, Player player)
         {
             this.viewport = viewport;
-            this.input = input;
             this.player = player;
         }
 
         public void Update()
         {
-            if (input.IsKeyToggled(Keys.F4))
+            if (Input.IsKeyToggled(Keys.F4))
                 Enabled = !isGizmosEnabledByDefault;
             else
                 Enabled = isGizmosEnabledByDefault;
@@ -43,7 +42,7 @@ namespace PseudoWolfenstein.View
             //DrawPlayerFoV(e.Graphics);
             //DrawVectors(e.Graphics);
             //DrawRays(e.Graphics);
-            DrawPostions(e.Graphics);
+            //DrawPostions(e.Graphics);
             //DrawCrossingPosition(e.Graphics);
         }
 
@@ -109,21 +108,21 @@ namespace PseudoWolfenstein.View
                 player.MotionDirection.Y*100 + viewport.ClientRectangle.Height/2 + player.Y);
         }
 
-        private void DrawPostions(Graphics graphics)
-        {
-            using var gizmosFillBrush = new SolidBrush(Settings.GizmosFillColor);
+        //private void DrawPostions(Graphics graphics)
+        //{
+        //    using var gizmosFillBrush = new SolidBrush(Settings.GizmosFillColor);
 
-            var centerPoint = viewport.Center;
-            var center = new System.Numerics.Vector2(centerPoint.X, centerPoint.Y);
+        //    var centerPoint = viewport.Center;
+        //    var center = new System.Numerics.Vector2(centerPoint.X, centerPoint.Y);
 
-            var relMousePos = input.RelMousePosition;
-            var target = new System.Numerics.Vector2(relMousePos.X, relMousePos.Y);
+        //    var relMousePos = input.RelMousePosition;
+        //    var target = new System.Numerics.Vector2(relMousePos.X, relMousePos.Y);
 
-            var t1 = (System.Numerics.Vector2.UnitX + center + player.Position);
-            var t2 = (target);
+        //    var t1 = (System.Numerics.Vector2.UnitX + center + player.Position);
+        //    var t2 = (target);
 
-            graphics.FillEllipse(gizmosFillBrush, t1.X - 5, t1.Y - 5, 10, 10);
-            graphics.FillEllipse(gizmosFillBrush, t2.X - 5, t2.Y - 5, 10, 10);
-        }
+        //    graphics.FillEllipse(gizmosFillBrush, t1.X - 5, t1.Y - 5, 10, 10);
+        //    graphics.FillEllipse(gizmosFillBrush, t2.X - 5, t2.Y - 5, 10, 10);
+        //}
     }
 }
