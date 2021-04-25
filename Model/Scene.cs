@@ -49,13 +49,16 @@ namespace PseudoWolfenstein.Model
                 "SSSSSSS\r\n";
 
             internal const string DebugSceneStr =
-                "SSSBSSSBBBBBS\r\n" +
-                "S     B     S\r\n" +
-                "S     B  C  S\r\n" +
-                "S  P        S\r\n" +
-                "S     B     S\r\n" +
-                "S     B     S\r\n" +
-                "SSSSSSSSSSSSS\r\n";
+                "SSSBSSSBBBBBBBS\r\n" +
+                "S     B       S\r\n" +
+                "S     B   C   S\r\n" +
+                "S     B       S\r\n" +
+                "S  P          S\r\n" +
+                "S     B       S\r\n" +
+                "S     B       S\r\n" +
+                "S     B    F  S\r\n" +
+                "S     B       S\r\n" +
+                "SSSSSSSSSSSSSSS\r\n";
 
             internal const string SingleBlockSceneStr =
                 "           \r\n" +

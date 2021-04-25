@@ -4,23 +4,27 @@ using PseudoWolfenstein.Utils;
 
 namespace PseudoWolfenstein.Model
 {
-    class Pane : Polygon
+    public class Pane : Polygon
     {
         private readonly Vector2 position;
 
-        public Pane(Vector2 position)
-            : base(position - new Vector2(Settings.WorldWallSize * 0.5f, 0f),
-                   position + new Vector2(Settings.WorldWallSize * 0.5f, 0f))
-        {
-            this.position = position;
-        }
-        public Pane(Vector2 position, Bitmap texture)
+        public Pane(Vector2 position, Image texture)
             : base(texture, 
                    position - new Vector2(Settings.WorldWallSize * 0.5f, 0f),
                    position + new Vector2(Settings.WorldWallSize * 0.5f, 0f))
         {
             this.position = position;
         }
+        public Pane(Vector2 position, Image texture, RectangleF srcRect)
+            : base(texture, srcRect,
+                   position - new Vector2(Settings.WorldWallSize * 0.5f, 0f),
+                   position + new Vector2(Settings.WorldWallSize * 0.5f, 0f))
+        {
+            this.position = position;
+        }
+        public Pane(Vector2 position)
+            : this(position, texture:default, srcRect:default)
+        { }
 
         public void UpdateTransform(Player player)
         {

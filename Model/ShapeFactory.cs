@@ -1,6 +1,7 @@
 ﻿using PseudoWolfenstein.Core;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Numerics;
 
 namespace PseudoWolfenstein.Model
@@ -30,6 +31,13 @@ namespace PseudoWolfenstein.Model
                     var position = new Vector2((x+0.5f)*Settings.WorldWallSize, (y+0.5f)*Settings.WorldWallSize);
                     var texture = Repository.Textures.GreyColmun;
                     return new Pane(position, texture);
+                },
+                ['F'] = (x, y) =>
+                {
+                    var position = new Vector2((x+0.5f)*Settings.WorldWallSize, (y+0.5f)*Settings.WorldWallSize);
+                    var texture = Repository.Textures.FritzTileSet;
+                    var srcRect = new RectangleF(0, 0, 128, 128);
+                    return new Enemy(position, texture, srcRect);
                 },
                 ['P'] = (x, y) =>
                 { 

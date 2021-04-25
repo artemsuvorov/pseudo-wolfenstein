@@ -29,6 +29,8 @@ namespace PseudoWolfenstein.Core
 
             public Bitmap WeaponsTileSet { get; private set; }
 
+            public Bitmap FritzTileSet { get; private set; }
+
             private readonly ISet<Bitmap> textures = new HashSet<Bitmap>(TextureRepoCapactity);
 
             public TextureRepository()
@@ -38,6 +40,8 @@ namespace PseudoWolfenstein.Core
                 GreyColmun = LoadTexture("GreyColumn.bmp", texture => texture.GetPixel(0,0));
 
                 WeaponsTileSet = LoadTexture("weapons.png", texture => texture.GetPixel(0, 0));
+
+                FritzTileSet = LoadTexture("fritz.png", texture => texture.GetPixel(0, 0));
             }
 
             private Bitmap LoadTexture(string textureName)

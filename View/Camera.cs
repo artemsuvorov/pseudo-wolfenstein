@@ -52,17 +52,18 @@ namespace PseudoWolfenstein.View
             var texture = raycastData[i].CrossedObstacle.Texture;
             var crossingPoint = raycastData[i].CrossingPoint;
             var crossedSide = raycastData[i].CrossedSide;
+            var rect = raycastData[i].CrossedObstacle.SpriteRectangle;
 
             var wallX = crossedSide == SideDirection.Vertical ? crossingPoint.Y : crossingPoint.X;
             wallX /= Settings.WorldWallSize;
             var frqX = wallX - MathF.Floor(wallX);
             var d = ceiling * 32f - viewport.Height * 16f + wallHeight * 16f;
-            var texX = frqX * texture.Width;
-            var texY = d * texture.Height / wallHeight / 32f;
+            var texX = frqX * rect.Width;
+            var texY = d * rect.Height / wallHeight / 32f;
 
-            var destRect = new RectangleF(i * sliceWidth, ceiling, sliceWidth, wallHeight);
-            var sourceRect = new RectangleF(texX, texY, 1f, texture.Height);
-            graphics.DrawImage(texture, destRect, sourceRect, GraphicsUnit.Pixel);
+            var dstRect = new RectangleF(i * sliceWidth, ceiling, sliceWidth, wallHeight);
+            var srcRect = new RectangleF(texX, texY, 1f, rect.Height-1);
+            graphics.DrawImage(texture, dstRect, srcRect, GraphicsUnit.Pixel);
         }
 
         //public void DrawView2(Graphics graphics)
