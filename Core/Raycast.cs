@@ -140,7 +140,7 @@ namespace PseudoWolfenstein.Core
             }
 
             crossData.Sort((cross, other) => other.Distance.CompareTo(cross.Distance));
-            return new RaycastDataEntry(ray, crossData.TakeLast(3).ToArray());
+            return new RaycastDataEntry(ray, crossData.TakeLast(Settings.DrawLayers).ToArray());
         }
 
         public Vector2 GetMinDistanceCrossingPoint(Ray ray, IEnumerable<Polygon> polygons, 
