@@ -28,10 +28,7 @@ namespace PseudoWolfenstein.View
             var sliceCount = raycastData.Count;
             var sliceWidth = viewport.Width / (float)sliceCount;
             for (var i = 0; i < sliceCount; i++)
-            {
-                foreach (var crossData in raycastData[i])
-                    DrawCrossingPoint(graphics, crossData, i, sliceWidth);
-            }
+                DrawCrossingPoints(graphics, raycastData, i, sliceWidth);
 
             graphics.ResetTransform();
         }
@@ -42,21 +39,40 @@ namespace PseudoWolfenstein.View
             graphics.FillRectangle(backgroundBrush, viewport.ClientRectangle);
         }
 
-        private void DrawCrossingPoint(Graphics graphics, Cross crossData, int i, float sliceWidth)
+        private float CalculateCeiling(float totalDistance)
         {
-            if (crossData is null) return;
-
-            var totalDistance = crossData.Distance;
             var dst = totalDistance * Settings.RaycastProjectionCoeff / Settings.WorldWallSize;
             var ceiling = 0.5f * viewport.Height - Player.FieldOfView * viewport.Height / dst;
-            var wallHeight = viewport.Height - 2.0f * ceiling;
-            if (wallHeight.IsEqual(0.0f)) return;
-
-            DrawSlice(graphics, crossData, i, sliceWidth, ceiling, wallHeight);
+            return ceiling;
         }
 
-        private void DrawSlice(Graphics graphics, Cross crossData, int i, float sliceWidth, float ceiling, float wallHeight)
+        private float CalculateWallHeight(float ceiling)
         {
+            return viewport.Height - 2.0f * ceiling;
+        }
+
+        private void DrawCrossingPoints(Graphics graphics, RaycastData raycastData, int i, float sliceWidth)
+        {
+            if (raycastData[i] is null || raycastData[i].Count <= 0) 
+                return;
+            if (raycastData[i][^1].CrossedObstacle is Wall)
+            {
+                DrawSlice(graphics, raycastData[i][^1], i, sliceWidth);
+                return;
+            }
+            foreach (var crossData in raycastData[i])
+            {
+                if (crossData is null) return;
+                DrawSlice(graphics, crossData, i, sliceWidth);
+            }
+        }
+
+        private void DrawSlice(Graphics graphics, Cross crossData, int i, float sliceWidth)
+        {
+            var ceiling = CalculateCeiling(crossData.Distance);
+            var wallHeight = CalculateWallHeight(ceiling);
+            if (wallHeight.IsEqual(0.0f)) return;
+
             var texture = crossData.CrossedObstacle.Texture;
             var crossingPoint = crossData.Location;
             var crossedSide = crossData.CrossedSide;
