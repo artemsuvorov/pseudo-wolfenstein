@@ -14,11 +14,12 @@ namespace PseudoWolfenstein.Model
         {
             this.position = position;
         }
-
         public Pane(Vector2 position, Bitmap texture)
-            : this(position)
+            : base(texture, 
+                   position - new Vector2(Settings.WorldWallSize * 0.5f, 0f),
+                   position + new Vector2(Settings.WorldWallSize * 0.5f, 0f))
         {
-            Texture = texture;
+            this.position = position;
         }
 
         public void UpdateTransform(Player player)

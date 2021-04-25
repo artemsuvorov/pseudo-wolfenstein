@@ -8,7 +8,8 @@ namespace PseudoWolfenstein.Model
         public float X { get; set; }
         public float Y { get; set; }
 
-        public Bitmap Texture { get; protected set; }
+        public Image Texture { get; private set; }
+        public RectangleF SpriteRectangle { get; private set; }
 
         public Vector2 Position
         {
@@ -24,31 +25,20 @@ namespace PseudoWolfenstein.Model
         }
 
         public Shape() 
-            : this(x:default, y:default) 
+            : this(position:default, texture:default, srcRect:default) 
         { }
-        public Shape(float x, float y)
-        {
-            X = x; Y = y;
-        }
-        public Shape(Vector2 position)
+        public Shape(Vector2 position, Image texture, RectangleF srcRect)
         {
             Position = position;
-        }
-        public Shape(float x, float y, Bitmap texture)
-            : this(x, y)
-        {
             Texture = texture;
+            SpriteRectangle = srcRect;
         }
-        public Shape(Vector2 position, Bitmap texture)
-            : this(position)
-        {
-            Texture = texture;
-        }
-
-        //~Shape()
-        //{
-        //    Texture.Dispose();
-        //}
+        public Shape(Vector2 position)
+            : this(position, default, default)
+        { }
+        public Shape(Vector2 position, Image texture)
+            : this(position, texture, new RectangleF(0, 0, texture.Width, texture.Height))
+        { }
 
         public abstract void Draw(Graphics graphics);
     }

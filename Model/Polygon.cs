@@ -8,17 +8,19 @@ namespace PseudoWolfenstein.Model
     {
         public Vector2[] Vertices { get; protected set; }
 
-        public Polygon(params Vector2[] vertices)
-            : base(position: vertices[0])
+        public Polygon(Image texture, RectangleF srcRect, params Vector2[] vertices)
+            : base(position: vertices[0], texture, srcRect)
         {
             Vertices = vertices;
         }
-
-        public Polygon(Bitmap texture, params Vector2[] vertices)
-            : this(vertices)
+        public Polygon(Image texture, params Vector2[] vertices)
+            : base(position: vertices[0], texture)
         {
-            Texture = texture;
+            Vertices = vertices;
         }
+        public Polygon(params Vector2[] vertices)
+            : this(texture:default, srcRect:default, vertices)
+        { }
 
         public override void Draw(Graphics graphics)
         {
