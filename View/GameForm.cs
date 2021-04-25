@@ -34,7 +34,7 @@ namespace PseudoWolfenstein.View
         {
             InitializeComponent();
             viewport = new Viewport(this);
-            UserInterface = new UserInterface(scene.Player);
+            UserInterface = new UserInterface(scene.Player, viewport);
             camera = new Camera(viewport, scene);
             Controls.Add(UserInterface);
             MinimumSize = new Size(Viewport.DefaultWidth, Viewport.DefaultHeight);

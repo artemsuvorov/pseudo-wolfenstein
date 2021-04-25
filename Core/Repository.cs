@@ -27,6 +27,8 @@ namespace PseudoWolfenstein.Core
             public Bitmap BlueWall { get; private set; }
             public Bitmap GreyColmun { get; private set; }
 
+            public Bitmap WeaponsTileSet { get; private set; }
+
             private readonly ISet<Bitmap> textures = new HashSet<Bitmap>(TextureRepoCapactity);
 
             public TextureRepository()
@@ -34,6 +36,8 @@ namespace PseudoWolfenstein.Core
                 StoneWall = LoadTexture("WALL0.bmp");
                 BlueWall = LoadTexture("WALL14.bmp");
                 GreyColmun = LoadTexture("GreyColumn.bmp", texture => texture.GetPixel(0,0));
+
+                WeaponsTileSet = LoadTexture("weapons.png", texture => texture.GetPixel(0, 0));
             }
 
             private Bitmap LoadTexture(string textureName)
