@@ -53,7 +53,7 @@ namespace PseudoWolfenstein.Model
                 "S     B       S\r\n" +
                 "S     B   C   S\r\n" +
                 "S     B       S\r\n" +
-                "S  P          S\r\n" +
+                "S  P       O  S\r\n" +
                 "S     B       S\r\n" +
                 "S     B       S\r\n" +
                 "S     B    F  S\r\n" +
@@ -61,15 +61,47 @@ namespace PseudoWolfenstein.Model
                 "SSSSSSSSSSSSSSS\r\n";
 
             internal const string SingleBlockSceneStr =
-                "           \r\n" +
-                "           \r\n" +
-                "    C      \r\n" +
-                "           \r\n" +
-                "           \r\n" +
-                "    P      \r\n" +
-                "           \r\n" +
-                "           \r\n" +
-                "           \r\n";
+                "            \r\n" +
+                "            \r\n" +
+                "      C     \r\n" +
+                "            \r\n" +
+                "            \r\n" +
+                "     P      \r\n" +
+                "            \r\n" +
+                "            \r\n" +
+                "            \r\n";
+
+            internal const string Level_1 =
+                "                             OOOOOOOOOOOOOOOOOOOOOOO               \r\n" +
+                "   SSSSSSSS                 O           O           O              \r\n" +
+                "  S        S                O OOOO OOOO O OOOOO OOOO               \r\n" +
+                "  S        S                 O S     S     S        S              \r\n" +
+                "  S SSSSSSS                    S     S     SSSSSSSSSS              \r\n" +
+                "  S S                  SSSSSSSSSSS SSS     S        S              \r\n" +
+                "  S S                 S              S     S        S              \r\n" +
+                "  S S                 S              S              S              \r\n" +
+                "  S S                 S              S     S        S              \r\n" +
+                "  S S                 S              S     SSSS SSSS               \r\n" +
+                "  S S                 S              S     S       S               \r\n" +
+                "  S S                 S              SBB BBS       S               \r\n" +
+                "  B BB               B                B   B         B              \r\n" +
+                " B    BBBBBBBBBBBBBBBB                B   B         B              \r\n" +
+                " B                                    B   B         B              \r\n" +
+                " B    BBBBBBBBBBBBBBBB                B   B         B              \r\n" +
+                "  B BB               B                B   B         B              \r\n" +
+                "  B B                 BBBBBBBBBBBBBBBBB   BBBBBBBBBBBBB            \r\n" +
+                "  B B                    B        B           B        B           \r\n" +
+                "  B B                    B                             B           \r\n" +
+                "  B B                    B        B           B        B           \r\n" +
+                "  B BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB           BBBBBBBBB            \r\n" +
+                "  B                      B        B           B        B           \r\n" +
+                "  B                      B  P                          B           \r\n" +
+                "  B                      B        B           B        B           \r\n" +
+                "  B                      BBBBBBBBBB           BBBBBBBBB            \r\n" +
+                "  B                      B                             B           \r\n" +
+                "  B                      B                             B           \r\n" +
+                "  B                      B                             B           \r\n" +
+                "   BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB            \r\n";
 
             public Scene Default => FromString(DefaultSceneStr);
             public Scene SingleBlockScene => FromString(SingleBlockSceneStr);
