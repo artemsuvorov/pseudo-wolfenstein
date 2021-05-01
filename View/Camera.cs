@@ -1,6 +1,5 @@
 ﻿using PseudoWolfenstein.Core;
 using PseudoWolfenstein.Model;
-using PseudoWolfenstein.Utils;
 using System;
 using System.Drawing;
 using System.Drawing.Drawing2D;
@@ -10,11 +9,13 @@ namespace PseudoWolfenstein.View
     public class Camera
     {
         private readonly Viewport viewport;
+        private readonly Scene scene;
         private readonly Raycast raycast;
 
         public Camera(Viewport viewport, Scene scene)
         {
             this.viewport = viewport;
+            this.scene = scene;
             this.raycast = new Raycast(scene);
         }
 
@@ -24,16 +25,22 @@ namespace PseudoWolfenstein.View
             ClearViewport(graphics);
             graphics.TranslateTransform(viewport.X, viewport.Y);
 
-            var raycastData = raycast.GetCrossingPointsAndDistances();
+            var raycastData = raycast.CastRaysAt(scene.Obstacles);
+            DrawObstacles(graphics, raycastData);
+
+            graphics.ResetTransform();
+            graphics.InterpolationMode = InterpolationMode.Bilinear;
+        }
+
+        private void DrawObstacles(Graphics graphics, RaycastData raycastData)
+        {
             if (raycastData is null || raycastData.Count <= 0) return;
 
             var sliceCount = raycastData.Count;
             var sliceWidth = viewport.Width / (float)sliceCount;
+
             for (var i = 0; i < sliceCount; i++)
                 DrawCrossingPoints(graphics, raycastData, i, sliceWidth);
-
-            graphics.ResetTransform();
-            graphics.InterpolationMode = InterpolationMode.Bilinear;
         }
 
         private void ClearViewport(Graphics graphics)
@@ -56,7 +63,7 @@ namespace PseudoWolfenstein.View
 
         private void DrawCrossingPoints(Graphics graphics, RaycastData raycastData, int i, float sliceWidth)
         {
-            if (raycastData[i] is null || raycastData[i].Count <= 0) 
+            if (raycastData[i] is null || raycastData[i].Count <= 0)
                 return;
             if (raycastData[i][^1].CrossedObstacle is Wall)
             {
@@ -74,25 +81,24 @@ namespace PseudoWolfenstein.View
 
         private void DrawSlice(Graphics graphics, Cross crossData, int i, float sliceWidth)
         {
+            if (!crossData.Exists) return;
             var ceiling = CalculateCeiling(crossData.Distance);
             var wallHeight = CalculateWallHeight(ceiling);
-            if (wallHeight.IsEqual(0.0f)) return;
 
             var texture = crossData.CrossedObstacle.Texture;
             var crossingPoint = crossData.Location;
             var crossedSide = crossData.CrossedSide;
-            var rect = crossData.CrossedObstacle.SpriteRectangle;
 
             var wallX = crossedSide == SideDirection.Vertical ? crossingPoint.Y : crossingPoint.X;
             wallX /= Settings.WorldWallSize;
             var frqX = wallX - MathF.Floor(wallX);
             var d = ceiling * 32f - viewport.Height * 16f + wallHeight * 16f;
-            var texX = frqX * rect.Width;
-            var texY = d * rect.Height / wallHeight / 32f;
+            var texX = frqX * texture.Width;
+            var texY = d * texture.Height / wallHeight / 32f;
 
-            var dstRect = new RectangleF(i * sliceWidth, ceiling, sliceWidth, wallHeight);
-            var srcRect = new RectangleF(texX, texY, 1f, rect.Height-1);
-            graphics.DrawImage(texture, dstRect, srcRect, GraphicsUnit.Pixel);
+            var destRect = new RectangleF(i * sliceWidth, ceiling, sliceWidth, wallHeight);
+            var sourceRect = new RectangleF(texX, texY, 1f, texture.Height);
+            graphics.DrawImage(texture, destRect, sourceRect, GraphicsUnit.Pixel);
         }
 
         //public void DrawView2(Graphics graphics)
