@@ -3,6 +3,7 @@ using PseudoWolfenstein.Model;
 using PseudoWolfenstein.Utils;
 using System;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 
 namespace PseudoWolfenstein.View
 {
@@ -19,6 +20,7 @@ namespace PseudoWolfenstein.View
 
         public void DrawView(Graphics graphics)
         {
+            graphics.InterpolationMode = InterpolationMode.NearestNeighbor;
             ClearViewport(graphics);
             graphics.TranslateTransform(viewport.X, viewport.Y);
 
@@ -31,6 +33,7 @@ namespace PseudoWolfenstein.View
                 DrawCrossingPoints(graphics, raycastData, i, sliceWidth);
 
             graphics.ResetTransform();
+            graphics.InterpolationMode = InterpolationMode.Bilinear;
         }
 
         private void ClearViewport(Graphics graphics)
@@ -57,7 +60,9 @@ namespace PseudoWolfenstein.View
                 return;
             if (raycastData[i][^1].CrossedObstacle is Wall)
             {
+                graphics.CompositingMode = CompositingMode.SourceCopy;
                 DrawSlice(graphics, raycastData[i][^1], i, sliceWidth);
+                graphics.CompositingMode = CompositingMode.SourceOver;
                 return;
             }
             foreach (var crossData in raycastData[i])
