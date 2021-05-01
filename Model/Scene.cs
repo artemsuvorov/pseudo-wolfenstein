@@ -13,7 +13,7 @@ namespace PseudoWolfenstein.Model
 
         public Player Player { get; private set; }
 
-        public IEnumerable<Polygon> Obstacles => Walls.Concat(Panes);
+        public IReadOnlyCollection<Polygon> Obstacles { get; private set; }
         public IReadOnlyCollection<Polygon> Walls { get; private set; }
         public IReadOnlyCollection<Polygon> Panes { get; private set; }
 
@@ -24,10 +24,10 @@ namespace PseudoWolfenstein.Model
             Player = player;
             Walls = walls;
             Panes = panes;
+            Obstacles = Walls.Concat(Panes).ToList();
             Width = width;
             Height = height;
         }
-
 
         public void Update()
         {

@@ -17,6 +17,7 @@ namespace PseudoWolfenstein.Core
 
     public class Cross
     {
+        public bool Exists { get; private set; }
         public Vector2 Location { get; private set; }
         public float Distance { get; private set; }
         public Polygon CrossedObstacle { get; private set; }
@@ -24,6 +25,7 @@ namespace PseudoWolfenstein.Core
 
         public Cross(Vector2 location, float distance, Polygon crossedObstacle, SideDirection crossedSide)
         {
+            Exists = !distance.IsEqual(0.0f);
             Location = location;
             Distance = distance;
             CrossedObstacle = crossedObstacle;
@@ -98,7 +100,7 @@ namespace PseudoWolfenstein.Core
             this.player = this.scene.Player;
         }
 
-        public RaycastData GetCrossingPointsAndDistances()
+        public RaycastData CastRaysAt(IEnumerable<Polygon> obstacles)
         {
             var length = Settings.RaycastRayCount;
             var entries = new RaycastDataEntry[length];
@@ -107,24 +109,24 @@ namespace PseudoWolfenstein.Core
             {
                 var angle = index * Settings.RaycastRayDensity;
                 var ray = new Ray(player.Position, angle.ToRadians() - player.Rotation - Player.FieldOfView / 2f);
-                entries[index] = GetCrossingPoints(ray, scene.Obstacles);
+                entries[index] = GetCrossingPoints(ray, obstacles);
             }
 
             return new RaycastData(entries);
         }
 
-        public RaycastDataEntry GetCrossingPoints(Ray ray, IEnumerable<Polygon> polygons)
+        public RaycastDataEntry GetCrossingPoints(Ray ray, IEnumerable<Polygon> obstacles)
         {
             const int MaxEntryCapacity = 12;
             var crossData = new List<Cross>(MaxEntryCapacity);
 
-            foreach (Polygon polygon in polygons)
+            foreach (Polygon polygon in obstacles)
             {
-                for (var index = 1; index < polygon.Vertices.Length+1; index++)
+                for (var index = 1; index < polygon.Vertices.Length + 1; index++)
                 {
                     //if (crossDataIndex >= MaxEntryCapacity) break;
 
-                    Vector2 vertex1 = polygon.Vertices[index-1],
+                    Vector2 vertex1 = polygon.Vertices[index - 1],
                             vertex2 = polygon.Vertices[index % polygon.Vertices.Length],
                             edge = vertex2 - vertex1;
 
@@ -133,17 +135,17 @@ namespace PseudoWolfenstein.Core
 
                     var isCrossing = ray.IsCrossing(vertex1, vertex2, out Vector2 crossLocation);
                     if (!isCrossing) continue;
-                    
+
                     var distance = (crossLocation - player.Position).Length();
                     crossData.Add(new Cross(crossLocation, distance, polygon, sideDir));
                 }
             }
 
             crossData.Sort((cross, other) => other.Distance.CompareTo(cross.Distance));
-            return new RaycastDataEntry(ray, crossData.TakeLast(Settings.DrawLayers).ToArray());
+            return new RaycastDataEntry(ray, crossData.TakeLast(5).ToArray());
         }
 
-        public Vector2 GetMinDistanceCrossingPoint(Ray ray, IEnumerable<Polygon> polygons, 
+        public Vector2 GetMinDistanceCrossingPoint(Ray ray, IEnumerable<Polygon> polygons,
             out float minDistance, out Polygon crossedObstacle, out SideDirection crossedSide)
         {
             Vector2 minDistanceCrossingPoint = default;
@@ -153,9 +155,9 @@ namespace PseudoWolfenstein.Core
 
             foreach (Polygon polygon in polygons)
             {
-                for (var index = 1; index < polygon.Vertices.Length+1; index++)
+                for (var index = 1; index < polygon.Vertices.Length + 1; index++)
                 {
-                    Vector2 vertex1 = polygon.Vertices[index-1], 
+                    Vector2 vertex1 = polygon.Vertices[index - 1],
                             vertex2 = polygon.Vertices[index % polygon.Vertices.Length],
                             edge = vertex2 - vertex1;
 
@@ -163,7 +165,7 @@ namespace PseudoWolfenstein.Core
                         SideDirection.Vertical : SideDirection.Horizontal;
 
                     var isCrossing = ray.IsCrossing(vertex1, vertex2, out Vector2 crossingPoint);
-                    var distance = (crossingPoint-player.Position).Length();
+                    var distance = (crossingPoint - player.Position).Length();
 
                     if (isCrossing && distance < minDistance)
                     {
