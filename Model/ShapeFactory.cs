@@ -41,7 +41,8 @@ namespace PseudoWolfenstein.Model
                 },
                 ['P'] = (x, y) =>
                 { 
-                    var position = new Vector2(x * Settings.WorldWallSize, y * Settings.WorldWallSize);
+                    var position = new Vector2(x * Settings.WorldWallSize + Settings.WorldWallSize / 2f,
+                         y * Settings.WorldWallSize + Settings.WorldWallSize / 2f);
                     return new Player('P', position);
                 },
                 ['W'] = (x, y) =>
