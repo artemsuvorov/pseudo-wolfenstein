@@ -9,6 +9,7 @@ namespace PseudoWolfenstein.View
     {
         private readonly Viewport viewport;
         private readonly Scene scene;
+        private readonly Player player;
 
         internal Gizmos Gizmos { get; private set; }
 
@@ -16,6 +17,7 @@ namespace PseudoWolfenstein.View
         {
             this.viewport = viewport;
             this.scene = scene;
+            this.player = scene.Player;
 
             DoubleBuffered = true;
             Size = new Size(1000, 800);
@@ -32,32 +34,31 @@ namespace PseudoWolfenstein.View
 
             e.Graphics.FillRectangle(backgroundBrush, e.ClipRectangle);
 
-            var center = viewport.Center;
-            e.Graphics.TranslateTransform(center.X, center.Y);
+            e.Graphics.TranslateTransform(viewport.Center.X, viewport.Center.Y);
+            e.Graphics.TranslateTransform(-player.X, -player.Y);
             DrawGameObjects(e.Graphics);
-            e.Graphics.TranslateTransform(-center.X, -center.Y);
+            e.Graphics.ResetTransform();
         }
 
         private void DrawGameObjects(Graphics graphics)
         {
-            scene.Player.Draw(graphics);
+            player.Draw(graphics);
             foreach (var shape in scene.Obstacles)
                 shape.Draw(graphics);
 
             using var gizmosStrokePen1 = new Pen(Settings.GizmosStrokeColor1, 0.1f);
-            var player = scene.Player;
             graphics.DrawLine(gizmosStrokePen1,
                 player.X, player.Y,
                 player.MotionDirection.X * 100 + player.X,
                 player.MotionDirection.Y * 100 + player.Y);
 
-            var raycast = new Raycast(scene).GetCrossingPointsAndDistances();
+            var raycast = new Raycast(scene).CastRaysAt(scene.Obstacles);
             using var gizmosFillBrush = new SolidBrush(Settings.GizmosFillColor);
 
             foreach (var entry in raycast)
-            foreach (var cross in entry)
-                if (cross is object)
-                graphics.FillEllipse(gizmosFillBrush, cross.Location.X - 5, cross.Location.Y - 5, 10, 10);
+                foreach (var cross in entry)
+                    if (cross is object)
+                        graphics.FillEllipse(gizmosFillBrush, cross.Location.X - 5, cross.Location.Y - 5, 10, 10);
 
             var rays = new[] { raycast[0].Ray, raycast[^1].Ray };
             foreach (var ray in rays)

@@ -22,7 +22,7 @@ namespace PseudoWolfenstein.Model
 
         public int SelectedWeapon = 0;
 
-        public Player(Vector2 position) : base(position) { }
+        public Player(char name, Vector2 position) : base(name, position) { }
 
         public void Update(Scene scene)
         {

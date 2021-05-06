@@ -8,22 +8,22 @@ namespace PseudoWolfenstein.Model
     {
         private readonly Vector2 position;
 
-        public Pane(Vector2 position, Image texture)
-            : base(texture, 
+        public Pane(char name, Vector2 position, Image texture)
+            : base(name, texture, 
                    position - new Vector2(Settings.WorldWallSize * 0.5f, 0f),
                    position + new Vector2(Settings.WorldWallSize * 0.5f, 0f))
         {
             this.position = position;
         }
-        public Pane(Vector2 position, Image texture, RectangleF srcRect)
-            : base(texture, srcRect,
+        public Pane(char name, Vector2 position, Image texture, RectangleF srcRect)
+            : base(name, texture, srcRect,
                    position - new Vector2(Settings.WorldWallSize * 0.5f, 0f),
                    position + new Vector2(Settings.WorldWallSize * 0.5f, 0f))
         {
             this.position = position;
         }
-        public Pane(Vector2 position)
-            : this(position, texture:default, srcRect:default)
+        public Pane(char name, Vector2 position)
+            : this(name, position, texture:default, srcRect:default)
         { }
 
         public void UpdateTransform(Player player)
