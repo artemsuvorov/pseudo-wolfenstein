@@ -17,6 +17,7 @@ namespace PseudoWolfenstein.View
             Location = viewport.Location;
             Size = viewport.Size;
             DoubleBuffered = true;
+            Anchor = AnchorStyles.None;
 
             this.userInterface = userInterface;
             this.debugInfo = debugInfo;
