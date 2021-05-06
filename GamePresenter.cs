@@ -18,7 +18,7 @@ namespace PseudoWolfenstein
 
         public GamePresenter(Scene scene, IGameForm gameForm)
         {
-            timer = new Timer { Interval = 16 };
+            timer = new Timer { Interval = 35 };
             timer.Tick += Update;
             timer.Tick += Time.OnGlobalTick;
 

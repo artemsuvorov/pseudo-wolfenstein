@@ -44,12 +44,79 @@ namespace PseudoWolfenstein.Model
                     var position = new Vector2(x * Settings.WorldWallSize, y * Settings.WorldWallSize);
                     return new Player(position);
                 },
-                ['O'] = (x, y) =>
+                ['W'] = (x, y) =>
                 {
                     var position = new Vector2(x * Settings.WorldWallSize, y * Settings.WorldWallSize);
-                    var texture = Repository.Textures.Wood_Dark;
+                    var texture = Repository.Textures.Wood;
                     return new Wall(position, Settings.WorldWallSize, texture);
+                },
+                ['J'] = (x, y) =>
+                {
+                    var position = new Vector2(x * Settings.WorldWallSize, y * Settings.WorldWallSize);
+                    var texture = Repository.Textures.Jail;
+                    return new Wall(position, Settings.WorldWallSize, texture);
+                },
+                ['R'] = (x, y) =>
+                {
+                    var position = new Vector2(x * Settings.WorldWallSize, y * Settings.WorldWallSize);
+                    var texture = Repository.Textures.RedWall;
+                    return new Wall(position, Settings.WorldWallSize, texture);
+                },
+                ['H'] = (x, y) =>
+                {
+                    var position = new Vector2((x + 0.5f) * Settings.WorldWallSize, (y + 0.5f) * Settings.WorldWallSize);
+                    var texture = Repository.Textures.Heal;
+                    return new Pane(position, texture);
+                },
+                ['M'] = (x, y) =>
+                {
+                    var position = new Vector2((x + 0.5f) * Settings.WorldWallSize, (y + 0.5f) * Settings.WorldWallSize);
+                    var texture = Repository.Textures.Meal;
+                    return new Pane(position, texture);
+                },
+                ['A'] = (x, y) =>
+                {
+                    var position = new Vector2((x + 0.5f) * Settings.WorldWallSize, (y + 0.5f) * Settings.WorldWallSize);
+                    var texture = Repository.Textures.Ammo;
+                    return new Pane(position, texture);
+                },
+                ['O'] = (x, y) =>
+                {
+                    var position = new Vector2((x + 0.5f) * Settings.WorldWallSize, (y + 0.5f) * Settings.WorldWallSize);
+                    var texture = Repository.Textures.Oddments;
+                    return new Pane(position, texture);
+                },
+                ['G'] = (x, y) =>
+                {
+                    var position = new Vector2((x + 0.5f) * Settings.WorldWallSize, (y + 0.5f) * Settings.WorldWallSize);
+                    var texture = Repository.Textures.Goods;
+                    return new Pane(position, texture);
+                },
+                ['U'] = (x, y) =>
+                {
+                    var position = new Vector2((x + 0.5f) * Settings.WorldWallSize, (y + 0.5f) * Settings.WorldWallSize);
+                    var texture = Repository.Textures.Unlocker;
+                    return new Pane(position, texture);
+                },
+                ['N'] = (x, y) =>
+                {
+                    var position = new Vector2((x + 0.5f) * Settings.WorldWallSize, (y + 0.5f) * Settings.WorldWallSize);
+                    var texture = Repository.Textures.NewLevel;
+                    return new Pane(position, texture);
+                },
+                ['X'] = (x, y) =>
+                {
+                    var position = new Vector2((x + 0.5f) * Settings.WorldWallSize, (y + 0.5f) * Settings.WorldWallSize);
+                    var texture = Repository.Textures.WC;
+                    return new Pane(position, texture);
+                },
+                ['I'] = (x, y) =>
+                {
+                    var position = new Vector2((x + 0.5f) * Settings.WorldWallSize, (y + 0.5f) * Settings.WorldWallSize);
+                    var texture = Repository.Textures.ImageWet;
+                    return new Pane(position, texture);
                 }
+
             };
         }
 
