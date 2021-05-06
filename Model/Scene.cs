@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace PseudoWolfenstein.Model
 {
-    public class Scene
+    public partial class Scene
     {
         private static SceneBuilder builder;
 
@@ -47,6 +47,11 @@ namespace PseudoWolfenstein.Model
                 "S     S\r\n" +
                 "S     S\r\n" +
                 "SSSSSSS\r\n";
+
+            internal const string Temp =
+                "BBB\r\n" +
+                "BBB\r\n" +
+                "  P\r\n";
 
             internal const string DebugSceneStr =
                 "SSSBSSSBBBBBBBS\r\n" +
@@ -112,22 +117,42 @@ namespace PseudoWolfenstein.Model
                 var height = lines.Length;
                 var width = lines[0].Length;
 
-                var shapes = ParseShapes(lines);
-                var walls = shapes.Where(shape => shape is Wall).Cast<Polygon>().ToArray();
-                var panes = shapes.Where(shape => shape is Pane).Cast<Polygon>().ToArray();
+                var shapes = ParseShapes(width, height, lines).Cast<Shape>();
+                var walls = shapes.Where(shape => shape is Wall).Cast<Polygon>().ToList();
+                var panes = shapes.Where(shape => shape is Pane).Cast<Polygon>().ToList();
                 var player = (Player)shapes.First(shape => shape is Player);
+                //var merger = new ShapeUnifier(shapes);
+                //var isles = merger.GetAdjecentShapeIsles();
+                //var borders = isles
+                //    .Select(isle => PolygonMerger.GetShapesCommonBorderOrDefault(isle.Item2))
+                //    .Where(border => border is object)
+                //    .ToList();
+
+                //var player = (Player)isles.First(isle => isle.Item1 == 'P').Item2.First();
+                //var walls = borders.Select(border =>
+                //{
+                //    var p = new Polygon('B', border)
+                //    {
+                //        Texture = Core.Repository.Textures.BlueWall
+                //    };
+                //    return p;
+                //}).ToArray();
+                //var panes = shapes.Cast<Shape>().Where(shape => shape is Pane).Cast<Polygon>().ToArray();
                 return new Scene(player, walls, panes, width, height);
             }
 
-            private IEnumerable<Shape> ParseShapes(string[] lines)
+            private Shape[,] ParseShapes(int width, int height, string[] lines)
             {
-                for (var y = 0; y < lines.Length; y++)
-                    for (var x = 0; x < lines[y].Length; x++)
+                var shapes = new Shape[width, height];
+
+                for (var y = 0; y < height; y++)
+                    for (var x = 0; x < width; x++)
                     {
                         var c = lines[y][x];
-                        var shape = ShapeFactory.InstantiateShapeAtOrDefault(x, y, c);
-                        if (shape is object) yield return shape;
+                        shapes[x, y] = ShapeFactory.InstantiateShapeAtOrDefault(x, y, c);
                     }
+
+                return shapes;
             }
         }
     }

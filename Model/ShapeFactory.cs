@@ -18,37 +18,37 @@ namespace PseudoWolfenstein.Model
                 {
                     var position = new Vector2(x * Settings.WorldWallSize, y * Settings.WorldWallSize);
                     var texture = Repository.Textures.StoneWall;
-                    return new Wall(position, Settings.WorldWallSize, texture);
+                    return new Wall('S', position, Settings.WorldWallSize, texture);
                 },
                 ['B'] = (x, y) => 
                 {
                     var position = new Vector2(x * Settings.WorldWallSize, y * Settings.WorldWallSize);
                     var texture = Repository.Textures.BlueWall;
-                    return new Wall(position, Settings.WorldWallSize, texture);
+                    return new Wall('B', position, Settings.WorldWallSize, texture);
                 },
                 ['C'] = (x, y) =>
                 {
                     var position = new Vector2((x + 0.5f) * Settings.WorldWallSize, (y + 0.5f) * Settings.WorldWallSize);
                     var texture = Repository.Textures.GreyColmun;
-                    return new Pane(position, texture);
+                    return new Pane('C', position, texture);
                 },
                 ['F'] = (x, y) =>
                 {
                     var position = new Vector2((x+0.5f)*Settings.WorldWallSize, (y+0.5f)*Settings.WorldWallSize);
                     var texture = Repository.Textures.FritzTileSet;
                     var srcRect = new RectangleF(0, 0, 128, 128);
-                    return new Enemy(position, texture, srcRect);
+                    return new Enemy('F', position, texture, srcRect);
                 },
                 ['P'] = (x, y) =>
                 { 
                     var position = new Vector2(x * Settings.WorldWallSize, y * Settings.WorldWallSize);
-                    return new Player(position);
+                    return new Player('P', position);
                 },
                 ['O'] = (x, y) =>
                 {
                     var position = new Vector2(x * Settings.WorldWallSize, y * Settings.WorldWallSize);
                     var texture = Repository.Textures.Wood_Dark;
-                    return new Wall(position, Settings.WorldWallSize, texture);
+                    return new Wall('O', position, Settings.WorldWallSize, texture);
                 }
             };
         }

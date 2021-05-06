@@ -11,7 +11,7 @@ namespace PseudoWolfenstein
         private readonly Timer timer;
         private readonly Viewport viewport;
         private readonly IGameForm gameForm;
-        private readonly MinimapForm minimapForm;
+        //private readonly MinimapForm minimapForm;
         private readonly Player player;
         private readonly Scene scene;
         private readonly Raycast raycast;
@@ -27,7 +27,7 @@ namespace PseudoWolfenstein
             this.player = scene.Player;
             raycast = new Raycast(scene);
 
-            minimapForm = new MinimapForm(viewport, scene);
+            //minimapForm = new MinimapForm(viewport, scene);
             this.gameForm = gameForm;
             this.gameForm.Load += Start;
         }
@@ -39,7 +39,7 @@ namespace PseudoWolfenstein
 
         private void Start(object sender, EventArgs e)
         {
-            minimapForm.Show();
+            //minimapForm.Show();
             timer.Start();
         }
 
@@ -51,7 +51,7 @@ namespace PseudoWolfenstein
             gameForm.UserInterface.DebugInfo.Update();
             //minimapForm.Gizmos.Update();
 
-            minimapForm.Invalidate();
+            //minimapForm.Invalidate();
             gameForm.Refresh();
         }
     }
