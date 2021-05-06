@@ -6,7 +6,7 @@ using System.Windows.Forms;
 
 namespace PseudoWolfenstein.View
 {
-    internal class DebugInfo : UserControl
+    public class DebugInfo
     {
 #if DEBUG
         private static readonly bool isDebugModeOnByDefault = true;
@@ -29,17 +29,10 @@ namespace PseudoWolfenstein.View
         public DebugInfo(Player player)
         {
             this.player = player;
-
             lineCount = StringUtils.CountLines(DebugInfoMessage);
-            
-            DoubleBuffered = true;
-            BackColor = Color.Transparent;
-            Dock = DockStyle.Fill;
-
-            Paint += Redraw;
         }
 
-        public new void Update()
+        public void Update()
         {
             if (Input.IsKeyToggled(Keys.P))
                 IsDebugMode = !isDebugModeOnByDefault;
@@ -47,15 +40,18 @@ namespace PseudoWolfenstein.View
                 IsDebugMode = isDebugModeOnByDefault;
         }
 
-        private void Redraw(object sender, PaintEventArgs e)
+        public void DrawInfo(Graphics graphics)
         {
             if (!IsDebugMode) return;
 
             using var uiBackgroundBrush = new SolidBrush(Settings.UIBackgroundColor);
             using var uiForegroundBrush = new SolidBrush(Settings.UIForegroundColor);
+            using var font = new Font("Consolas", 16f);
 
-            e.Graphics.FillRectangle(uiBackgroundBrush, 10, 10, 800, lineCount * 25 + 22);
-            e.Graphics.DrawString(DebugInfoMessage, new Font("Consolas", 16f), uiForegroundBrush, 20, 20);
+            var size = graphics.MeasureString(DebugInfoMessage, font, graphics.ClipBounds.Size);
+            //graphics.FillRectangle(uiBackgroundBrush, 10, 10, 800, lineCount * 25 + 22);
+            graphics.FillRectangle(uiBackgroundBrush, 10, 10, 750, size.Height + 20);
+            graphics.DrawString(DebugInfoMessage, font, uiForegroundBrush, 20, 20);
         }
     }
 }

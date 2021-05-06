@@ -18,25 +18,27 @@ namespace PseudoWolfenstein.View
     public interface IGameForm : IInputClient, IViewport
     {
         event EventHandler Load;
-        UserInterface UserInterface { get; }
+        DebugInfo DebugInfo { get; }
         Viewport GetViewport();
         void Refresh();
     }
 
     public partial class GameForm : Form, IGameForm, IInputClient, IViewport
     {
-        public UserInterface UserInterface { get; private set; }
+        public DebugInfo DebugInfo { get; private set; }
 
+        private readonly UserInterface userInterface;
         private readonly Viewport viewport;
-        private readonly Camera camera;
+        private readonly CameraView cameraView;
 
         public GameForm(Scene scene)
         {
             InitializeComponent();
             viewport = new Viewport(this);
-            UserInterface = new UserInterface(scene.Player, viewport);
-            camera = new Camera(viewport, scene);
-            Controls.Add(UserInterface);
+            DebugInfo = new DebugInfo(scene.Player);
+            userInterface = new UserInterface(scene.Player, viewport);
+            cameraView = new CameraView(viewport, scene, userInterface, DebugInfo);
+            Controls.Add(cameraView);
             MinimumSize = new Size(Viewport.DefaultWidth, Viewport.DefaultHeight);
             Paint += Redraw;
         }
@@ -49,8 +51,6 @@ namespace PseudoWolfenstein.View
         private void Redraw(object sender, PaintEventArgs e)
         {
             e.Graphics.SmoothingMode = Settings.GraphicsSmoothingMode;
-
-            camera.DrawView(e.Graphics);
             DrawBackground(e.Graphics, e.ClipRectangle.Width, e.ClipRectangle.Height);
         }
 
