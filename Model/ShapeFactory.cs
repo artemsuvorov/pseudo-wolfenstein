@@ -116,7 +116,6 @@ namespace PseudoWolfenstein.Model
                     var texture = Repository.Textures.ImageWet;
                     return new Pane('I', position, texture);
                 }
-
             };
         }
 
