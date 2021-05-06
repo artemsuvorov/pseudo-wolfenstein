@@ -15,8 +15,8 @@ namespace PseudoWolfenstein.Model
         public const float RotationSpeed = Settings.PlayerRotationSpeed;
         public const float FieldOfView = Settings.PlayerFieldOfView;
 
-        public float Rotation = 0.0f;
-
+        public float Rotation = MathF.PI;
+        
         public Vector2 Motion { get; private set; }
         public Vector2 MotionDirection => Vector2.UnitX.RotateCounterClockwise(Rotation);
 
