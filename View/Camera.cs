@@ -21,18 +21,18 @@ namespace PseudoWolfenstein.View
 
         public void DrawView(Graphics graphics)
         {
-            graphics.InterpolationMode = InterpolationMode.NearestNeighbor;
             ClearViewport(graphics);
 
             var raycastData = raycast.CastRaysAt(scene.Obstacles);
             DrawObstacles(graphics, raycastData);
 
             graphics.InterpolationMode = InterpolationMode.Bilinear;
+            graphics.CompositingMode = CompositingMode.SourceOver;
         }
 
         private void DrawObstacles(Graphics graphics, RaycastData raycastData)
         {
-            if (raycastData is null || raycastData.Count <= 0) return;
+            if (raycastData is null || raycastData.Count <= 0) return; 
 
             var sliceCount = raycastData.Count;
             var sliceWidth = viewport.Width / (float)sliceCount;
@@ -63,18 +63,33 @@ namespace PseudoWolfenstein.View
         {
             if (raycastData[i] is null || raycastData[i].Count <= 0)
                 return;
-            if (raycastData[i][^1].CrossedObstacle is Wall)
+
+            if (raycastData[i][0].CrossedObstacle is Wall)
             {
+                graphics.InterpolationMode = InterpolationMode.NearestNeighbor;
                 graphics.CompositingMode = CompositingMode.SourceCopy;
-                DrawSlice(graphics, raycastData[i][^1], i, sliceWidth);
-                graphics.CompositingMode = CompositingMode.SourceOver;
+                DrawSlice(graphics, raycastData[i][0], i, sliceWidth);
                 return;
             }
-            foreach (var crossData in raycastData[i])
+
+            graphics.InterpolationMode = InterpolationMode.Bilinear;
+            graphics.CompositingMode = CompositingMode.SourceOver;
+            for (var j = raycastData[i].Count - 1; j >= 0; j--)
             {
-                if (crossData is null) return;
-                DrawSlice(graphics, crossData, i, sliceWidth);
+                if (raycastData[i][j] is null) return;
+                DrawSlice(graphics, raycastData[i][j], i, sliceWidth);
             }
+
+            //graphics.InterpolationMode = InterpolationMode.NearestNeighbor;
+            //graphics.CompositingMode = CompositingMode.SourceCopy;
+            //DrawSlice(graphics, raycastData[i][^1], i, sliceWidth);
+            //graphics.InterpolationMode = InterpolationMode.Low;
+            //graphics.CompositingMode = CompositingMode.SourceOver;
+            //for (var j = raycastData[i].Count - 2; j >= 0; j--)
+            //{
+            //    if (raycastData[i][j] is null) return;
+            //    DrawSlice(graphics, raycastData[i][j], i, sliceWidth);
+            //}
         }
 
         private void DrawSlice(Graphics graphics, Cross crossData, int i, float sliceWidth)

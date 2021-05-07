@@ -22,14 +22,11 @@ namespace PseudoWolfenstein.View
             $"Player Position: { player.Position }\r\n" +
             $"Player Rotation: { player.Rotation.ToDegrees() }";
 
-        private readonly int lineCount;
-
         public bool IsDebugMode { get; private set; }
 
         public DebugInfo(Player player)
         {
             this.player = player;
-            lineCount = StringUtils.CountLines(DebugInfoMessage);
         }
 
         public void Update()
