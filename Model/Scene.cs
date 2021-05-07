@@ -14,25 +14,25 @@ namespace PseudoWolfenstein.Model
         public Player Player { get; private set; }
 
         public IReadOnlyCollection<Polygon> Obstacles { get; private set; }
-        public IReadOnlyCollection<Polygon> Walls { get; private set; }
-        public IReadOnlyCollection<Polygon> Panes { get; private set; }
+        public IReadOnlyCollection<Wall> Walls { get; private set; }
+        public IReadOnlyCollection<Pane> Panes { get; private set; }
 
         public static SceneBuilder Builder => builder ??= new SceneBuilder();
 
-        private Scene(Player player, IReadOnlyCollection<Polygon> walls, IReadOnlyCollection<Polygon> panes, int width, int height)
+        private Scene(Player player, IReadOnlyCollection<Wall> walls, IReadOnlyCollection<Pane> panes, int width, int height)
         {
             Player = player;
             Walls = walls;
             Panes = panes;
-            Obstacles = Walls.Concat(Panes).ToList();
+            Obstacles = Walls.Cast<Polygon>().Concat(Panes.Cast<Polygon>()).ToList();
             Width = width;
             Height = height;
         }
 
         public void Update()
         {
-            foreach (Pane pane in Panes)
-                pane.UpdateTransform(Player);
+            //foreach (Pane pane in Panes)
+                //pane.UpdateTransform(Player);
 
             Player.Update(this);
         }
@@ -167,8 +167,8 @@ namespace PseudoWolfenstein.Model
                 var width = lines[0].Length;
 
                 var shapes = ParseShapes(width, height, lines).Cast<Shape>();
-                var walls = shapes.Where(shape => shape is Wall).Cast<Polygon>().ToList();
-                var panes = shapes.Where(shape => shape is Pane).Cast<Polygon>().ToList();
+                var walls = shapes.Where(shape => shape is Wall).Cast<Wall>().ToList();
+                var panes = shapes.Where(shape => shape is Pane).Cast<Pane>().ToList();
                 var player = (Player)shapes.First(shape => shape is Player);
                 //var merger = new ShapeUnifier(shapes);
                 //var isles = merger.GetAdjecentShapeIsles();

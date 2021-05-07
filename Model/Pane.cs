@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
 using System.Numerics;
 using PseudoWolfenstein.Utils;
 
@@ -26,9 +27,9 @@ namespace PseudoWolfenstein.Model
             : this(name, position, texture:default, srcRect:default)
         { }
 
-        public void UpdateTransform(Player player)
+        public void UpdateTransform(object sender, EventArgs e)
         {
-            LookAt(player.Position);
+            LookAt(((Player)sender).Position);
         }
 
         private void LookAt(Vector2 target)
