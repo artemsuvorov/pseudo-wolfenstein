@@ -41,7 +41,8 @@ namespace PseudoWolfenstein.Model
                 },
                 ['P'] = (x, y) =>
                 { 
-                    var position = new Vector2(x * Settings.WorldWallSize, y * Settings.WorldWallSize);
+                    var position = new Vector2(x * Settings.WorldWallSize + Settings.WorldWallSize / 2f,
+                         y * Settings.WorldWallSize + Settings.WorldWallSize / 2f);
                     return new Player('P', position);
                 },
                 ['W'] = (x, y) =>
@@ -102,7 +103,7 @@ namespace PseudoWolfenstein.Model
                 {
                     var position = new Vector2((x + 0.5f) * Settings.WorldWallSize, (y + 0.5f) * Settings.WorldWallSize);
                     var texture = Repository.Textures.NewLevel;
-                    return new Pane('N' position, texture);
+                    return new Pane('N', position, texture);
                 },
                 ['X'] = (x, y) =>
                 {

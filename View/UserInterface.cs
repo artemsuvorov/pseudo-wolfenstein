@@ -6,33 +6,20 @@ using System.Windows.Forms;
 
 namespace PseudoWolfenstein.View
 {
-    public class UserInterface : UserControl
+    public class UserInterface
     {
         private readonly Player player;
         private readonly Viewport viewport;
-
-        internal DebugInfo DebugInfo { get; private set; }
 
         public UserInterface(Player player, Viewport viewport)
         {
             this.player = player;
             this.viewport = viewport;
-
-            DoubleBuffered = true;
-            BackColor = Color.Transparent;
-            Dock = DockStyle.Fill;
-
-            DebugInfo = new DebugInfo(this.player);
-            Controls.Add(DebugInfo);
-
-            Paint += Redraw;
         }
 
-        private void Redraw(object sender, PaintEventArgs e)
+        public void DrawUI(Graphics graphics)
         {
-            e.Graphics.TranslateTransform(viewport.X, viewport.Y);
-            DrawWeapon(e.Graphics);
-            e.Graphics.ResetTransform();
+            DrawWeapon(graphics);
         }
 
         private void DrawWeapon(Graphics graphics)

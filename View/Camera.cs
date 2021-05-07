@@ -23,12 +23,10 @@ namespace PseudoWolfenstein.View
         {
             graphics.InterpolationMode = InterpolationMode.NearestNeighbor;
             ClearViewport(graphics);
-            graphics.TranslateTransform(viewport.X, viewport.Y);
 
             var raycastData = raycast.CastRaysAt(scene.Obstacles);
             DrawObstacles(graphics, raycastData);
 
-            graphics.ResetTransform();
             graphics.InterpolationMode = InterpolationMode.Bilinear;
         }
 
@@ -46,7 +44,7 @@ namespace PseudoWolfenstein.View
         private void ClearViewport(Graphics graphics)
         {
             var backgroundBrush = new SolidBrush(Settings.ViewportBackgroundColor);
-            graphics.FillRectangle(backgroundBrush, viewport.ClientRectangle);
+            graphics.FillRectangle(backgroundBrush, graphics.ClipBounds);
         }
 
         private float CalculateCeiling(float totalDistance)
