@@ -118,66 +118,99 @@ namespace PseudoWolfenstein.Core
         public RaycastDataEntry GetCrossingPoints(Ray ray, IEnumerable<Polygon> obstacles)
         {
             const int MaxEntryCapacity = 12;
-            var crossData = new List<Cross>(MaxEntryCapacity);
+            var crosses = new List<Cross>(MaxEntryCapacity);
 
             foreach (Polygon polygon in obstacles)
             {
-                for (var index = 1; index < polygon.Vertices.Length + 1; index++)
-                {
-                    //if (crossDataIndex >= MaxEntryCapacity) break;
-
-                    Vector2 vertex1 = polygon.Vertices[index - 1],
-                            vertex2 = polygon.Vertices[index % polygon.Vertices.Length],
-                            edge = vertex2 - vertex1;
-
-                    var sideDir = MathF.Abs(Vector2.Dot(edge, Vector2.UnitX)) < MathF.Abs(Vector2.Dot(edge, Vector2.UnitY)) ?
-                        SideDirection.Vertical : SideDirection.Horizontal;
-
-                    var isCrossing = ray.IsCrossing(vertex1, vertex2, out Vector2 crossLocation);
-                    if (!isCrossing) continue;
-
-                    var distance = (crossLocation - player.Position).Length();
-                    crossData.Add(new Cross(crossLocation, distance, polygon, sideDir));
-                }
+                var cross = GetMinDistanceCross(ray, polygon);
+                if (cross is object)
+                    crosses.Add(cross);
+                //if (cross is object && cross.CrossedObstacle is Wall)
+                //    break;
             }
 
-            crossData.Sort((cross, other) => other.Distance.CompareTo(cross.Distance));
-            return new RaycastDataEntry(ray, crossData.TakeLast(5).ToArray());
+            crosses.Sort((cross, other) => cross.Distance.CompareTo(other.Distance));
+            var a = TakeWhileNotWall(crosses).ToArray();
+            return new RaycastDataEntry(ray, TakeWhileNotWall(crosses).ToArray());
         }
 
-        public Vector2 GetMinDistanceCrossingPoint(Ray ray, IEnumerable<Polygon> polygons,
-            out float minDistance, out Polygon crossedObstacle, out SideDirection crossedSide)
+        private IEnumerable<Cross> TakeWhileNotWall(IReadOnlyList<Cross> crosses)
         {
-            Vector2 minDistanceCrossingPoint = default;
-            minDistance = float.MaxValue;
-            crossedObstacle = default;
-            crossedSide = default;
-
-            foreach (Polygon polygon in polygons)
+            var index = 0;
+            while (index < crosses.Count && !(crosses[index].CrossedObstacle is Wall))
             {
-                for (var index = 1; index < polygon.Vertices.Length + 1; index++)
+                yield return crosses[index];
+                index++;
+            }
+            if (index < crosses.Count)
+                yield return crosses[index];
+        }
+
+        private Cross GetMinDistanceCross(Ray ray, Polygon polygon)
+        {
+            var length = polygon.Vertices.Length + (polygon is Wall ? 1 : 0);
+            var minDistance = float.MaxValue;
+            var minDstCross = default(Cross);
+
+            for (var index = 1; index < length; index++)
+            {
+                //if (crossDataIndex >= MaxEntryCapacity) break;
+                Vector2 vertex1 = polygon.Vertices[index - 1],
+                        vertex2 = polygon.Vertices[index % polygon.Vertices.Length],
+                        edge = vertex2 - vertex1;
+
+                var sideDir = MathF.Abs(Vector2.Dot(edge, Vector2.UnitX)) < MathF.Abs(Vector2.Dot(edge, Vector2.UnitY)) ?
+                    SideDirection.Vertical : SideDirection.Horizontal;
+
+                var isCrossing = ray.IsCrossing(vertex1, vertex2, out Vector2 crossLocation);
+                if (!isCrossing) continue;
+
+                var distance = (crossLocation - player.Position).Length();
+                if (distance < minDistance)
                 {
-                    Vector2 vertex1 = polygon.Vertices[index - 1],
-                            vertex2 = polygon.Vertices[index % polygon.Vertices.Length],
-                            edge = vertex2 - vertex1;
-
-                    var sideDir = MathF.Abs(Vector2.Dot(edge, Vector2.UnitX)) < MathF.Abs(Vector2.Dot(edge, Vector2.UnitY)) ?
-                        SideDirection.Vertical : SideDirection.Horizontal;
-
-                    var isCrossing = ray.IsCrossing(vertex1, vertex2, out Vector2 crossingPoint);
-                    var distance = (crossingPoint - player.Position).Length();
-
-                    if (isCrossing && distance < minDistance)
-                    {
-                        minDistanceCrossingPoint = crossingPoint;
-                        minDistance = distance;
-                        crossedObstacle = polygon;
-                        crossedSide = sideDir;
-                    }
+                    minDistance = distance;
+                    minDstCross = new Cross(crossLocation, distance, polygon, sideDir);
                 }
+                //crossData.Add();
             }
 
-            return minDistanceCrossingPoint;
+            return minDstCross;
         }
+
+        //public Vector2 GetMinDistanceCrossingPoint(Ray ray, IEnumerable<Polygon> polygons,
+        //    out float minDistance, out Polygon crossedObstacle, out SideDirection crossedSide)
+        //{
+        //    Vector2 minDistanceCrossingPoint = default;
+        //    minDistance = float.MaxValue;
+        //    crossedObstacle = default;
+        //    crossedSide = default;
+
+        //    foreach (Polygon polygon in polygons)
+        //    {
+        //        var length = polygon.Vertices.Length + (polygon is Wall ? 1 : 0);
+        //        for (var index = 1; index < length; index++)
+        //        {
+        //            Vector2 vertex1 = polygon.Vertices[index - 1],
+        //                    vertex2 = polygon.Vertices[index % polygon.Vertices.Length],
+        //                    edge = vertex2 - vertex1;
+
+        //            var sideDir = MathF.Abs(Vector2.Dot(edge, Vector2.UnitX)) < MathF.Abs(Vector2.Dot(edge, Vector2.UnitY)) ?
+        //                SideDirection.Vertical : SideDirection.Horizontal;
+
+        //            var isCrossing = ray.IsCrossing(vertex1, vertex2, out Vector2 crossingPoint);
+        //            var distance = (crossingPoint - player.Position).Length();
+
+        //            if (isCrossing && distance < minDistance)
+        //            {
+        //                minDistanceCrossingPoint = crossingPoint;
+        //                minDistance = distance;
+        //                crossedObstacle = polygon;
+        //                crossedSide = sideDir;
+        //            }
+        //        }
+        //    }
+
+        //    return minDistanceCrossingPoint;
+        //}
     }
 }
