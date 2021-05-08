@@ -37,7 +37,7 @@ namespace PseudoWolfenstein.View
                 IsDebugMode = isDebugModeOnByDefault;
         }
 
-        public void DrawInfo(Graphics graphics)
+        public void DrawInfo(Viewport viewport, Graphics graphics)
         {
             if (!IsDebugMode) return;
 
@@ -45,7 +45,7 @@ namespace PseudoWolfenstein.View
             using var uiForegroundBrush = new SolidBrush(Settings.UIForegroundColor);
             using var font = new Font("Consolas", 16f);
 
-            var size = graphics.MeasureString(DebugInfoMessage, font, graphics.ClipBounds.Size);
+            var size = graphics.MeasureString(DebugInfoMessage, font, viewport.Size);
             //graphics.FillRectangle(uiBackgroundBrush, 10, 10, 800, lineCount * 25 + 22);
             graphics.FillRectangle(uiBackgroundBrush, 10, 10, 750, size.Height + 20);
             graphics.DrawString(DebugInfoMessage, font, uiForegroundBrush, 20, 20);
