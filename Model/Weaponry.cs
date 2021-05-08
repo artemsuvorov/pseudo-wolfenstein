@@ -4,26 +4,16 @@ using System.Drawing;
 
 namespace PseudoWolfenstein.Model
 {
-    public enum Weapon
-    {
-        Knife,
-        Pistol,
-        MachineGun,
-        Chaingun,
-        FlameThrower,
-        RocketLauncher
-    }
-
     public class Weaponry
     {
-        public Weapon SelectedWeapon { get; private set; } = Weapon.Knife;
+        public Weapon SelectedWeapon { get; private set; }
 
         private bool isAnimating = false;
         private WeaponAnimation weaponAnimation;
 
         public Weaponry()
         {
-            SelectWeapon(Weapon.Knife);
+            SelectWeapon(WeaponType.Knife);
         }
 
         public void Shoot()
@@ -41,10 +31,10 @@ namespace PseudoWolfenstein.Model
                 isAnimating = false;
         }
 
-        public void SelectWeapon(Weapon weapon)
+        public void SelectWeapon(WeaponType weaponType)
         {
-            SelectedWeapon = weapon;
-            weaponAnimation = WeaponAnimations.GetAnimation(weapon);
+            SelectedWeapon = Weapons.GetWeapon(weaponType);
+            weaponAnimation = WeaponAnimations.GetAnimation(weaponType);
             weaponAnimation.Reset();
         }
 
@@ -53,7 +43,7 @@ namespace PseudoWolfenstein.Model
             const float WeaponSpriteSize = 128f, DstWeaponScale = 2.5f;
 
             var texture = Repository.Textures.WeaponsTileSet;
-            var weaponIndex = (int)SelectedWeapon;
+            var weaponIndex = SelectedWeapon.Id;
             var weaponAnimationFrame = weaponAnimation.Frame;
 
             var dstx = (viewport.Width - WeaponSpriteSize * DstWeaponScale) / 2f;

@@ -4,7 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Numerics;
-using System.Security.Cryptography.Xml;
 using System.Windows.Forms;
 
 namespace PseudoWolfenstein.Model
@@ -24,6 +23,7 @@ namespace PseudoWolfenstein.Model
         public Weaponry Weaponry { get; private set; } = new Weaponry();
 
         public event EventHandler<Player> Moved;
+        public event EventHandler<Player> Shot;
         public event EventHandler<Player> DoorOpening;
 
         public Player(char name, Vector2 position) : base(name, position) { }
@@ -44,12 +44,12 @@ namespace PseudoWolfenstein.Model
 
         private void SelectWeapon()
         {
-            if (Input.IsKeyDown(Keys.D1)) Weaponry.SelectWeapon(Weapon.Knife);
-            if (Input.IsKeyDown(Keys.D2)) Weaponry.SelectWeapon(Weapon.Pistol);
-            if (Input.IsKeyDown(Keys.D3)) Weaponry.SelectWeapon(Weapon.MachineGun);
-            if (Input.IsKeyDown(Keys.D4)) Weaponry.SelectWeapon(Weapon.Chaingun);
-            if (Input.IsKeyDown(Keys.D5)) Weaponry.SelectWeapon(Weapon.FlameThrower);
-            if (Input.IsKeyDown(Keys.D6)) Weaponry.SelectWeapon(Weapon.RocketLauncher);
+            if (Input.IsKeyDown(Keys.D1)) Weaponry.SelectWeapon(WeaponType.Knife);
+            if (Input.IsKeyDown(Keys.D2)) Weaponry.SelectWeapon(WeaponType.Pistol);
+            if (Input.IsKeyDown(Keys.D3)) Weaponry.SelectWeapon(WeaponType.MachineGun);
+            if (Input.IsKeyDown(Keys.D4)) Weaponry.SelectWeapon(WeaponType.Chaingun);
+            if (Input.IsKeyDown(Keys.D5)) Weaponry.SelectWeapon(WeaponType.FlameThrower);
+            if (Input.IsKeyDown(Keys.D6)) Weaponry.SelectWeapon(WeaponType.RocketLauncher);
         }
 
         private void Move(Scene scene)
@@ -105,7 +105,10 @@ namespace PseudoWolfenstein.Model
         private void Shoot()
         {
             if (Input.IsKeyDown(Keys.Space))
+            {
                 Weaponry.Shoot();
+                Shot?.Invoke(this, this);
+            }
         }
 
         private void OpenDoor()

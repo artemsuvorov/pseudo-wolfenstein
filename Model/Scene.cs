@@ -22,6 +22,7 @@ namespace PseudoWolfenstein.Model
         private readonly List<Wall> walls;
         private readonly List<Pane> panes;
         private readonly List<Door> doors;
+        private readonly List<Enemy> enemies;
 
         private Scene(Player player, List<Wall> walls, List<Pane> panes, int width, int height)
         {
@@ -31,13 +32,17 @@ namespace PseudoWolfenstein.Model
             this.walls = walls;
             this.panes = panes;
             this.doors = Panes.OfType<Door>().ToList();
+            this.enemies = Panes.OfType<Enemy>().ToList();
             this.obstacles = Walls.Cast<Polygon>().Concat(Panes.Cast<Polygon>()).ToList();
 
             foreach (var obstacle in Obstacles)
                 obstacle.Destroying += Destroy;
 
-            foreach (var door in Panes.OfType<Door>())
+            foreach (var door in doors)
                 player.DoorOpening += door.Open;
+
+            foreach (var enemy in enemies)
+                player.Shot += enemy.OnPlayerShot;
 
             foreach (var pane in Panes.OfType<RotatingPane>())
                 player.Moved += pane.UpdateTransform;
@@ -57,6 +62,8 @@ namespace PseudoWolfenstein.Model
                 doors.Remove(door);
             else if (shape is Collectable collectable)
                 Player.Moved -= collectable.Collide;
+            else if (shape is Enemy enemy)
+                enemies.Remove(enemy);
         }
 
         public void Update()

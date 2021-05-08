@@ -69,11 +69,11 @@ namespace PseudoWolfenstein.View
                 graphics.DrawLine(gizmosStrokePen1, start, end);
             }
 
+            var r = new Ray(player.Position, -player.Rotation);
+            graphics.DrawLine(gizmosStrokePen1, r.Start.X, r.Start.Y, r.End.X, r.End.Y);
             foreach (var pane in scene.Panes)
-            {
-                var d = pane.Center;
-                graphics.FillEllipse(gizmosFillBrush, d.X - 5, d.Y - 5, 10, 10);
-            }
+                foreach (var vertex in pane.Vertices)
+                    graphics.FillEllipse(gizmosFillBrush, vertex.X - 5, vertex.Y - 5, 10, 10);
         }
     }
 }
