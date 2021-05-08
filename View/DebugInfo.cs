@@ -20,7 +20,8 @@ namespace PseudoWolfenstein.View
             $"DEBUG SESSION INFO PseudoWolfenstein\r\n" +
             $"FPS: {Time.FPS:0} deltaTime: {Time.DeltaTime:0.000000}\r\n" +
             $"Player Position: { player.Position }\r\n" +
-            $"Player Rotation: { player.Rotation.ToDegrees() }";
+            $"Player Rotation: { player.Rotation.ToDegrees() }\r\n" +
+            $"Player SCORE:    { player.Score }";
 
         public bool IsDebugMode { get; private set; }
 

@@ -16,15 +16,16 @@ namespace PseudoWolfenstein.Model
         public const float RotationSpeed = Settings.PlayerRotationSpeed;
         public const float FieldOfView = Settings.PlayerFieldOfView;
 
-        public float Rotation = MathF.PI;
-
-        public Weaponry Weaponry { get; set; } = new Weaponry();
-
+        public float Rotation { get; set; } = MathF.PI;
         public Vector2 Motion { get; private set; }
         public Vector2 MotionDirection => Vector2.UnitX.RotateCounterClockwise(Rotation);
 
-        public event EventHandler Moved;
-        
+        public int Score { get; set; } = 0;
+        public Weaponry Weaponry { get; private set; } = new Weaponry();
+
+        public event EventHandler<Player> Moved;
+        public event EventHandler<Player> DoorOpening;
+
         public Player(char name, Vector2 position) : base(name, position) { }
 
         public void Update(Scene scene)
@@ -33,6 +34,7 @@ namespace PseudoWolfenstein.Model
             Move(scene);
             Rotate();
             Shoot();
+            OpenDoor();
         }
 
         public void Animate()
@@ -70,7 +72,7 @@ namespace PseudoWolfenstein.Model
             Position += new Vector2(dx, dy);
 
             if (dx.IsNotEqual(0f) || dy.IsNotEqual(0f))
-                Moved?.Invoke(this, EventArgs.Empty);
+                Moved?.Invoke(this, this);
         }
 
         private void Collide(IEnumerable<Shape> obstacles, out int front, out int back)
@@ -104,6 +106,12 @@ namespace PseudoWolfenstein.Model
         {
             if (Input.IsKeyDown(Keys.Space))
                 Weaponry.Shoot();
+        }
+
+        private void OpenDoor()
+        {
+            if (Input.IsKeyDown(Keys.F))
+                DoorOpening?.Invoke(this, this);
         }
 
         // todo: remove this from player class

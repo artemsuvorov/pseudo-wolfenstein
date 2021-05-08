@@ -15,7 +15,6 @@ namespace PseudoWolfenstein
         //private readonly MinimapForm minimapForm;
         private readonly Player player;
         private readonly Scene scene;
-        private readonly Raycast raycast;
 
         public GamePresenter(Scene scene, IGameForm gameForm)
         {
@@ -24,15 +23,11 @@ namespace PseudoWolfenstein
             frameTimer.Tick += Time.OnGlobalTick;
 
             animationTimer = new Timer { Interval = 50 };
-            animationTimer.Tick += SecondUpdate;
+            animationTimer.Tick += AnimationUpdate;
 
             this.viewport = gameForm.GetViewport();
             this.scene = scene;
             this.player = scene.Player;
-            raycast = new Raycast(scene);
-
-            foreach (var pane in scene.Panes)
-                player.Moved += pane.UpdateTransform;
 
             //minimapForm = new MinimapForm(viewport, scene);
             this.gameForm = gameForm;
@@ -63,7 +58,7 @@ namespace PseudoWolfenstein
             gameForm.Refresh();
         }
 
-        private void SecondUpdate(object sender, EventArgs e)
+        private void AnimationUpdate(object sender, EventArgs e)
         {
             player.Animate();
         }

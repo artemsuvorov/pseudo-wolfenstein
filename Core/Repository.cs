@@ -23,37 +23,28 @@ namespace PseudoWolfenstein.Core
         {
             private const int TextureRepoCapactity = 256;
 
-            public Bitmap StoneWall { get; private set; }
-            public Bitmap BlueWall { get; private set; }
-
-            public Bitmap Wood { get; private set; }
-            public Bitmap GreyColmun { get; private set; }
-
             public Bitmap WeaponsTileSet { get; private set; }
-
             public Bitmap FritzTileSet { get; private set; }
 
-            public Bitmap Jail { get; private set; }
-
+            public Bitmap StoneWall { get; private set; }
+            public Bitmap BlueWall { get; private set; }
             public Bitmap RedWall { get; private set; }
+            public Bitmap Wood { get; private set; }
+            public Bitmap Jail { get; private set; }
+            public Bitmap Door { get; private set; }
 
-            public Bitmap Ammo { get; private set; }
-
-            public Bitmap Heal { get; private set; }
-
-            public Bitmap Meal { get; private set; }
-
+            public Bitmap GreyColumn { get; private set; }
+            public Bitmap WC { get; private set; }
+            public Bitmap ImageWet { get; private set; }
             public Bitmap Oddments { get; private set; }
-
+            
+            public Bitmap Ammo { get; private set; }
+            public Bitmap Heal { get; private set; }
+            public Bitmap Meal { get; private set; }
             public Bitmap Goods { get; private set; }
-
             public Bitmap Unlocker { get; private set; }
 
             public Bitmap NewLevel { get; private set; }
-
-            public Bitmap WC { get; private set; }
-
-            public Bitmap ImageWet { get; private set; }
 
             private readonly ISet<Bitmap> textures = new HashSet<Bitmap>(TextureRepoCapactity);
 
@@ -62,7 +53,7 @@ namespace PseudoWolfenstein.Core
                 StoneWall = LoadTexture("WALL0.bmp");
                 BlueWall = LoadTexture("WALL14.bmp");
                 Wood = LoadTexture("WALL23.bmp");
-                GreyColmun = LoadTexture("GreyColumn.bmp", texture => texture.GetPixel(0,0));
+                GreyColumn = LoadTexture("GreyColumn.bmp", texture => texture.GetPixel(0,0));
                 WeaponsTileSet = LoadTexture("weapons.png", texture => texture.GetPixel(0, 0));
                 FritzTileSet = LoadTexture("fritz.png", texture => texture.GetPixel(0, 0));
                 Jail = LoadTexture("WALL8.bmp");
@@ -76,7 +67,7 @@ namespace PseudoWolfenstein.Core
                 NewLevel = LoadTexture("WALL41.bmp");
                 WC = LoadTexture("14.bmp", texture => texture.GetPixel(0, 0));
                 ImageWet = LoadTexture("2.bmp", texture => texture.GetPixel(0, 0));
-
+                Door = LoadTexture("WALL98.bmp");
             }
 
             private Bitmap LoadTexture(string textureName)

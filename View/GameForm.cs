@@ -57,12 +57,8 @@ namespace PseudoWolfenstein.View
         private void DrawBackground(Graphics graphics, int width, int height)
         {
             using var backgroundBrush = new SolidBrush(Settings.FormBackgroundColor);
-            graphics.FillRectangle(backgroundBrush, 0, 0, width, viewport.Y);
-            graphics.FillRectangle(backgroundBrush, 0, viewport.Y, viewport.X, height);
-            graphics.FillRectangle(backgroundBrush, viewport.X, viewport.Y+viewport.Height,
-                width-viewport.X, height-viewport.Y-viewport.Height);
-            graphics.FillRectangle(backgroundBrush, viewport.X+viewport.Width, viewport.Y,
-                width-viewport.X-viewport.Width, height-viewport.Y);
+            graphics.FillRectangle(backgroundBrush, 0, 0, width, height);
+
         }
     }
 }
