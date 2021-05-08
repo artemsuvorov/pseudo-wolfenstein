@@ -16,11 +16,11 @@ namespace PseudoWolfenstein.Model
         public const float FieldOfView = Settings.PlayerFieldOfView;
 
         public float Rotation = MathF.PI;
-        
+
+        public Weaponry Weaponry { get; set; } = new Weaponry();
+
         public Vector2 Motion { get; private set; }
         public Vector2 MotionDirection => Vector2.UnitX.RotateCounterClockwise(Rotation);
-
-        public int SelectedWeapon = 0;
 
         public Player(char name, Vector2 position) : base(name, position) { }
 
@@ -29,22 +29,22 @@ namespace PseudoWolfenstein.Model
             SelectWeapon();
             Move(scene);
             Rotate();
+            Shoot();
+        }
+
+        public void Animate()
+        {
+            Weaponry.Animate();
         }
 
         private void SelectWeapon()
         {
-            if (Input.IsKeyDown(Keys.D1))
-                SelectedWeapon = 0;
-            if (Input.IsKeyDown(Keys.D2))
-                SelectedWeapon = 1;
-            if (Input.IsKeyDown(Keys.D3))
-                SelectedWeapon = 2;
-            if (Input.IsKeyDown(Keys.D4))
-                SelectedWeapon = 3;
-            if (Input.IsKeyDown(Keys.D5))
-                SelectedWeapon = 4;
-            if (Input.IsKeyDown(Keys.D6))
-                SelectedWeapon = 5;
+            if (Input.IsKeyDown(Keys.D1)) Weaponry.SelectWeapon(Weapon.Knife);
+            if (Input.IsKeyDown(Keys.D2)) Weaponry.SelectWeapon(Weapon.Pistol);
+            if (Input.IsKeyDown(Keys.D3)) Weaponry.SelectWeapon(Weapon.MachineGun);
+            if (Input.IsKeyDown(Keys.D4)) Weaponry.SelectWeapon(Weapon.Chaingun);
+            if (Input.IsKeyDown(Keys.D5)) Weaponry.SelectWeapon(Weapon.FlameThrower);
+            if (Input.IsKeyDown(Keys.D6)) Weaponry.SelectWeapon(Weapon.RocketLauncher);
         }
 
         private void Move(Scene scene)
@@ -88,6 +88,12 @@ namespace PseudoWolfenstein.Model
                 Rotation += RotationSpeed * TimeF.DeltaTime;
             if (Input.IsKeyDown(Keys.D) || Input.IsKeyDown(Keys.Right))
                 Rotation -= RotationSpeed * TimeF.DeltaTime;
+        }
+
+        private void Shoot()
+        {
+            if (Input.IsKeyDown(Keys.Space))
+                Weaponry.Shoot();
         }
 
         // todo: remove this from player class

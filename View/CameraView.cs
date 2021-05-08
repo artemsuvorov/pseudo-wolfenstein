@@ -8,6 +8,7 @@ namespace PseudoWolfenstein.View
     {
         private readonly Camera camera;
         private readonly BufferedGraphics graphicsBuffer;
+        private readonly Viewport viewport;
         private readonly UserInterface userInterface;
         private readonly DebugInfo debugInfo;
 
@@ -18,7 +19,7 @@ namespace PseudoWolfenstein.View
             Size = viewport.Size;
             DoubleBuffered = true;
             Anchor = AnchorStyles.None;
-
+            this.viewport = viewport;
             this.userInterface = userInterface;
             this.debugInfo = debugInfo;
 
@@ -29,12 +30,17 @@ namespace PseudoWolfenstein.View
             Paint += Redraw;
         }
 
+        ~CameraView()
+        {
+            graphicsBuffer.Dispose();
+        }
+
         private void Redraw(object sender, PaintEventArgs e)
         {
             var graphics = graphicsBuffer.Graphics;
             camera.DrawView(graphics);
-            userInterface.DrawUI(graphics);
-            debugInfo.DrawInfo(graphics);
+            userInterface.DrawUI(viewport, graphics);
+            debugInfo.DrawInfo(viewport, graphics);
 
             graphicsBuffer.Render(e.Graphics);
         }
