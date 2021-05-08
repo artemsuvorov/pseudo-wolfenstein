@@ -64,18 +64,16 @@ namespace PseudoWolfenstein.View
             if (raycastData[i] is null || raycastData[i].Count <= 0)
                 return;
 
-            if (raycastData[i][0].CrossedObstacle is Wall)
+            if (raycastData[i][0].CrossedObstacle is Wall || raycastData[i][0].CrossedObstacle is Door)
             {
                 graphics.InterpolationMode = InterpolationMode.NearestNeighbor;
                 graphics.CompositingMode = CompositingMode.SourceCopy;
                 DrawSlice(graphics, raycastData[i][0], i, sliceWidth);
                 return;
             }
-            if (!(raycastData[i][0].CrossedObstacle is Door))
-            {
-                graphics.InterpolationMode = InterpolationMode.Bilinear;
-                graphics.CompositingMode = CompositingMode.SourceOver;
-            }
+
+            graphics.InterpolationMode = InterpolationMode.Bilinear;
+            graphics.CompositingMode = CompositingMode.SourceOver;
             for (var j = raycastData[i].Count - 1; j >= 0; j--)
             {
                 if (raycastData[i][j] is null) return;
