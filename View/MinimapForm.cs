@@ -1,6 +1,7 @@
 ﻿using PseudoWolfenstein.Core;
 using PseudoWolfenstein.Model;
 using System.Drawing;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace PseudoWolfenstein.View
@@ -67,6 +68,12 @@ namespace PseudoWolfenstein.View
                 var end = new PointF(ray.End.X, ray.End.Y);
                 graphics.DrawLine(gizmosStrokePen1, start, end);
             }
+
+            var r = new Ray(player.Position, -player.Rotation);
+            graphics.DrawLine(gizmosStrokePen1, r.Start.X, r.Start.Y, r.End.X, r.End.Y);
+            foreach (var pane in scene.Panes)
+                foreach (var vertex in pane.Vertices)
+                    graphics.FillEllipse(gizmosFillBrush, vertex.X - 5, vertex.Y - 5, 10, 10);
         }
     }
 }

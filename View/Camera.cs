@@ -64,7 +64,7 @@ namespace PseudoWolfenstein.View
             if (raycastData[i] is null || raycastData[i].Count <= 0)
                 return;
 
-            if (raycastData[i][0].CrossedObstacle is Wall)
+            if (raycastData[i][0].CrossedObstacle is Wall || raycastData[i][0].CrossedObstacle is Door)
             {
                 graphics.InterpolationMode = InterpolationMode.NearestNeighbor;
                 graphics.CompositingMode = CompositingMode.SourceCopy;

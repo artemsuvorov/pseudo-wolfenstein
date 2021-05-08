@@ -35,22 +35,22 @@ namespace PseudoWolfenstein.Model
 
     public static class WeaponAnimations
     {
-        private static readonly IReadOnlyDictionary<Weapon, WeaponAnimation> animationFramesByWeapon;
+        private static readonly IReadOnlyDictionary<WeaponType, WeaponAnimation> animationFramesByWeapon;
 
         static WeaponAnimations()
         {
-            animationFramesByWeapon = new Dictionary<Weapon, WeaponAnimation>()
+            animationFramesByWeapon = new Dictionary<WeaponType, WeaponAnimation>()
             {
-                [Weapon.Knife] = new int[] { 0, 2, 3, 0 },
-                [Weapon.Pistol] = new int[] { 0, 1, 2, 0 },
-                [Weapon.MachineGun] = new int[] { 0, 1, 2, 1, 0 },
-                [Weapon.Chaingun] = new int[] { 0, 1, 2, 0 },
-                [Weapon.FlameThrower] = new int[] { 0, 1, 2, 3, 2, 1, 0 },
-                [Weapon.RocketLauncher] = new int[] { 0, 1, 2, 3, 0 },
+                [WeaponType.Knife] = new int[] { 0, 2, 3, 0 },
+                [WeaponType.Pistol] = new int[] { 0, 1, 2, 0 },
+                [WeaponType.MachineGun] = new int[] { 0, 1, 2, 1, 0 },
+                [WeaponType.Chaingun] = new int[] { 0, 1, 2, 0 },
+                [WeaponType.FlameThrower] = new int[] { 0, 1, 2, 3, 2, 1, 0 },
+                [WeaponType.RocketLauncher] = new int[] { 0, 1, 2, 3, 0 },
             };
         }
 
-        public static WeaponAnimation GetAnimation(Weapon weapon)
+        public static WeaponAnimation GetAnimation(WeaponType weapon)
         {
             return animationFramesByWeapon[weapon];
         }

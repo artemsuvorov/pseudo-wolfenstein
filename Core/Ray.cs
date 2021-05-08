@@ -5,7 +5,7 @@ namespace PseudoWolfenstein.Core
 {
     public class Ray
     {
-        private const float Length = 65536;
+        private const float Length = 4096f;
 
         public Vector2 Start { get; private set; }
         public Vector2 End { get; private set; }

@@ -6,10 +6,10 @@ using System.Numerics;
 
 namespace PseudoWolfenstein.Model
 {
-    internal static class ShapeFactory
+    internal class ShapeFactory
     {
         private static readonly IReadOnlyDictionary<char, Func<int, int, Shape>> shapeCtorByChar;
-
+        
         static ShapeFactory()
         {
             shapeCtorByChar = new Dictionary<char, Func<int, int, Shape>> 
@@ -29,8 +29,8 @@ namespace PseudoWolfenstein.Model
                 ['C'] = (x, y) =>
                 {
                     var position = new Vector2((x + 0.5f) * Settings.WorldWallSize, (y + 0.5f) * Settings.WorldWallSize);
-                    var texture = Repository.Textures.GreyColmun;
-                    return new Pane('C', position, texture);
+                    var texture = Repository.Textures.GreyColumn;
+                    return new RotatingPane('C', position, texture);
                 },
                 ['F'] = (x, y) =>
                 {
@@ -67,37 +67,37 @@ namespace PseudoWolfenstein.Model
                 {
                     var position = new Vector2((x + 0.5f) * Settings.WorldWallSize, (y + 0.5f) * Settings.WorldWallSize);
                     var texture = Repository.Textures.Heal;
-                    return new Pane('H', position, texture);
+                    return new Collectable('H', position, texture);
                 },
                 ['M'] = (x, y) =>
                 {
                     var position = new Vector2((x + 0.5f) * Settings.WorldWallSize, (y + 0.5f) * Settings.WorldWallSize);
                     var texture = Repository.Textures.Meal;
-                    return new Pane('M', position, texture);
+                    return new Collectable('M', position, texture);
                 },
                 ['A'] = (x, y) =>
                 {
                     var position = new Vector2((x + 0.5f) * Settings.WorldWallSize, (y + 0.5f) * Settings.WorldWallSize);
                     var texture = Repository.Textures.Ammo;
-                    return new Pane('A', position, texture);
+                    return new Collectable('A', position, texture);
                 },
                 ['O'] = (x, y) =>
                 {
                     var position = new Vector2((x + 0.5f) * Settings.WorldWallSize, (y + 0.5f) * Settings.WorldWallSize);
                     var texture = Repository.Textures.Oddments;
-                    return new Pane('O', position, texture);
+                    return new RotatingPane('O', position, texture);
                 },
                 ['G'] = (x, y) =>
                 {
                     var position = new Vector2((x + 0.5f) * Settings.WorldWallSize, (y + 0.5f) * Settings.WorldWallSize);
                     var texture = Repository.Textures.Goods;
-                    return new Pane('G', position, texture);
+                    return new Collectable('G', position, texture);
                 },
                 ['U'] = (x, y) =>
                 {
                     var position = new Vector2((x + 0.5f) * Settings.WorldWallSize, (y + 0.5f) * Settings.WorldWallSize);
                     var texture = Repository.Textures.Unlocker;
-                    return new Pane('U', position, texture);
+                    return new Collectable('U', position, texture);
                 },
                 ['N'] = (x, y) =>
                 {
@@ -109,13 +109,19 @@ namespace PseudoWolfenstein.Model
                 {
                     var position = new Vector2((x + 0.5f) * Settings.WorldWallSize, (y + 0.5f) * Settings.WorldWallSize);
                     var texture = Repository.Textures.WC;
-                    return new Pane('X', position, texture);
+                    return new RotatingPane('X', position, texture);
                 },
                 ['I'] = (x, y) =>
                 {
                     var position = new Vector2((x + 0.5f) * Settings.WorldWallSize, (y + 0.5f) * Settings.WorldWallSize);
                     var texture = Repository.Textures.ImageWet;
-                    return new Pane('I', position, texture);
+                    return new RotatingPane('I', position, texture);
+                },
+                ['D'] = (x,y) =>
+                {
+                    var position = new Vector2((x + 0.5f) * Settings.WorldWallSize, (y + 0.5f) * Settings.WorldWallSize);
+                    var texture = Repository.Textures.Door;
+                    return new Door('D', position, texture);
                 }
             };
         }
@@ -130,8 +136,7 @@ namespace PseudoWolfenstein.Model
 
         public static Shape InstantiateShapeAtOrDefault(int x, int y, char c)
         {
-            if (!IsShape(c))
-                return default;
+            if (!IsShape(c)) return default;
             return shapeCtorByChar[c](x, y);
         }
 

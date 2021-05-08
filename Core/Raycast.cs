@@ -130,14 +130,14 @@ namespace PseudoWolfenstein.Core
             }
 
             crosses.Sort((cross, other) => cross.Distance.CompareTo(other.Distance));
-            var a = TakeWhileNotWall(crosses).ToArray();
-            return new RaycastDataEntry(ray, TakeWhileNotWall(crosses).ToArray());
+            var a = TakeWhileNotWallNorDoor(crosses).ToArray();
+            return new RaycastDataEntry(ray, TakeWhileNotWallNorDoor(crosses).ToArray());
         }
 
-        private IEnumerable<Cross> TakeWhileNotWall(IReadOnlyList<Cross> crosses)
+        private IEnumerable<Cross> TakeWhileNotWallNorDoor(IReadOnlyList<Cross> crosses)
         {
             var index = 0;
-            while (index < crosses.Count && !(crosses[index].CrossedObstacle is Wall))
+            while (index < crosses.Count && !(crosses[index].CrossedObstacle is Wall) && !(crosses[index].CrossedObstacle is Door))
             {
                 yield return crosses[index];
                 index++;
