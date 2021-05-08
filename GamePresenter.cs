@@ -31,6 +31,9 @@ namespace PseudoWolfenstein
             this.player = scene.Player;
             raycast = new Raycast(scene);
 
+            foreach (var pane in scene.Panes)
+                player.Moved += pane.UpdateTransform;
+
             //minimapForm = new MinimapForm(viewport, scene);
             this.gameForm = gameForm;
             this.gameForm.Load += Start;

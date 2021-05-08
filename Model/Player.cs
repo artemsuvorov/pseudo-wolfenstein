@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Numerics;
+using System.Security.Cryptography.Xml;
 using System.Windows.Forms;
 
 namespace PseudoWolfenstein.Model
@@ -22,6 +23,8 @@ namespace PseudoWolfenstein.Model
         public Vector2 Motion { get; private set; }
         public Vector2 MotionDirection => Vector2.UnitX.RotateCounterClockwise(Rotation);
 
+        public event EventHandler Moved;
+        
         public Player(char name, Vector2 position) : base(name, position) { }
 
         public void Update(Scene scene)
@@ -50,17 +53,24 @@ namespace PseudoWolfenstein.Model
         private void Move(Scene scene)
         {
             Collide(scene.Obstacles, out int front, out int back);
+            var dx = 0f;
+            var dy = 0f;
 
             if (Input.IsKeyDown(Keys.W) || Input.IsKeyDown(Keys.Up))
             {
-                X += 1.0f * MathF.Cos(Rotation) * MoveSpeed * TimeF.DeltaTime * front;
-                Y += 1.0f * MathF.Sin(Rotation) * MoveSpeed * TimeF.DeltaTime * front;
+                dx = 1.0f * MathF.Cos(Rotation) * MoveSpeed * TimeF.DeltaTime * front;
+                dy = 1.0f * MathF.Sin(Rotation) * MoveSpeed * TimeF.DeltaTime * front;
             }
             else if (Input.IsKeyDown(Keys.S) || Input.IsKeyDown(Keys.Down))
             {
-                X += -1.0f * MathF.Cos(Rotation) * MoveSpeed * TimeF.DeltaTime * back;
-                Y += -1.0f * MathF.Sin(Rotation) * MoveSpeed * TimeF.DeltaTime * back;
+                dx = -1.0f * MathF.Cos(Rotation) * MoveSpeed * TimeF.DeltaTime * back;
+                dy = -1.0f * MathF.Sin(Rotation) * MoveSpeed * TimeF.DeltaTime * back;
             }
+
+            Position += new Vector2(dx, dy);
+
+            if (dx.IsNotEqual(0f) || dy.IsNotEqual(0f))
+                Moved?.Invoke(this, EventArgs.Empty);
         }
 
         private void Collide(IEnumerable<Shape> obstacles, out int front, out int back)
