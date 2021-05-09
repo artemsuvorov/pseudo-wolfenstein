@@ -8,7 +8,6 @@ using System.Windows.Forms;
 
 namespace PseudoWolfenstein.Model
 {
-    // todo: make it derive from shape
     public class Player : Shape
     {
         public const float MoveSpeed = Settings.PlayerMoveSpeed;

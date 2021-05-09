@@ -1,5 +1,4 @@
-﻿using PseudoWolfenstein.Core;
-using System.Drawing;
+﻿using System.Drawing;
 using System.Numerics;
 namespace PseudoWolfenstein.Model
 {
