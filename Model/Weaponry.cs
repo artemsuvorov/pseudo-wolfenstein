@@ -7,6 +7,7 @@ namespace PseudoWolfenstein.Model
     public class Weaponry
     {
         public Weapon SelectedWeapon { get; private set; }
+        public int Ammo { get; set; } = 5;
 
         private bool isAnimating = false;
         private WeaponAnimation weaponAnimation;

@@ -17,9 +17,22 @@ namespace PseudoWolfenstein.Model
             Destroy();
         }
 
-        protected virtual void Collect(Player player)
+        protected virtual void Collect(Player player) 
         {
             player.Score += 10;
+        }
+    }
+
+    public class Ammo : Collectable
+    {
+        public Ammo(char name, Vector2 position, Image texture)
+            : base(name, position, texture)
+        { }
+
+        protected override void Collect(Player player)
+        {
+            base.Collect(player);
+            player.Weaponry.Ammo += 10;
         }
     }
 }

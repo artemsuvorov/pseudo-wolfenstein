@@ -89,7 +89,7 @@ namespace PseudoWolfenstein.Model
                 "               SGS   SSS      CSSSSSSS                              CSC                             SSS       \r\n" +
                 "                S S                S S                               S                              S       \r\n" +
                 "                   S     F     F  S   SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSRRRRRRRRRRRRRRRRRRRRRRRRRDRRRR        \r\n" +
-                "                    SSSSSSSSSSSSSS   R                              S                               R       \r\n" +
+                "               RRRRRRRRR        RRRRRRRRRRRRRRRRR     SSSSSSSSSSSSSS   R                              S                               R       \r\n" +
                 "                                   RRR    U                         S  R                            RRR       \r\n" +
                 "                                  RF D                              S  R                            D AR     \r\n" +
                 "      SSSSSSSSSSSSSSSSSSS          RRR                              S  R                       U    RRR       \r\n" +
@@ -100,7 +100,7 @@ namespace PseudoWolfenstein.Model
                 "     S    F              D    F      D                               D                                  N    \r\n" +
                 "     S   FM             CSSSSSSSSSSSSRC   U                       A CRC                               RR      \r\n" +
                 "     S    F              S           R                               R                              RR       \r\n" +
-                "     S                   S            RRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR        RRRRRRRRRRRRRRRRRRRR        \r\n" +
+                "     S                   S            RRRRRRRRRRRRRRRRRRRRRRRRRRRR        \r\n" +
                 "     S                   S                                              R   R   R                           \r\n" +
                 "      SSS             SSS                                              RR  RO  R                                   \r\n" +
                 "         R   F   F   R                                               R     RRGR                                    \r\n" +

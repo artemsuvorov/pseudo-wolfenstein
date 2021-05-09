@@ -19,6 +19,7 @@ namespace PseudoWolfenstein.Model
         public Vector2 Motion { get; private set; }
         public Vector2 MotionDirection => Vector2.UnitX.RotateCounterClockwise(Rotation);
 
+        public int Health { get; private set; } = 100;
         public int Score { get; set; } = 0;
         public Weaponry Weaponry { get; private set; } = new Weaponry();
 
@@ -40,6 +41,11 @@ namespace PseudoWolfenstein.Model
         public void Animate()
         {
             Weaponry.Animate();
+        }
+
+        public void Heal(int amount)
+        {
+            Health = (int)MathF.Min(MathF.Max(0, Health + amount), 100);
         }
 
         private void SelectWeapon()

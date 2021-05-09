@@ -79,7 +79,7 @@ namespace PseudoWolfenstein.Model
                 {
                     var position = new Vector2((x + 0.5f) * Settings.WorldWallSize, (y + 0.5f) * Settings.WorldWallSize);
                     var texture = Repository.Textures.Ammo;
-                    return new Collectable('A', position, texture);
+                    return new Ammo('A', position, texture);
                 },
                 ['O'] = (x, y) =>
                 {

@@ -21,7 +21,9 @@ namespace PseudoWolfenstein.View
             $"FPS: {Time.FPS:0} deltaTime: {Time.DeltaTime:0.000000}\r\n" +
             $"Player Position: { player.Position }\r\n" +
             $"Player Rotation: { player.Rotation.ToDegrees() }\r\n" +
-            $"Player SCORE:    { player.Score }";
+            $"Player Health:  { player.Health }\r\n" +
+            $"Player Ammo  :  { player.Weaponry.Ammo }\r\n" +
+            $"Player SCORE :  { player.Score }";
 
         public bool IsDebugMode { get; private set; }
 
