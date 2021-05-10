@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using PseudoWolfenstein.Core;
+using System.Drawing;
 using System.Numerics;
 
 namespace PseudoWolfenstein.Model
@@ -9,11 +10,11 @@ namespace PseudoWolfenstein.Model
             : base(name, position, texture, default)
         { }
 
-        public void Collide(object sender, Player player)
+        public void Collide(object sender, GameEventArgs e)
         {
-            var dst = (Center - player.Position).Length();
+            var dst = (Center - e.Player.Position).Length();
             if (dst > Settings.WorldWallSize * 0.5f) return;
-            Collect(player);
+            Collect(e.Player);
             Destroy();
         }
 

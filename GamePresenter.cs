@@ -28,6 +28,7 @@ namespace PseudoWolfenstein
             this.viewport = gameForm.GetViewport();
             this.scene = scene;
             this.player = scene.Player;
+            this.player.Initialize(scene);
 
             //minimapForm = new MinimapForm(viewport, scene);
             this.gameForm = gameForm;

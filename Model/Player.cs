@@ -22,19 +22,29 @@ namespace PseudoWolfenstein.Model
         public int Score { get; set; } = 0;
         public Weaponry Weaponry { get; private set; } = new Weaponry();
 
-        public event EventHandler<Player> Moved;
-        public event EventHandler<Player> Shot;
-        public event EventHandler<Player> DoorOpening;
+        public event GameEventHandler Moved;
+        public event GameEventHandler Shot;
+        public event GameEventHandler Interacting;
+        
+        private Scene scene;
 
-        public Player(char name, Vector2 position) : base(name, position) { }
+        public Player(char name, Vector2 position) : base(name, position) 
+        {
+            Weaponry.Shot += OnWeaponShot;
+        }
 
-        public void Update(Scene scene)
+        public void Initialize(Scene scene)
+        {
+            this.scene = scene;
+        }
+
+        public void Update()
         {
             SelectWeapon();
-            Move(scene);
+            Move();
             Rotate();
             Shoot();
-            OpenDoor();
+            Interact();
         }
 
         public void Animate()
@@ -57,7 +67,7 @@ namespace PseudoWolfenstein.Model
             if (Input.IsKeyDown(Keys.D6)) Weaponry.SelectWeapon(WeaponType.RocketLauncher);
         }
 
-        private void Move(Scene scene)
+        private void Move()
         {
             Collide(scene.Obstacles, out int front, out int back);
             var dx = 0f;
@@ -77,7 +87,7 @@ namespace PseudoWolfenstein.Model
             Position += new Vector2(dx, dy);
 
             if (dx.IsNotEqual(0f) || dy.IsNotEqual(0f))
-                Moved?.Invoke(this, this);
+                Moved?.Invoke(this, new GameEventArgs(scene));
         }
 
         private void Collide(IEnumerable<Shape> obstacles, out int front, out int back)
@@ -111,15 +121,14 @@ namespace PseudoWolfenstein.Model
         {
             if (Input.IsKeyDown(Keys.Space))
             {
-                Weaponry.Shoot();
-                Shot?.Invoke(this, this);
+                Weaponry.BeginShoot();
             }
         }
 
-        private void OpenDoor()
+        private void Interact()
         {
             if (Input.IsKeyDown(Keys.F))
-                DoorOpening?.Invoke(this, this);
+                Interacting?.Invoke(this, new GameEventArgs(scene));
         }
 
         // todo: remove this from player class
@@ -131,6 +140,11 @@ namespace PseudoWolfenstein.Model
             float x = X - Settings.PlayerRadius / 2f, y = Y - Settings.PlayerRadius / 2f;
             graphics.FillEllipse(objectFillBrush, x, y, Settings.PlayerRadius, Settings.PlayerRadius);
             graphics.DrawEllipse(objectStrokePen, x, y, Settings.PlayerRadius, Settings.PlayerRadius);
+        }
+
+        private void OnWeaponShot(object sender, EventArgs e)
+        {
+            Shot?.Invoke(this, new GameEventArgs(scene));
         }
     }
 }

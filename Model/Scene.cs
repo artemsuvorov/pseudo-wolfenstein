@@ -39,7 +39,7 @@ namespace PseudoWolfenstein.Model
                 obstacle.Destroying += Destroy;
 
             foreach (var door in doors)
-                player.DoorOpening += door.Open;
+                player.Interacting += door.Open;
 
             foreach (var enemy in enemies)
                 player.Shot += enemy.OnPlayerShot;
@@ -68,12 +68,7 @@ namespace PseudoWolfenstein.Model
 
         public void Update()
         {
-            Player.Update(this);
-        }
-
-        private void RotateDoors()
-        {
-
+            Player.Update();
         }
     }
 }

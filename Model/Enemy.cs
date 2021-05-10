@@ -13,13 +13,13 @@ namespace PseudoWolfenstein.Model
             : base(name, position, texture, srcRect)
         { }
 
-        public void OnPlayerShot(object sender, Player player)
+        public void OnPlayerShot(object sender, GameEventArgs e)
         {
-            var shootDistance = player.Weaponry.SelectedWeapon.Distance;
-            var hitEnd = player.Position + Vector2.UnitX.RotateClockwise(-player.Rotation) * shootDistance;
-            var hit = MathF2D.AreSegmentsCrossing(player.Position, hitEnd, Vertices[0], Vertices[1], out _);
+            var shootDistance = e.Player.Weaponry.SelectedWeapon.Distance;
+            var hitEnd = e.Player.Position + Vector2.UnitX.RotateClockwise(-e.Player.Rotation) * shootDistance;
+            var hit = MathF2D.AreSegmentsCrossing(e.Player.Position, hitEnd, Vertices[0], Vertices[1], out _);
             if (hit)
-                 ApplyDamage(player.Weaponry.SelectedWeapon.DamageAmount);
+                 ApplyDamage(e.Player.Weaponry.SelectedWeapon.DamageAmount);
         }
 
         public void ApplyDamage(int damage)
