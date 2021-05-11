@@ -81,7 +81,6 @@ namespace PseudoWolfenstein.Model
                 "   BJBBBBJBBBBJBBBBBJBBBBBBBBBBBJBBBBBBBJBBBBBBBJBBBBBB            \r\n";
 
             internal const string Level_2 =
-
                 " kkkkkkkkkkkkkkkkk  SSSSSSSSSSSSSS                                                                          \r\n" +
                 " k       D       k S  F           S   SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS        \r\n" +
                 " k m G   kkkkkkSDSS        F       S S                               S                              S       \r\n" +
@@ -185,6 +184,7 @@ namespace PseudoWolfenstein.Model
                 "                                                                                                                ";
 
             public Scene Default => FromString(DefaultSceneStr);         
+
             public Scene SingleBlockScene => FromString(SingleBlockSceneStr);
 
             public Scene FromString(string source)
