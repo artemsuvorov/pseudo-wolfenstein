@@ -24,7 +24,7 @@ namespace PseudoWolfenstein.Model
 
         public void BeginShoot()
         {
-            if (Ammo <= 0) return;
+            if (SelectedWeapon.Type != WeaponType.Knife && Ammo <= 0) return;
             if (isAnimating && weaponAnimation.IsContinuing) return;
             isAnimating = true;
             weaponAnimation.Reset();

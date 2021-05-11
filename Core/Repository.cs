@@ -46,7 +46,7 @@ namespace PseudoWolfenstein.Core
 
             public Bitmap NewLevel { get; private set; }
 
-            private readonly ISet<Bitmap> textures = new HashSet<Bitmap>(TextureRepoCapactity);
+            private readonly HashSet<Bitmap> textures = new HashSet<Bitmap>(TextureRepoCapactity);
 
             public TextureRepository()
             {

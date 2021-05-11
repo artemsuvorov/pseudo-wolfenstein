@@ -10,8 +10,8 @@ namespace PseudoWolfenstein.Model
         public bool IsContinuing => animationFrameIndex < animationFrames.Count;
         public bool IsFireFrame => animationFrameIndex == fireFrameIndex;
 
-        private int fireFrameIndex = 0;
         private int animationFrameIndex = 0;
+        private readonly int fireFrameIndex = 0;
         private readonly IReadOnlyList<int> animationFrames;
 
         public WeaponAnimation(IReadOnlyList<int> animationFrames) : this(animationFrames, 0) { }

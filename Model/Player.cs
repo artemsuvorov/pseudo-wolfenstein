@@ -3,6 +3,7 @@ using PseudoWolfenstein.Utils;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 using System.Numerics;
 using System.Windows.Forms;
 
@@ -90,7 +91,7 @@ namespace PseudoWolfenstein.Model
                 Moved?.Invoke(this, new GameEventArgs(scene));
         }
 
-        private void Collide(IEnumerable<Shape> obstacles, out int front, out int back)
+        private void Collide(List<Polygon> obstacles, out int front, out int back)
         {
             const float collisionMagnitude = 0.5f * Settings.WorldWallSize;
             (front, back) = (1, 1);
@@ -99,7 +100,7 @@ namespace PseudoWolfenstein.Model
             {
                 for (var index = 1; index < polygon.Vertices.Length + 1; index++)
                 {
-                    Vector2 vertex1 = polygon.Vertices[index - 1], vertex2 = polygon.Vertices[index % polygon.Vertices.Length];
+                    Vector2 vertex1 = polygon.Vertices[index-1], vertex2 = polygon.Vertices[index % polygon.Vertices.Length];
                     Vector2 dirFront = Position + MotionDirection * collisionMagnitude, dirBack = Position - MotionDirection * collisionMagnitude;
                     var isCrossingFront = MathF2D.AreSegmentsCrossing(Position, dirFront, vertex1, vertex2, out _);
                     var isCrossingBack = MathF2D.AreSegmentsCrossing(Position, dirBack, vertex1, vertex2, out _);

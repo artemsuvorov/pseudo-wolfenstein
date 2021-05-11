@@ -100,7 +100,7 @@ namespace PseudoWolfenstein.Core
             this.player = this.scene.Player;
         }
 
-        public RaycastData CastRaysAt(IEnumerable<Polygon> obstacles)
+        public RaycastData CastRaysAt(List<Polygon> obstacles)
         {
             var length = Settings.RaycastRayCount;
             var entries = new RaycastDataEntry[length];
@@ -115,7 +115,7 @@ namespace PseudoWolfenstein.Core
             return new RaycastData(entries);
         }
 
-        public RaycastDataEntry GetCrossingPoints(Ray ray, IEnumerable<Polygon> obstacles)
+        public RaycastDataEntry GetCrossingPoints(Ray ray, List<Polygon> obstacles)
         {
             const int MaxEntryCapacity = 12;
             var crosses = new List<Cross>(MaxEntryCapacity);
