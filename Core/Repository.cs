@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
+using System.Windows.Forms;
 
 namespace PseudoWolfenstein.Core
 {
@@ -27,52 +28,137 @@ namespace PseudoWolfenstein.Core
             public Bitmap IdleFritz { get; private set; }
             public Bitmap DeadFritz { get; private set; }
             public Bitmap ShotFritz { get; private set; }
-
             public Bitmap StoneWall { get; private set; }
             public Bitmap BlueWall { get; private set; }
             public Bitmap RedWall { get; private set; }
-            public Bitmap Wood { get; private set; }
-            public Bitmap Jail { get; private set; }
+            public Bitmap WoodWall { get; private set; }
+            public Bitmap BlueJail { get; private set; }
             public Bitmap Door { get; private set; }
-
             public Bitmap GreyColumn { get; private set; }
             public Bitmap WC { get; private set; }
-            public Bitmap ImageWet { get; private set; }
-            public Bitmap Oddments { get; private set; }
-            
+            public Bitmap Puddle { get; private set; }
+            public Bitmap Bones { get; private set; }
             public Bitmap Ammo { get; private set; }
             public Bitmap Heal { get; private set; }
-            public Bitmap Meal { get; private set; }
-            public Bitmap Goods { get; private set; }
-            public Bitmap Unlocker { get; private set; }
-
-            public Bitmap NewLevel { get; private set; }
+            public Bitmap SmallTable { get; private set; }
+            public Bitmap ScoreItemCross { get; private set; }
+            public Bitmap NewLevelVase { get; private set; }
+            public Bitmap RedKey { get; set; }
+            public Bitmap RedDoor { get; set; }
+            public Bitmap OrangeDoor { get; set; }
+            public Bitmap OrangeKey { get; set; }
+            public Bitmap BlueDoor { get; set; }
+            public Bitmap GreenDoor { get; set; }
+            public Bitmap BlueKey { get; set; }
+            public Bitmap GreenKey { get; set; }
+            public Bitmap LockedDoor { get; set; }
+            public Bitmap BigTable { get; set; }
+            public Image RedJail { get; set; }
+            public Bitmap Knight { get; set; }
+            public Bitmap TextBlueWall { get; set; }
+            public Bitmap TextStoneWall { get; set; }
+            public Bitmap PotPlant { get; set; }
+            public Bitmap BadGuy { get; set; }
+            public Bitmap Barrel { get; set; }
+            public Bitmap BloodyBones { get; set; }
+            public Bitmap ScoreItemChest { get; set; }
+            public Bitmap ScoreItemCrown { get; set; }
+            public Bitmap BrickWall { get; set; }
+            public Bitmap VaseCracks { get; set; }
+            public Bitmap BrokenVase { get; set; }
+            public Bitmap Left { get; set; }
+            public Bitmap Right { get; set; }
+            public Bitmap Tree { get; set; }
+            public Bitmap SendWall { get; set; }
+            public Bitmap GoldWall { get; set; }
+            public Bitmap Flowey { get; set; }
 
             private readonly HashSet<Bitmap> textures = new HashSet<Bitmap>(TextureRepoCapactity);
 
             public TextureRepository()
             {
-                StoneWall = LoadTexture("WALL0.bmp");
-                BlueWall = LoadTexture("WALL14.bmp");
-                Wood = LoadTexture("WALL23.bmp");
-                GreyColumn = LoadTexture("GreyColumn.bmp", texture => texture.GetPixel(0,0));
-                WeaponsTileSet = LoadTexture("weapons.png", texture => texture.GetPixel(0, 0));
+                //walls
+                StoneWall = LoadTexture("StoneWall.bmp");
+                BlueWall = LoadTexture("BlueWall.bmp");
+                WoodWall = LoadTexture("WoodWall.bmp");
+                RedWall = LoadTexture("RedWall.gif");
+                BlueJail = LoadTexture("BlueJail.bmp");
+                RedJail = LoadTexture("RedJail.GIF");
+                TextBlueWall = LoadTexture("TextBlueWall.bmp");
+                TextStoneWall = LoadTexture("TextStoneWall.bmp");
+                BrickWall = LoadTexture("BrickWall.bmp");
+                BadGuy = LoadTexture("Illustration.bmp");
+                Left = LoadTexture("Left.bmp");
+                Right = LoadTexture("Right.bmp");
+                GoldWall = LoadTexture("GoldWall.bmp");
+                SendWall = LoadTexture("SendWall.bmp");
+
+                //decorations
+                GreyColumn = LoadTexture("Column.bmp", texture => texture.GetPixel(0,0));
+                Puddle = LoadTexture("Puddle.bmp", texture => texture.GetPixel(0, 0));
+                SmallTable = LoadTexture("SmallTable.bmp", texture => texture.GetPixel(0, 0));
+                BigTable = LoadTexture("BigTable.bmp", texture => texture.GetPixel(0, 0));
+                Bones = LoadTexture("Bones.bmp", texture => texture.GetPixel(0, 0));
+                WC = LoadTexture("WC.bmp", texture => texture.GetPixel(0, 0));
+                Knight = LoadTexture("Knight.bmp", texture => texture.GetPixel(0, 0));
+                PotPlant = LoadTexture("PotPlant.gif", texture => texture.GetPixel(0, 0));
+                Barrel = LoadTexture("Barrel.bmp", texture => texture.GetPixel(0, 0));
+                BloodyBones = LoadTexture("Bloody Bones.bmp", texture => texture.GetPixel(0, 0));
+                Tree = LoadTexture("Tree.bmp", texture => texture.GetPixel(0, 0));
+
+                //collectable items
+                Ammo = LoadTexture("Ammo.bmp", texture => texture.GetPixel(0, 0));
+                Heal = LoadTexture("Heal.bmp", texture => texture.GetPixel(0, 0));
+                ScoreItemCross = LoadTexture("Cross.bmp", texture => texture.GetPixel(0, 0));
+                ScoreItemChest = LoadTexture("Chest.bmp", texture => texture.GetPixel(0, 0));
+                ScoreItemCrown = LoadTexture("Crown.bmp", texture => texture.GetPixel(0, 0));
+
+                //doors and keys
+                RedKey = LoadTexture("RedKey.bmp", texture => texture.GetPixel(0, 0));
+                RedDoor = LoadTexture("RedDoor.bmp");
+                GreenKey = LoadTexture("GreenKey.bmp", texture => texture.GetPixel(0, 0));
+                GreenDoor = LoadTexture("GreenDoor.bmp");
+                BlueKey = LoadTexture("BlueKey.bmp", texture => texture.GetPixel(0, 0));
+                BlueDoor = LoadTexture("BlueDoor.bmp");
+                OrangeKey = LoadTexture("OrangeKey.bmp", texture => texture.GetPixel(0, 0));
+                OrangeDoor = LoadTexture("OrangeDoor.bmp");
+
+                Door = LoadTexture("Door.bmp");
+                LockedDoor = LoadTexture("Door.bmp");
+
+                //new level items
+                NewLevelVase = LoadTexture("Vase.bmp", texture => texture.GetPixel(0, 0));
+                VaseCracks = LoadTexture("VaseCracks.bmp", texture => texture.GetPixel(0, 0));
+                BrokenVase = LoadTexture("BrokenVase.bmp", texture => texture.GetPixel(0, 0));
+
+                //Secrets
+                Flowey = LoadTexture("Flowey.bmp", texture => texture.GetPixel(0, 0));
+
+                //Guns
+                WeaponsTileSet = LoadTexture("Weapons.png", texture => texture.GetPixel(0, 0));
+                Knife = LoadTexture("Knife.png", texture => texture.GetPixel(0, 0));
+                Pistol = LoadTexture("Pistol.png", texture => texture.GetPixel(0, 0));
+                Rifle = LoadTexture("Rifle.png", texture => texture.GetPixel(0, 0));
+                MachineGun = LoadTexture("MachineGun.png", texture => texture.GetPixel(0, 0));
+                Flamethrower = LoadTexture("Flamethrower.png", texture => texture.GetPixel(0, 0));
+                Bazooka = LoadTexture("Bazooka.png", texture => texture.GetPixel(0, 0));
+
                 IdleFritz = LoadTexture("IdleFritz.png", texture => texture.GetPixel(0, 0));
                 DeadFritz = LoadTexture("DeadFritz.png", texture => texture.GetPixel(0, 0));
                 ShotFritz = LoadTexture("ShotFritz.png", texture => texture.GetPixel(0, 0));
-                Jail = LoadTexture("WALL8.bmp");
-                RedWall = LoadTexture("17.gif");
-                Ammo = LoadTexture("28.bmp", texture => texture.GetPixel(0, 0));
-                Heal = LoadTexture("27.bmp", texture => texture.GetPixel(0, 0));
-                Meal = LoadTexture("Table.bmp", texture => texture.GetPixel(0, 0));
-                Oddments = LoadTexture("21.bmp", texture => texture.GetPixel(0, 0));
-                Goods = LoadTexture("31.bmp", texture => texture.GetPixel(0, 0));
-                Unlocker = LoadTexture("22.bmp", texture => texture.GetPixel(0, 0));
-                NewLevel = LoadTexture("WALL41.bmp");
-                WC = LoadTexture("14.bmp", texture => texture.GetPixel(0, 0));
-                ImageWet = LoadTexture("2.bmp", texture => texture.GetPixel(0, 0));
-                Door = LoadTexture("WALL98.bmp");
             }
+
+            public Bitmap Bazooka { get; set; }
+
+            public Bitmap Rifle { get; set; }
+
+            public Bitmap Flamethrower { get; set; }
+
+            public Bitmap MachineGun { get; set; }
+
+            public Bitmap Pistol { get; set; }
+
+            public Bitmap Knife { get; set; }
 
             private Bitmap LoadTexture(string textureName)
             {
