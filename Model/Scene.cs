@@ -70,5 +70,12 @@ namespace PseudoWolfenstein.Model
         {
             Player.Update();
         }
+
+        public void Animate(object sender, System.EventArgs e)
+        {
+            Player.Animate();
+            foreach (var enemy in enemies)
+                enemy.Animate();
+        }
     }
 }

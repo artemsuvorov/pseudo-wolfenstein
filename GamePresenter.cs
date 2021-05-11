@@ -22,13 +22,13 @@ namespace PseudoWolfenstein
             frameTimer.Tick += FrameUpdate;
             frameTimer.Tick += Time.OnGlobalTick;
 
-            animationTimer = new Timer { Interval = 50 };
-            animationTimer.Tick += AnimationUpdate;
-
             this.viewport = gameForm.GetViewport();
             this.scene = scene;
-            this.player = scene.Player;
+            this.player = this.scene.Player;
             this.player.Initialize(scene);
+
+            animationTimer = new Timer { Interval = 50 };
+            animationTimer.Tick += this.scene.Animate;
 
             //minimapForm = new MinimapForm(viewport, scene);
             this.gameForm = gameForm;
@@ -57,11 +57,6 @@ namespace PseudoWolfenstein
 
             //minimapForm.Invalidate();
             gameForm.Refresh();
-        }
-
-        private void AnimationUpdate(object sender, EventArgs e)
-        {
-            player.Animate();
         }
     }
 }
