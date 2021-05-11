@@ -29,7 +29,7 @@ namespace PseudoWolfenstein
             this.scene = scene;
             this.player = scene.Player;
 
-            //minimapForm = new MinimapForm(viewport, scene);
+             //minimapForm = new MinimapForm(viewport, scene);
             this.gameForm = gameForm;
             this.gameForm.Load += Start;
         }
@@ -41,7 +41,7 @@ namespace PseudoWolfenstein
 
         private void Start(object sender, EventArgs e)
         {
-            //minimapForm.Show();
+             //minimapForm.Show();
             frameTimer.Start();
             animationTimer.Start();
         }
@@ -53,7 +53,7 @@ namespace PseudoWolfenstein
 
             gameForm.DebugInfo.Update();
             //minimapForm.Gizmos.Update();
-
+            
             //minimapForm.Invalidate();
             gameForm.Refresh();
         }
