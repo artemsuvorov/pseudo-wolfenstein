@@ -12,9 +12,9 @@ namespace PseudoWolfenstein.Model
 
         public Player Player { get; private set; }
 
-        public IReadOnlyCollection<Polygon> Obstacles => obstacles;
-        public IReadOnlyCollection<Wall> Walls => walls;
-        public IReadOnlyCollection<Pane> Panes => panes;
+        public List<Polygon> Obstacles => obstacles;
+        public List<Wall> Walls => walls;
+        public List<Pane> Panes => panes;
 
         public static SceneBuilder Builder => builder ??= new SceneBuilder();
 
@@ -39,15 +39,15 @@ namespace PseudoWolfenstein.Model
                 obstacle.Destroying += Destroy;
 
             foreach (var door in doors)
-                player.DoorOpening += door.Open;
+                player.Interacting += door.Open;
 
             foreach (var enemy in enemies)
                 player.Shot += enemy.OnPlayerShot;
 
-            foreach (var pane in Panes.OfType<RotatingPane>())
+            foreach (var pane in Panes.OfType<RotatingPane>().ToList())
                 player.Moved += pane.UpdateTransform;
 
-            foreach (var collectable in Panes.OfType<Collectable>())
+            foreach (var collectable in Panes.OfType<Collectable>().ToList())
                 player.Moved += collectable.Collide;
         }
 
@@ -68,12 +68,14 @@ namespace PseudoWolfenstein.Model
 
         public void Update()
         {
-            Player.Update(this);
+            Player.Update();
         }
 
-        private void RotateDoors()
+        public void Animate(object sender, System.EventArgs e)
         {
-
+            Player.Animate();
+            foreach (var enemy in enemies)
+                enemy.Animate();
         }
     }
 }

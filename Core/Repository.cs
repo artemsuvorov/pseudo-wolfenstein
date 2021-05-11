@@ -24,7 +24,9 @@ namespace PseudoWolfenstein.Core
             private const int TextureRepoCapactity = 256;
 
             public Bitmap WeaponsTileSet { get; private set; }
-            public Bitmap FritzTileSet { get; private set; }
+            public Bitmap IdleFritz { get; private set; }
+            public Bitmap DeadFritz { get; private set; }
+            public Bitmap ShotFritz { get; private set; }
 
             public Bitmap StoneWall { get; private set; }
             public Bitmap BlueWall { get; private set; }
@@ -46,7 +48,7 @@ namespace PseudoWolfenstein.Core
 
             public Bitmap NewLevel { get; private set; }
 
-            private readonly ISet<Bitmap> textures = new HashSet<Bitmap>(TextureRepoCapactity);
+            private readonly HashSet<Bitmap> textures = new HashSet<Bitmap>(TextureRepoCapactity);
 
             public TextureRepository()
             {
@@ -55,7 +57,9 @@ namespace PseudoWolfenstein.Core
                 Wood = LoadTexture("WALL23.bmp");
                 GreyColumn = LoadTexture("GreyColumn.bmp", texture => texture.GetPixel(0,0));
                 WeaponsTileSet = LoadTexture("weapons.png", texture => texture.GetPixel(0, 0));
-                FritzTileSet = LoadTexture("fritz.png", texture => texture.GetPixel(0, 0));
+                IdleFritz = LoadTexture("IdleFritz.png", texture => texture.GetPixel(0, 0));
+                DeadFritz = LoadTexture("DeadFritz.png", texture => texture.GetPixel(0, 0));
+                ShotFritz = LoadTexture("ShotFritz.png", texture => texture.GetPixel(0, 0));
                 Jail = LoadTexture("WALL8.bmp");
                 RedWall = LoadTexture("17.gif");
                 Ammo = LoadTexture("28.bmp", texture => texture.GetPixel(0, 0));

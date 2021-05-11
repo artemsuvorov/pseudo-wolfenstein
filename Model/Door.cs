@@ -9,9 +9,9 @@ namespace PseudoWolfenstein.Model
             : base(name, position, texture)
         { }
 
-        public void Open(object sender, Player player)
+        public void Open(object sender, GameEventArgs e)
         {
-            var dst = (Center - player.Position).Length();
+            var dst = (Center - e.Player.Position).Length();
             if (dst > Settings.WorldWallSize) return;
             Destroy();
         }

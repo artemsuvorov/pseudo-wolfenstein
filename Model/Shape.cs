@@ -15,10 +15,7 @@ namespace PseudoWolfenstein.Model
 
         public Vector2 Position
         {
-            get
-            {
-                return new Vector2(X, Y);
-            }
+            get => new(X, Y);
             set
             {
                 X = value.X;
