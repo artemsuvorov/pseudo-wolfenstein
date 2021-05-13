@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
-using System.Windows.Forms;
 
 namespace PseudoWolfenstein.Core
 {
@@ -19,15 +18,53 @@ namespace PseudoWolfenstein.Core
         {
             return Path.Combine(ProjectDirectoryPath, "Textures", textureName);
         }
-
         internal class TextureRepository
         {
+            internal class EnemyTextureCollection
+            {
+                private readonly List<Bitmap> frames = new(16);
+
+                public Bitmap this[int index]
+                {
+                    get => frames[index];
+                }
+
+                public Bitmap IdleFritz { get; private set; }
+                public Bitmap ShotFritz { get; private set; }
+                public Bitmap FritzDeathFrame1 { get; private set; }
+                public Bitmap FritzDeathFrame2 { get; private set; }
+                public Bitmap FritzDeathFrame3 { get; private set; }
+                public Bitmap FritzDeathFrame4 { get; private set; }
+                public Bitmap DeadFritz { get; private set; }
+
+                private readonly Func<string, Func<Bitmap, Color>, Bitmap> TextureLoader;
+
+                public EnemyTextureCollection(Func<string, Func<Bitmap, Color>, Bitmap> textureLoader)
+                {
+                    TextureLoader = textureLoader;
+                    IdleFritz = LoadEnemyTextureFrame("IdleFritz.png");
+                    ShotFritz = LoadEnemyTextureFrame("ShotFritz.png");
+                    FritzDeathFrame1 = LoadEnemyTextureFrame("FritzDeathFrame1.png");
+                    FritzDeathFrame2 = LoadEnemyTextureFrame("FritzDeathFrame2.png");
+                    FritzDeathFrame3 = LoadEnemyTextureFrame("FritzDeathFrame3.png");
+                    FritzDeathFrame4 = LoadEnemyTextureFrame("FritzDeathFrame4.png");
+                    DeadFritz = LoadEnemyTextureFrame("DeadFritz.png");
+                }
+
+                private Bitmap LoadEnemyTextureFrame(string textureName)
+                {
+                    var texture = TextureLoader(textureName, texture => texture.GetPixel(0, 0));
+                    frames.Add(texture);
+                    return texture;
+                }
+
+            }
+
             private const int TextureRepoCapactity = 256;
 
+            public EnemyTextureCollection EnemyFrames { get; private set; }
+
             public Bitmap WeaponsTileSet { get; private set; }
-            public Bitmap IdleFritz { get; private set; }
-            public Bitmap DeadFritz { get; private set; }
-            public Bitmap ShotFritz { get; private set; }
             public Bitmap StoneWall { get; private set; }
             public Bitmap BlueWall { get; private set; }
             public Bitmap RedWall { get; private set; }
@@ -73,10 +110,12 @@ namespace PseudoWolfenstein.Core
             public Bitmap GoldWall { get; set; }
             public Bitmap Flowey { get; set; }
 
-            private readonly HashSet<Bitmap> textures = new HashSet<Bitmap>(TextureRepoCapactity);
+            private readonly HashSet<Bitmap> textures = new(TextureRepoCapactity);
 
             public TextureRepository()
             {
+                EnemyFrames = new EnemyTextureCollection(LoadTexture);
+
                 //walls
                 StoneWall = LoadTexture("StoneWall.bmp");
                 BlueWall = LoadTexture("BlueWall.bmp");
@@ -142,10 +181,6 @@ namespace PseudoWolfenstein.Core
                 MachineGun = LoadTexture("MachineGun.png", texture => texture.GetPixel(0, 0));
                 Flamethrower = LoadTexture("Flamethrower.png", texture => texture.GetPixel(0, 0));
                 Bazooka = LoadTexture("Bazooka.png", texture => texture.GetPixel(0, 0));
-
-                IdleFritz = LoadTexture("IdleFritz.png", texture => texture.GetPixel(0, 0));
-                DeadFritz = LoadTexture("DeadFritz.png", texture => texture.GetPixel(0, 0));
-                ShotFritz = LoadTexture("ShotFritz.png", texture => texture.GetPixel(0, 0));
             }
 
             public Bitmap Bazooka { get; set; }
@@ -159,6 +194,12 @@ namespace PseudoWolfenstein.Core
             public Bitmap Pistol { get; set; }
 
             public Bitmap Knife { get; set; }
+
+            ~TextureRepository()
+            {
+                foreach (var texture in textures)
+                    texture.Dispose();
+            }
 
             private Bitmap LoadTexture(string textureName)
             {
@@ -175,12 +216,6 @@ namespace PseudoWolfenstein.Core
                 texture.MakeTransparent(transparentPicker(texture));
                 textures.Add(texture);
                 return texture;
-            }
-
-            ~TextureRepository()
-            {
-                foreach (var texture in textures)
-                    texture.Dispose();
             }
         }
     }

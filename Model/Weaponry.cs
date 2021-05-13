@@ -13,7 +13,7 @@ namespace PseudoWolfenstein.Model
         public event EventHandler Shot;
 
         private bool isAnimating = false;
-        private WeaponAnimation weaponAnimation;
+        private WeaponFireAnimation weaponAnimation;
 
         public Weaponry()
         {
@@ -38,9 +38,15 @@ namespace PseudoWolfenstein.Model
                 if (!weaponAnimation.IsFireFrame) return;
                 if (SelectedWeapon.Type != WeaponType.Knife)
                     Ammo--;
+                if (Ammo == 0) 
+                    SelectWeapon(WeaponType.Knife);
                 Shot?.Invoke(this, EventArgs.Empty);
             }
-            else isAnimating = false;
+            else
+            {
+                weaponAnimation.Reset();
+                isAnimating = false;
+            }
         }
 
         public void SelectWeapon(WeaponType weaponType)

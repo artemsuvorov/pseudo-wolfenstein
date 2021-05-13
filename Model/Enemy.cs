@@ -7,8 +7,14 @@ namespace PseudoWolfenstein.Model
 {
     public class Enemy : RotatingPane
     {
-        public int Health { get; private set; } = 2;
-        
+        public int Health { get; private set; } = 3;
+
+        private readonly Animation idleAnimation = new Animation(new[] { 0 });
+        private readonly Animation shotAnimation = new Animation(new[] { 1, 1, 0 });
+        private readonly Animation deadAnimation = new Animation(new[] { 2, 3, 4, 5, 6 });
+        private Animation currentAnimation;
+
+        private bool IsAnimating => isShot || isDead;
         private bool isShot = false;
         private bool isDead = false;
 
@@ -28,15 +34,22 @@ namespace PseudoWolfenstein.Model
 
         public void Animate()
         {
-            if (isShot)
+            if (isShot && !isDead)
+                currentAnimation = shotAnimation;
+            else if (isDead)
+                currentAnimation = deadAnimation;
+            else
+                currentAnimation = idleAnimation;
+
+            if (IsAnimating && currentAnimation.IsContinuing)
             {
-                Texture = Repository.Textures.ShotFritz;
+                var frame = currentAnimation.NextFrame();
+                Texture = Repository.Textures.EnemyFrames[frame];
+            }
+            else
+            {
                 isShot = false;
             }
-            else if (isDead)
-                Texture = Repository.Textures.DeadFritz;
-            else
-                Texture = Repository.Textures.IdleFritz;
         }
 
         private void BeginShotAnimation()

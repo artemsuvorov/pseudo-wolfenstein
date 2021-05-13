@@ -35,7 +35,7 @@ namespace PseudoWolfenstein.Model
                 ['F'] = (x, y) =>
                 {
                     var position = new Vector2((x+0.5f)*Settings.WorldWallSize, (y+0.5f)*Settings.WorldWallSize);
-                    var texture = Repository.Textures.IdleFritz;
+                    var texture = Repository.Textures.EnemyFrames.IdleFritz;
                     var srcRect = new RectangleF(0, 0, 128, 128);
                     return new Enemy('F', position, texture, srcRect);
                 },
