@@ -9,8 +9,8 @@ namespace PseudoWolfenstein.Model
     {
         public int Health { get; private set; } = 3;
 
-        private readonly Animation idleAnimation = new Animation(new[] { 0 });
-        private readonly Animation shotAnimation = new Animation(new[] { 1, 1, 0 });
+        private readonly Animation idleAnimation = new Animation(new[] { 0 }) { Looped = true };
+        private readonly Animation shotAnimation = new Animation(new[] { 1, 1, 1, 1, 0 }) { Looped = true };
         private readonly Animation deadAnimation = new Animation(new[] { 2, 3, 4, 5, 6 });
         private Animation currentAnimation;
 
@@ -26,10 +26,16 @@ namespace PseudoWolfenstein.Model
         {
             var shootDistance = e.Player.Weaponry.SelectedWeapon.Distance;
             var hitEnd = e.Player.Position + Vector2.UnitX.RotateClockwise(-e.Player.Rotation) * shootDistance;
-            if (!MathF2D.AreSegmentsCrossing(e.Player.Position, hitEnd, Vertices[0], Vertices[1], out _))
-                return;
-            BeginShotAnimation();
-            ApplyDamage(e.Player.Weaponry.SelectedWeapon.DamageAmount);
+            var wallHit = e.Scene.GetMinDistanceWallCross
+                (e.Player.Position, hitEnd, out _, out var wallHitDst);
+            var enemyHit = MathF2D.AreSegmentsCrossing
+                (e.Player.Position, hitEnd, Vertices[0], Vertices[1], out var enemyHitLocation);
+            var enemyHitDst = (enemyHitLocation - e.Player.Position).Length();
+            if ((!wallHit && enemyHit) || (wallHit && wallHitDst > enemyHitDst))
+            {
+                BeginShotAnimation();
+                ApplyDamage(e.Player.Weaponry.SelectedWeapon.DamageAmount);
+            }
         }
 
         public void Animate()
@@ -48,6 +54,8 @@ namespace PseudoWolfenstein.Model
             }
             else
             {
+                if (currentAnimation.Looped)
+                    currentAnimation.Reset();
                 isShot = false;
             }
         }

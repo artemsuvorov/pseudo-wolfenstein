@@ -21,7 +21,7 @@ namespace PseudoWolfenstein.View
 
         public void DrawView(Graphics graphics)
         {
-            ClearViewport(graphics);
+            DrawBackground(graphics);
 
             var raycastData = raycast.CastRaysAt(scene.Obstacles);
             DrawObstacles(graphics, raycastData);
@@ -41,10 +41,14 @@ namespace PseudoWolfenstein.View
                 DrawCrossingPoints(graphics, raycastData, i, sliceWidth);
         }
 
-        private void ClearViewport(Graphics graphics)
+        private void DrawBackground(Graphics graphics)
         {
-            var backgroundBrush = new SolidBrush(Settings.ViewportBackgroundColor);
-            graphics.FillRectangle(backgroundBrush, graphics.ClipBounds);
+            using var ceilingBrush = new SolidBrush(Settings.CeilingColor);
+            using var floorBrush = new SolidBrush(Settings.FloorColor);
+            var ceilingRect = new RectangleF(0, 0, viewport.Width, viewport.Height/2f);
+            var floorRect = new RectangleF(0, viewport.Height/2f, viewport.Width, viewport.Height);
+            graphics.FillRectangle(ceilingBrush, ceilingRect);
+            graphics.FillRectangle(floorBrush, floorRect);
         }
 
         private float CalculateCeiling(float totalDistance)

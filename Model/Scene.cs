@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using PseudoWolfenstein.Core;
+using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 
 namespace PseudoWolfenstein.Model
 {
@@ -77,5 +79,57 @@ namespace PseudoWolfenstein.Model
             foreach (var enemy in enemies)
                 enemy.Animate();
         }
+
+        public bool GetMinDistanceWallCross(Vector2 v1, Vector2 v2, out Vector2 location)
+        {
+            return GetMinDistanceWallCross(v1, v2, out location, out _);
+        }
+
+        public bool GetMinDistanceWallCross(Vector2 v1, Vector2 v2, out Vector2 location, out float minDistance)
+        {
+            var crossFound = false;
+            minDistance = float.MaxValue;
+            location = default(Vector2);
+
+            foreach (var wall in walls)
+            {
+                for (var index = 1; index < wall.Vertices.Length + 1; index++)
+                {
+                    Vector2 vertex1 = wall.Vertices[index - 1],
+                            vertex2 = wall.Vertices[index % wall.Vertices.Length];
+
+                    var isCrossing = MathF2D.AreSegmentsCrossing(v1, v2, vertex1, vertex2, out var cross);
+                    if (!isCrossing) continue;
+
+                    var distance = (cross - Player.Position).Length();
+                    if (distance < minDistance)
+                    {
+                        location = cross;
+                        minDistance = distance;
+                        crossFound = true;
+                    }
+                }
+            }
+
+            return crossFound;
+        }
+
+        //private List<Vector2> GetWallCrosses(Vector2 v1, Vector2 v2)
+        //{
+        //    var crosses = new List<Vector2>();
+
+        //    foreach (var wall in walls)
+        //    {
+        //        for (var index = 1; index < wall.Vertices.Length + 1; index++)
+        //        {
+        //            Vector2 vertex1 = wall.Vertices[index - 1], 
+        //                vertex2 = wall.Vertices[index % wall.Vertices.Length];
+        //            if (MathF2D.AreSegmentsCrossing(v1, v2, vertex1, vertex2, out var cross))
+        //                crosses.Add(cross);
+        //        }
+        //    }
+
+        //    return crosses;
+        //}
     }
 }

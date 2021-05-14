@@ -8,6 +8,7 @@ namespace PseudoWolfenstein.Model
 
         protected int AnimationFrameIndex { get; set; } = 0;
         public int Frame { get; private set; } = 0;
+        public bool Looped { get; set; } = false;
 
         public bool IsContinuing => AnimationFrameIndex < animationFrames.Count;
 

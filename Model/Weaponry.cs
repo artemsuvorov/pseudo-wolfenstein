@@ -32,14 +32,15 @@ namespace PseudoWolfenstein.Model
 
         public void Animate()
         {
+            //if (Ammo == 0)
+            //    SelectWeapon(WeaponType.Knife);
+
             if (isAnimating && weaponAnimation.IsContinuing)
             {
                 weaponAnimation.NextFrame();
                 if (!weaponAnimation.IsFireFrame) return;
                 if (SelectedWeapon.Type != WeaponType.Knife)
                     Ammo--;
-                if (Ammo == 0) 
-                    SelectWeapon(WeaponType.Knife);
                 Shot?.Invoke(this, EventArgs.Empty);
             }
             else

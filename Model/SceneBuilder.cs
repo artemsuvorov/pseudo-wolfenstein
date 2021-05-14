@@ -36,7 +36,7 @@ namespace PseudoWolfenstein.Model
             internal const string SingleBlockSceneStr =
                 "              \r\n" +
                 "              \r\n" +
-                "        S     \r\n" +
+                "        SF    \r\n" +
                 "        D     \r\n" +
                 "        S     \r\n" +
                 "   P          \r\n" +
