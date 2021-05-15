@@ -79,7 +79,7 @@ namespace PseudoWolfenstein.Core
             public Bitmap Heal { get; private set; }
             public Bitmap SmallTable { get; private set; }
             public Bitmap ScoreItemCross { get; private set; }
-            public Bitmap NewLevelVase { get; private set; }
+            public Bitmap NextLevelVase { get; private set; }
             public Bitmap RedKey { get; set; }
             public Bitmap RedDoor { get; set; }
             public Bitmap OrangeDoor { get; set; }
@@ -166,7 +166,7 @@ namespace PseudoWolfenstein.Core
                 LockedDoor = LoadTexture("Door.bmp");
 
                 //new level items
-                NewLevelVase = LoadTexture("Vase.bmp", texture => texture.GetPixel(0, 0));
+                NextLevelVase = LoadTexture("Vase.bmp", texture => texture.GetPixel(0, 0));
                 VaseCracks = LoadTexture("VaseCracks.bmp", texture => texture.GetPixel(0, 0));
                 BrokenVase = LoadTexture("BrokenVase.bmp", texture => texture.GetPixel(0, 0));
 

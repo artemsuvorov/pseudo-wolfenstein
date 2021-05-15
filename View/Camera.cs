@@ -12,11 +12,11 @@ namespace PseudoWolfenstein.View
         private readonly Scene scene;
         private readonly Raycast raycast;
 
-        public Camera(Viewport viewport, Scene scene)
+        public Camera(Viewport viewport, Scene scene, Player player)
         {
             this.viewport = viewport;
             this.scene = scene;
-            this.raycast = new Raycast(scene);
+            this.raycast = new Raycast(scene, player);
         }
 
         public void DrawView(Graphics graphics)

@@ -12,25 +12,30 @@ namespace PseudoWolfenstein
         private readonly Timer animationTimer;
         private readonly Viewport viewport;
         private readonly IGameForm gameForm;
-        private readonly MinimapForm minimapForm;
-        private readonly Player player;
-        private readonly Scene scene;
+        //private readonly MinimapForm minimapForm;
+        private readonly LevelCollection levels;
 
-        public GamePresenter(Scene scene, IGameForm gameForm)
+        private Player player;
+        private Scene scene;
+
+        public GamePresenter(IGameForm gameForm)
         {
-            frameTimer = new Timer { Interval = 16 };
+            frameTimer = new Timer { Interval = 30 };
             frameTimer.Tick += FrameUpdate;
             frameTimer.Tick += Time.OnGlobalTick;
 
             this.viewport = gameForm.GetViewport();
-            this.scene = scene;
-            this.player = this.scene.Player;
+            this.levels = new LevelCollection();
+            levels.OnCurrentLevelFinished += OnCurrentLevelFinished;
+            this.scene = levels.GetNextLevel();
+
+            this.player = new Player();
             this.player.Initialize(scene);
 
             animationTimer = new Timer { Interval = 50 };
             animationTimer.Tick += this.scene.Animate;
 
-            minimapForm = new MinimapForm(viewport, scene);
+            //minimapForm = new MinimapForm(viewport, scene);
             this.gameForm = gameForm;
             this.gameForm.Load += Start;
         }
@@ -42,7 +47,8 @@ namespace PseudoWolfenstein
 
         private void Start(object sender, EventArgs e)
         {
-            minimapForm.Show();
+            //minimapForm.Show();
+            Initialize(this.scene);
             frameTimer.Start();
             animationTimer.Start();
         }
@@ -55,8 +61,26 @@ namespace PseudoWolfenstein
             gameForm.DebugInfo.Update();
             //minimapForm.Gizmos.Update();
 
-            minimapForm.Invalidate();
+            //minimapForm.Invalidate();
             gameForm.Refresh();
+        }
+
+        private void Initialize(Scene scene)
+        {
+            animationTimer.Tick -= this.scene.Animate;
+
+            this.scene = scene;
+            animationTimer.Tick += this.scene.Animate;
+
+            player.Initialize(this.scene);
+            scene.LoadPlayer(player);
+            gameForm.LoadScene(scene, player);
+        }
+
+        private void OnCurrentLevelFinished(object sender, EventArgs e)
+        {
+            var nextLevel = levels.GetNextLevel();
+            Initialize(nextLevel);
         }
     }
 }

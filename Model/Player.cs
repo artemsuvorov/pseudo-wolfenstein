@@ -15,7 +15,7 @@ namespace PseudoWolfenstein.Model
         public const float RotationSpeed = Settings.PlayerRotationSpeed;
         public const float FieldOfView = Settings.PlayerFieldOfView;
 
-        public float Rotation { get; set; } = MathF.PI;
+        public float Rotation { get; set; }
         public Vector2 Motion { get; private set; }
         public Vector2 MotionDirection => Vector2.UnitX.RotateCounterClockwise(Rotation);
 
@@ -29,7 +29,7 @@ namespace PseudoWolfenstein.Model
         
         private Scene scene;
 
-        public Player(char name, Vector2 position) : base(name, position) 
+        public Player() : base(name: default, position: default) 
         {
             Weaponry.Shot += OnWeaponShot;
         }
@@ -37,6 +37,8 @@ namespace PseudoWolfenstein.Model
         public void Initialize(Scene scene)
         {
             this.scene = scene;
+            Position = scene.Start;
+            Rotation = MathF.PI;
         }
 
         public void Update()
@@ -88,7 +90,7 @@ namespace PseudoWolfenstein.Model
             Position += new Vector2(dx, dy);
 
             if (dx.IsNotEqual(0f) || dy.IsNotEqual(0f))
-                Moved?.Invoke(this, new GameEventArgs(scene));
+                Moved?.Invoke(this, new GameEventArgs(scene, this));
         }
 
         private void Collide(List<Polygon> obstacles, out int front, out int back)
@@ -129,7 +131,7 @@ namespace PseudoWolfenstein.Model
         private void Interact()
         {
             if (Input.IsKeyDown(Keys.F))
-                Interacting?.Invoke(this, new GameEventArgs(scene));
+                Interacting?.Invoke(this, new GameEventArgs(scene, this));
         }
 
         // todo: remove this from player class
@@ -145,7 +147,7 @@ namespace PseudoWolfenstein.Model
 
         private void OnWeaponShot(object sender, EventArgs e)
         {
-            Shot?.Invoke(this, new GameEventArgs(scene));
+            Shot?.Invoke(this, new GameEventArgs(scene, this));
         }
     }
 }

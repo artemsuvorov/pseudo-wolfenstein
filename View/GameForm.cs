@@ -19,6 +19,7 @@ namespace PseudoWolfenstein.View
     {
         event EventHandler Load;
         DebugInfo DebugInfo { get; }
+        void LoadScene(Scene scene, Player player);
         Viewport GetViewport();
         void Refresh();
     }
@@ -27,20 +28,26 @@ namespace PseudoWolfenstein.View
     {
         public DebugInfo DebugInfo { get; private set; }
 
-        private readonly UserInterface userInterface;
         private readonly Viewport viewport;
         private readonly CameraView cameraView;
+        private UserInterface userInterface;
 
-        public GameForm(Scene scene)
+        public GameForm()
         {
             InitializeComponent();
             viewport = new Viewport(this);
-            DebugInfo = new DebugInfo(scene.Player);
-            userInterface = new UserInterface(scene.Player);
-            cameraView = new CameraView(viewport, scene, userInterface, DebugInfo);
-            Controls.Add(cameraView);
             MinimumSize = new Size(Viewport.DefaultWidth, Viewport.DefaultHeight);
+            cameraView = new CameraView(viewport);
+            Controls.Add(cameraView);
             Paint += Redraw;
+        }
+
+        public void LoadScene(Scene scene, Player player)
+        {
+            DebugInfo = new DebugInfo(player);
+            userInterface = new UserInterface(player);
+            cameraView.LoadScene(scene, player);
+            cameraView.LoadUI(userInterface, DebugInfo);
         }
 
         public Viewport GetViewport()
@@ -58,7 +65,6 @@ namespace PseudoWolfenstein.View
         {
             using var backgroundBrush = new SolidBrush(Settings.FormBackgroundColor);
             graphics.FillRectangle(backgroundBrush, 0, 0, width, height);
-
         }
     }
 }

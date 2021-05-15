@@ -1,7 +1,6 @@
 ﻿using PseudoWolfenstein.Core;
 using PseudoWolfenstein.Model;
 using System.Drawing;
-using System.Linq;
 using System.Windows.Forms;
 
 namespace PseudoWolfenstein.View
@@ -14,16 +13,16 @@ namespace PseudoWolfenstein.View
 
         internal Gizmos Gizmos { get; private set; }
 
-        public MinimapForm(Viewport viewport, Scene scene)
+        public MinimapForm(Viewport viewport, Scene scene, Player player)
         {
             this.viewport = viewport;
             this.scene = scene;
-            this.player = scene.Player;
+            this.player = player;
 
             DoubleBuffered = true;
             Size = new Size(1000, 800);
 
-            Gizmos = new Gizmos(this.viewport, this.scene.Player);
+            Gizmos = new Gizmos(this.viewport, player);
             Paint += Redraw;
             Paint += Gizmos.Redraw;
         }
@@ -53,7 +52,7 @@ namespace PseudoWolfenstein.View
                 player.MotionDirection.X * 100 + player.X,
                 player.MotionDirection.Y * 100 + player.Y);
 
-            var raycast = new Raycast(scene).CastRaysAt(scene.Obstacles);
+            var raycast = new Raycast(scene, player).CastRaysAt(scene.Obstacles);
             using var gizmosFillBrush = new SolidBrush(Settings.GizmosFillColor);
 
             foreach (var entry in raycast)

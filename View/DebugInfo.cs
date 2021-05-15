@@ -14,7 +14,7 @@ namespace PseudoWolfenstein.View
         private static readonly bool isDebugModeOnByDefault = false;
 #endif
 
-        private readonly Player player;
+        private Player player;
 
         private string DebugInfoMessage =>
             $"DEBUG SESSION INFO PseudoWolfenstein\r\n" +

@@ -11,10 +11,10 @@ namespace PseudoWolfenstein.Core
         public Scene Scene { get; }
         public Player Player { get; }
 
-        public GameEventArgs(Scene scene)
+        public GameEventArgs(Scene scene, Player player)
         {
             Scene = scene;
-            Player = scene.Player;
+            Player = player;
         }
     }
 }

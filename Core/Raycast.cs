@@ -94,10 +94,10 @@ namespace PseudoWolfenstein.Core
         private readonly Scene scene;
         private readonly Player player;
 
-        public Raycast(Scene scene)
+        public Raycast(Scene scene, Player player)
         {
             this.scene = scene;
-            this.player = this.scene.Player;
+            this.player = player;
         }
 
         public RaycastData CastRaysAt(List<Polygon> obstacles)
