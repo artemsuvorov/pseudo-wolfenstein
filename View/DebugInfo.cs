@@ -2,6 +2,7 @@
 using PseudoWolfenstein.Model;
 using PseudoWolfenstein.Utils;
 using System.Drawing;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace PseudoWolfenstein.View
@@ -14,7 +15,9 @@ namespace PseudoWolfenstein.View
         private static readonly bool isDebugModeOnByDefault = false;
 #endif
 
-        private Player player;
+        private readonly Player player;
+        // todo: delete
+        private readonly Scene scene;
 
         private string DebugInfoMessage =>
             $"DEBUG SESSION INFO PseudoWolfenstein\r\n" +
@@ -23,13 +26,14 @@ namespace PseudoWolfenstein.View
             $"Player Rotation: { player.Rotation.ToDegrees() }\r\n" +
             $"Player Health:  { player.Health }\r\n" +
             $"Player Ammo  :  { player.Weaponry.Ammo }\r\n" +
-            $"Player SCORE :  { player.Score }";
+            $"Player SCORE :  { player.Score }\r\n";
 
         public bool IsDebugMode { get; private set; }
 
-        public DebugInfo(Player player)
+        public DebugInfo(Player player, Scene scene)
         {
             this.player = player;
+            this.scene = scene;
         }
 
         public void Update()

@@ -31,11 +31,12 @@ namespace PseudoWolfenstein
 
             this.player = new Player();
             this.player.Initialize(scene);
+            this.scene.LoadPlayer(player);
 
             animationTimer = new Timer { Interval = 50 };
             animationTimer.Tick += this.scene.Animate;
 
-            //minimapForm = new MinimapForm(viewport, scene);
+            //minimapForm = new MinimapForm(viewport, scene, player);
             this.gameForm = gameForm;
             this.gameForm.Load += Start;
         }

@@ -17,6 +17,7 @@ namespace PseudoWolfenstein.Model
         public List<Polygon> Obstacles => obstacles;
         public List<Wall> Walls => walls;
         public List<Pane> Panes => panes;
+        public List<Enemy> Enemies => enemies;
 
         public static SceneBuilder Builder => builder ??= new SceneBuilder();
 
@@ -65,7 +66,10 @@ namespace PseudoWolfenstein.Model
             foreach (var shotable in shotables)
                 this.player.Shot += shotable.OnPlayerShot;
             foreach (var pane in rotatingPanes)
+            {
+                pane.LookAt(this.player.Position);
                 this.player.Moved += pane.UpdateTransform;
+            }
             foreach (var collectable in collectables)
                 this.player.Moved += collectable.Collide;
         }
@@ -102,13 +106,17 @@ namespace PseudoWolfenstein.Model
         public void Update()
         {
             player?.Update();
+            foreach (var enemy in enemies)
+                enemy.Update(this, player);
         }
 
         public void Animate(object sender, EventArgs e)
         {
-            player?.Animate();
+            if (player is null) return;
+
+            player.Animate();
             foreach (var enemy in enemies)
-                enemy.Animate();
+                enemy.Animate(sender, new GameEventArgs(this, player));
         }
 
         public bool GetMinDistanceWallCross(Vector2 v1, Vector2 v2, out Vector2 location)
@@ -116,6 +124,7 @@ namespace PseudoWolfenstein.Model
             return GetMinDistanceWallCross(v1, v2, out location, out _);
         }
 
+        // todo: make get min distance to all obstacles (i.e both walls and panes)
         public bool GetMinDistanceWallCross(Vector2 v1, Vector2 v2, out Vector2 location, out float minDistance)
         {
             if (player is null)

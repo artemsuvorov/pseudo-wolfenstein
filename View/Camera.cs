@@ -32,7 +32,7 @@ namespace PseudoWolfenstein.View
 
         private void DrawObstacles(Graphics graphics, RaycastData raycastData)
         {
-            if (raycastData is null || raycastData.Count <= 0) return; 
+            if (raycastData is null || raycastData.Count <= 0) return;
 
             var sliceCount = raycastData.Count;
             var sliceWidth = viewport.Width / (float)sliceCount;
@@ -45,8 +45,8 @@ namespace PseudoWolfenstein.View
         {
             using var ceilingBrush = new SolidBrush(Settings.CeilingColor);
             using var floorBrush = new SolidBrush(Settings.FloorColor);
-            var ceilingRect = new RectangleF(0, 0, viewport.Width, viewport.Height/2f);
-            var floorRect = new RectangleF(0, viewport.Height/2f, viewport.Width, viewport.Height);
+            var ceilingRect = new RectangleF(0, 0, viewport.Width, viewport.Height / 2f);
+            var floorRect = new RectangleF(0, viewport.Height / 2f, viewport.Width, viewport.Height);
             graphics.FillRectangle(ceilingBrush, ceilingRect);
             graphics.FillRectangle(floorBrush, floorRect);
         }
@@ -98,7 +98,7 @@ namespace PseudoWolfenstein.View
 
         private void DrawSlice(Graphics graphics, Cross crossData, int i, float sliceWidth)
         {
-            if (!crossData.Exists) return;
+            if (crossData is null || !crossData.Exists) return;
             var ceiling = CalculateCeiling(crossData.Distance);
             var wallHeight = CalculateWallHeight(ceiling);
 
@@ -106,11 +106,19 @@ namespace PseudoWolfenstein.View
             var crossingPoint = crossData.Location;
             var crossedSide = crossData.CrossedSide;
 
-            var wallX = crossedSide == SideDirection.Vertical ? crossingPoint.Y : crossingPoint.X;
-            wallX /= Settings.WorldWallSize;
-            var frqX = wallX - MathF.Floor(wallX);
+            //var wallX = crossedSide == SideDirection.Vertical ? crossingPoint.Y : crossingPoint.X;
+            //wallX /= Settings.WorldWallSize;
+            //var frqX = wallX - MathF.Floor(wallX);
+
+            /**/
+            var edgeStart = crossData.CrossedObstacle.Vertices[0];
+            var wallCrossX = crossedSide == SideDirection.Vertical ? 
+                edgeStart.Y - crossingPoint.Y : edgeStart.X - crossingPoint.X;
+            var offsetX = MathF.Abs(wallCrossX) / Settings.WorldWallSize;
+            /**/
+
             var d = ceiling * 32f - viewport.Height * 16f + wallHeight * 16f;
-            var texX = frqX * texture.Width;
+            var texX = offsetX * texture.Width;
             var texY = d * texture.Height / wallHeight / 32f;
 
             var destRect = new RectangleF(i * sliceWidth, ceiling, sliceWidth, wallHeight);

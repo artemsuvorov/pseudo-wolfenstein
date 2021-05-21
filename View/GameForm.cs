@@ -44,7 +44,7 @@ namespace PseudoWolfenstein.View
 
         public void LoadScene(Scene scene, Player player)
         {
-            DebugInfo = new DebugInfo(player);
+            DebugInfo = new DebugInfo(player, scene);
             userInterface = new UserInterface(player);
             cameraView.LoadScene(scene, player);
             cameraView.LoadUI(userInterface, DebugInfo);

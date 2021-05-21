@@ -29,26 +29,55 @@ namespace PseudoWolfenstein.Core
                     get => frames[index];
                 }
 
-                public Bitmap IdleFritz { get; private set; }
+                public Bitmap IdleFritz1 { get; private set; }
                 public Bitmap ShotFritz { get; private set; }
                 public Bitmap FritzDeathFrame1 { get; private set; }
                 public Bitmap FritzDeathFrame2 { get; private set; }
                 public Bitmap FritzDeathFrame3 { get; private set; }
                 public Bitmap FritzDeathFrame4 { get; private set; }
+                public Bitmap FritzFireFrame1 { get; private set; }
+                public Bitmap FritzFireFrame2 { get; private set; }
+                public Bitmap FritzFireFrame3 { get; private set; }
                 public Bitmap DeadFritz { get; private set; }
+                public Bitmap IdleFritz2 { get; private set; }
+                public Bitmap IdleFritz3 { get; private set; }
+                public Bitmap IdleFritz4 { get; private set; }
+                public Bitmap IdleFritz5 { get; private set; }
+                public Bitmap IdleFritz6 { get; private set; }
+                public Bitmap IdleFritz7 { get; private set; }
+                public Bitmap IdleFritz8 { get; private set; }
+                public Bitmap FritzWalk1 { get; private set; }
+                public Bitmap FritzWalk2 { get; private set; }
+                public Bitmap FritzWalk3 { get; private set; }
+                public Bitmap FritzWalk4 { get; private set; }
+
 
                 private readonly Func<string, Func<Bitmap, Color>, Bitmap> TextureLoader;
 
                 public EnemyTextureCollection(Func<string, Func<Bitmap, Color>, Bitmap> textureLoader)
                 {
                     TextureLoader = textureLoader;
-                    IdleFritz = LoadEnemyTextureFrame("IdleFritz.png");
+                    IdleFritz1 = LoadEnemyTextureFrame("IdleFritz1.png");
                     ShotFritz = LoadEnemyTextureFrame("ShotFritz.png");
                     FritzDeathFrame1 = LoadEnemyTextureFrame("FritzDeathFrame1.png");
                     FritzDeathFrame2 = LoadEnemyTextureFrame("FritzDeathFrame2.png");
                     FritzDeathFrame3 = LoadEnemyTextureFrame("FritzDeathFrame3.png");
                     FritzDeathFrame4 = LoadEnemyTextureFrame("FritzDeathFrame4.png");
                     DeadFritz = LoadEnemyTextureFrame("DeadFritz.png");
+                    FritzFireFrame1 = LoadEnemyTextureFrame("FritzFireFrame1.png");
+                    FritzFireFrame2 = LoadEnemyTextureFrame("FritzFireFrame2.png");
+                    FritzFireFrame3 = LoadEnemyTextureFrame("FritzFireFrame3.png");
+                    IdleFritz2 = LoadEnemyTextureFrame("IdleFritz2.png");
+                    IdleFritz3 = LoadEnemyTextureFrame("IdleFritz3.png");
+                    IdleFritz4 = LoadEnemyTextureFrame("IdleFritz4.png");
+                    IdleFritz5 = LoadEnemyTextureFrame("IdleFritz5.png");
+                    IdleFritz6 = LoadEnemyTextureFrame("IdleFritz6.png");
+                    IdleFritz7 = LoadEnemyTextureFrame("IdleFritz7.png");
+                    IdleFritz8 = LoadEnemyTextureFrame("IdleFritz8.png");
+                    FritzWalk1 = LoadEnemyTextureFrame("FritzWalk1.png");
+                    FritzWalk2 = LoadEnemyTextureFrame("FritzWalk2.png");
+                    FritzWalk3 = LoadEnemyTextureFrame("FritzWalk3.png");
+                    FritzWalk4 = LoadEnemyTextureFrame("FritzWalk4.png");
                 }
 
                 private Bitmap LoadEnemyTextureFrame(string textureName)
@@ -57,7 +86,6 @@ namespace PseudoWolfenstein.Core
                     frames.Add(texture);
                     return texture;
                 }
-
             }
 
             private const int TextureRepoCapactity = 256;

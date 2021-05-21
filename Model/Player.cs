@@ -3,7 +3,6 @@ using PseudoWolfenstein.Utils;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
 using System.Numerics;
 using System.Windows.Forms;
 
@@ -143,6 +142,14 @@ namespace PseudoWolfenstein.Model
             float x = X - Settings.PlayerRadius / 2f, y = Y - Settings.PlayerRadius / 2f;
             graphics.FillEllipse(objectFillBrush, x, y, Settings.PlayerRadius, Settings.PlayerRadius);
             graphics.DrawEllipse(objectStrokePen, x, y, Settings.PlayerRadius, Settings.PlayerRadius);
+        }
+
+        internal void ApplyDamage(int damage)
+        {
+            if (damage <= 0) return;
+            var newHealth = Health - damage;
+            Health = newHealth > 0 ? newHealth : 0;
+            //if (Health == 0) Die();
         }
 
         private void OnWeaponShot(object sender, EventArgs e)
