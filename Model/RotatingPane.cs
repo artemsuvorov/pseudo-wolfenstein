@@ -19,7 +19,7 @@ namespace PseudoWolfenstein.Model
             LookAt(e.Player.Position);
         }
 
-        private void LookAt(Vector2 target)
+        public void LookAt(Vector2 target)
         {
             var vertex1 = Center - new Vector2(Settings.WorldWallSize * 0.5f, 0f);
             var vertex2 = Center + new Vector2(Settings.WorldWallSize * 0.5f, 0f);

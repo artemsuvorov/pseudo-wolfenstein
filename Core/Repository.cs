@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
-using System.Windows.Forms;
 
 namespace PseudoWolfenstein.Core
 {
@@ -19,15 +18,113 @@ namespace PseudoWolfenstein.Core
         {
             return Path.Combine(ProjectDirectoryPath, "Textures", textureName);
         }
-
         internal class TextureRepository
         {
+            internal class EnemyTextureCollection
+            {
+                private readonly List<Bitmap> frames = new(32);
+
+                public Bitmap this[int index]
+                {
+                    get => frames[index];
+                }
+
+                public Bitmap IdleFritz1 { get; private set; }
+                public Bitmap ShotFritz { get; private set; }
+                public Bitmap FritzDeathFrame1 { get; private set; }
+                public Bitmap FritzDeathFrame2 { get; private set; }
+                public Bitmap FritzDeathFrame3 { get; private set; }
+                public Bitmap FritzDeathFrame4 { get; private set; }
+                public Bitmap FritzFireFrame1 { get; private set; }
+                public Bitmap FritzFireFrame2 { get; private set; }
+                public Bitmap FritzFireFrame3 { get; private set; }
+                public Bitmap DeadFritz { get; private set; }
+                public Bitmap IdleFritz2 { get; private set; }
+                public Bitmap IdleFritz3 { get; private set; }
+                public Bitmap IdleFritz4 { get; private set; }
+                public Bitmap IdleFritz5 { get; private set; }
+                public Bitmap IdleFritz6 { get; private set; }
+                public Bitmap IdleFritz7 { get; private set; }
+                public Bitmap IdleFritz8 { get; private set; }
+                public Bitmap FritzWalk1 { get; private set; }
+                public Bitmap FritzWalk2 { get; private set; }
+                public Bitmap FritzWalk3 { get; private set; }
+                public Bitmap FritzWalk4 { get; private set; }
+
+
+                private readonly Func<string, Func<Bitmap, Color>, Bitmap> TextureLoader;
+
+                public EnemyTextureCollection(Func<string, Func<Bitmap, Color>, Bitmap> textureLoader)
+                {
+                    TextureLoader = textureLoader;
+                    IdleFritz1 = LoadEnemyTextureFrame("IdleFritz1.png");
+                    ShotFritz = LoadEnemyTextureFrame("ShotFritz.png");
+                    FritzDeathFrame1 = LoadEnemyTextureFrame("FritzDeathFrame1.png");
+                    FritzDeathFrame2 = LoadEnemyTextureFrame("FritzDeathFrame2.png");
+                    FritzDeathFrame3 = LoadEnemyTextureFrame("FritzDeathFrame3.png");
+                    FritzDeathFrame4 = LoadEnemyTextureFrame("FritzDeathFrame4.png");
+                    DeadFritz = LoadEnemyTextureFrame("DeadFritz.png");
+                    FritzFireFrame1 = LoadEnemyTextureFrame("FritzFireFrame1.png");
+                    FritzFireFrame2 = LoadEnemyTextureFrame("FritzFireFrame2.png");
+                    FritzFireFrame3 = LoadEnemyTextureFrame("FritzFireFrame3.png");
+                    IdleFritz2 = LoadEnemyTextureFrame("IdleFritz2.png");
+                    IdleFritz3 = LoadEnemyTextureFrame("IdleFritz3.png");
+                    IdleFritz4 = LoadEnemyTextureFrame("IdleFritz4.png");
+                    IdleFritz5 = LoadEnemyTextureFrame("IdleFritz5.png");
+                    IdleFritz6 = LoadEnemyTextureFrame("IdleFritz6.png");
+                    IdleFritz7 = LoadEnemyTextureFrame("IdleFritz7.png");
+                    IdleFritz8 = LoadEnemyTextureFrame("IdleFritz8.png");
+                    FritzWalk1 = LoadEnemyTextureFrame("FritzWalk1.png");
+                    FritzWalk2 = LoadEnemyTextureFrame("FritzWalk2.png");
+                    FritzWalk3 = LoadEnemyTextureFrame("FritzWalk3.png");
+                    FritzWalk4 = LoadEnemyTextureFrame("FritzWalk4.png");
+                }
+
+                private Bitmap LoadEnemyTextureFrame(string textureName)
+                {
+                    var texture = TextureLoader(textureName, texture => texture.GetPixel(0, 0));
+                    frames.Add(texture);
+                    return texture;
+                }
+            }
+
+            internal class VaseTextureCollection
+            {
+                private readonly List<Bitmap> frames = new(4);
+
+                public Bitmap this[int index]
+                {
+                    get => frames[index];
+                }
+
+                public Bitmap Vase { get; private set; }
+                public Bitmap CrackedVase { get; private set; }
+                public Bitmap BrokenVase { get; private set; }
+
+                private readonly Func<string, Func<Bitmap, Color>, Bitmap> TextureLoader;
+
+                public VaseTextureCollection(Func<string, Func<Bitmap, Color>, Bitmap> textureLoader)
+                {
+                    TextureLoader = textureLoader;
+                    Vase = LoadVaseTextureFrame("Vase.bmp");
+                    CrackedVase = LoadVaseTextureFrame("VaseCracked.bmp");
+                    BrokenVase = LoadVaseTextureFrame("VaseBroken.bmp");
+                }
+
+                private Bitmap LoadVaseTextureFrame(string textureName)
+                {
+                    var texture = TextureLoader(textureName, texture => texture.GetPixel(0, 0));
+                    frames.Add(texture);
+                    return texture;
+                }
+            }
+
             private const int TextureRepoCapactity = 256;
 
+            public EnemyTextureCollection EnemyFrames { get; private set; }
+            public VaseTextureCollection VaseFrames { get; private set; }
+
             public Bitmap WeaponsTileSet { get; private set; }
-            public Bitmap IdleFritz { get; private set; }
-            public Bitmap DeadFritz { get; private set; }
-            public Bitmap ShotFritz { get; private set; }
             public Bitmap StoneWall { get; private set; }
             public Bitmap BlueWall { get; private set; }
             public Bitmap RedWall { get; private set; }
@@ -39,10 +136,9 @@ namespace PseudoWolfenstein.Core
             public Bitmap Puddle { get; private set; }
             public Bitmap Bones { get; private set; }
             public Bitmap Ammo { get; private set; }
-            public Bitmap Heal { get; private set; }
+            public Bitmap HealPack { get; private set; }
             public Bitmap SmallTable { get; private set; }
             public Bitmap ScoreItemCross { get; private set; }
-            public Bitmap NewLevelVase { get; private set; }
             public Bitmap RedKey { get; set; }
             public Bitmap RedDoor { get; set; }
             public Bitmap OrangeDoor { get; set; }
@@ -64,19 +160,27 @@ namespace PseudoWolfenstein.Core
             public Bitmap ScoreItemChest { get; set; }
             public Bitmap ScoreItemCrown { get; set; }
             public Bitmap BrickWall { get; set; }
-            public Bitmap VaseCracks { get; set; }
-            public Bitmap BrokenVase { get; set; }
             public Bitmap Left { get; set; }
             public Bitmap Right { get; set; }
             public Bitmap Tree { get; set; }
             public Bitmap SendWall { get; set; }
             public Bitmap GoldWall { get; set; }
             public Bitmap Flowey { get; set; }
+            public Bitmap Knife { get; set; }
+            public Bitmap Pistol { get; set; }
+            public Bitmap MachineGun { get; set; }
+            public Bitmap ChainGun { get; set; }
+            public Bitmap FlameThrower { get; set; }
+            public Bitmap RocketLauncher { get; set; }
+            public Bitmap HUD { get; set; }
 
-            private readonly HashSet<Bitmap> textures = new HashSet<Bitmap>(TextureRepoCapactity);
+            private readonly HashSet<Bitmap> textures = new(TextureRepoCapactity);
 
             public TextureRepository()
             {
+                EnemyFrames = new EnemyTextureCollection(LoadTexture);
+                VaseFrames = new VaseTextureCollection(LoadTexture);
+
                 //walls
                 StoneWall = LoadTexture("StoneWall.bmp");
                 BlueWall = LoadTexture("BlueWall.bmp");
@@ -108,7 +212,7 @@ namespace PseudoWolfenstein.Core
 
                 //collectable items
                 Ammo = LoadTexture("Ammo.bmp", texture => texture.GetPixel(0, 0));
-                Heal = LoadTexture("Heal.bmp", texture => texture.GetPixel(0, 0));
+                HealPack = LoadTexture("Heal.bmp", texture => texture.GetPixel(0, 0));
                 ScoreItemCross = LoadTexture("Cross.bmp", texture => texture.GetPixel(0, 0));
                 ScoreItemChest = LoadTexture("Chest.bmp", texture => texture.GetPixel(0, 0));
                 ScoreItemCrown = LoadTexture("Crown.bmp", texture => texture.GetPixel(0, 0));
@@ -126,11 +230,6 @@ namespace PseudoWolfenstein.Core
                 Door = LoadTexture("Door.bmp");
                 LockedDoor = LoadTexture("Door.bmp");
 
-                //new level items
-                NewLevelVase = LoadTexture("Vase.bmp", texture => texture.GetPixel(0, 0));
-                VaseCracks = LoadTexture("VaseCracks.bmp", texture => texture.GetPixel(0, 0));
-                BrokenVase = LoadTexture("BrokenVase.bmp", texture => texture.GetPixel(0, 0));
-
                 //Secrets
                 Flowey = LoadTexture("Flowey.bmp", texture => texture.GetPixel(0, 0));
 
@@ -138,27 +237,19 @@ namespace PseudoWolfenstein.Core
                 WeaponsTileSet = LoadTexture("Weapons.png", texture => texture.GetPixel(0, 0));
                 Knife = LoadTexture("Knife.png", texture => texture.GetPixel(0, 0));
                 Pistol = LoadTexture("Pistol.png", texture => texture.GetPixel(0, 0));
-                Rifle = LoadTexture("Rifle.png", texture => texture.GetPixel(0, 0));
                 MachineGun = LoadTexture("MachineGun.png", texture => texture.GetPixel(0, 0));
-                Flamethrower = LoadTexture("Flamethrower.png", texture => texture.GetPixel(0, 0));
-                Bazooka = LoadTexture("Bazooka.png", texture => texture.GetPixel(0, 0));
+                ChainGun = LoadTexture("ChainGun.png", texture => texture.GetPixel(0, 0));
+                FlameThrower = LoadTexture("FlameThrower.png", texture => texture.GetPixel(0, 0));
+                RocketLauncher = LoadTexture("RocketLauncher.png", texture => texture.GetPixel(0, 0));
 
-                IdleFritz = LoadTexture("IdleFritz.png", texture => texture.GetPixel(0, 0));
-                DeadFritz = LoadTexture("DeadFritz.png", texture => texture.GetPixel(0, 0));
-                ShotFritz = LoadTexture("ShotFritz.png", texture => texture.GetPixel(0, 0));
+                HUD = LoadTexture("hud.png");
             }
 
-            public Bitmap Bazooka { get; set; }
-
-            public Bitmap Rifle { get; set; }
-
-            public Bitmap Flamethrower { get; set; }
-
-            public Bitmap MachineGun { get; set; }
-
-            public Bitmap Pistol { get; set; }
-
-            public Bitmap Knife { get; set; }
+            ~TextureRepository()
+            {
+                foreach (var texture in textures)
+                    texture.Dispose();
+            }
 
             private Bitmap LoadTexture(string textureName)
             {
@@ -175,12 +266,6 @@ namespace PseudoWolfenstein.Core
                 texture.MakeTransparent(transparentPicker(texture));
                 textures.Add(texture);
                 return texture;
-            }
-
-            ~TextureRepository()
-            {
-                foreach (var texture in textures)
-                    texture.Dispose();
             }
         }
     }

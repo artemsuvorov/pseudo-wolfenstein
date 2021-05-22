@@ -3,7 +3,6 @@ using PseudoWolfenstein.Utils;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
 using System.Numerics;
 using System.Windows.Forms;
 
@@ -15,7 +14,7 @@ namespace PseudoWolfenstein.Model
         public const float RotationSpeed = Settings.PlayerRotationSpeed;
         public const float FieldOfView = Settings.PlayerFieldOfView;
 
-        public float Rotation { get; set; } = MathF.PI;
+        public float Rotation { get; set; }
         public Vector2 Motion { get; private set; }
         public Vector2 MotionDirection => Vector2.UnitX.RotateCounterClockwise(Rotation);
 
@@ -23,13 +22,20 @@ namespace PseudoWolfenstein.Model
         public int Score { get; set; } = 0;
         public Weaponry Weaponry { get; private set; } = new Weaponry();
 
+        public int RedKeyCount { get; internal set; }
+        public int GreenKeyCount { get; internal set; }
+        public int BlueKeyCount { get; internal set; }
+        public int OrangeKeyCount { get; internal set; }
+
         public event GameEventHandler Moved;
+        public event GameEventHandler Damaged;
         public event GameEventHandler Shot;
+        public event GameEventHandler Died;
         public event GameEventHandler Interacting;
         
         private Scene scene;
 
-        public Player(char name, Vector2 position) : base(name, position) 
+        public Player() : base(name: default, position: default) 
         {
             Weaponry.Shot += OnWeaponShot;
         }
@@ -37,6 +43,8 @@ namespace PseudoWolfenstein.Model
         public void Initialize(Scene scene)
         {
             this.scene = scene;
+            Position = scene.Start;
+            Rotation = MathF.PI;
         }
 
         public void Update()
@@ -55,7 +63,9 @@ namespace PseudoWolfenstein.Model
 
         public void Heal(int amount)
         {
-            Health = (int)MathF.Min(MathF.Max(0, Health + amount), 100);
+            if (amount <= 0) return;
+            var newHealth = Health + amount;
+            Health = newHealth < 100 ? newHealth : 100;
         }
 
         private void SelectWeapon()
@@ -88,7 +98,7 @@ namespace PseudoWolfenstein.Model
             Position += new Vector2(dx, dy);
 
             if (dx.IsNotEqual(0f) || dy.IsNotEqual(0f))
-                Moved?.Invoke(this, new GameEventArgs(scene));
+                Moved?.Invoke(this, new GameEventArgs(scene, this));
         }
 
         private void Collide(List<Polygon> obstacles, out int front, out int back)
@@ -121,15 +131,13 @@ namespace PseudoWolfenstein.Model
         private void Shoot()
         {
             if (Input.IsKeyDown(Keys.Space))
-            {
                 Weaponry.BeginShoot();
-            }
         }
 
         private void Interact()
         {
             if (Input.IsKeyDown(Keys.F))
-                Interacting?.Invoke(this, new GameEventArgs(scene));
+                Interacting?.Invoke(this, new GameEventArgs(scene, this));
         }
 
         // todo: remove this from player class
@@ -143,9 +151,23 @@ namespace PseudoWolfenstein.Model
             graphics.DrawEllipse(objectStrokePen, x, y, Settings.PlayerRadius, Settings.PlayerRadius);
         }
 
+        internal void ApplyDamage(int damage)
+        {
+            if (damage <= 0) return;
+            var newHealth = Health - damage;
+            Health = newHealth > 0 ? newHealth : 0;
+            Damaged?.Invoke(this, new GameEventArgs(scene, this));
+            if (Health == 0) Die();
+        }
+
+        private void Die()
+        {
+            Died?.Invoke(this, new GameEventArgs(scene, this));
+        }
+
         private void OnWeaponShot(object sender, EventArgs e)
         {
-            Shot?.Invoke(this, new GameEventArgs(scene));
+            Shot?.Invoke(this, new GameEventArgs(scene, this));
         }
     }
 }

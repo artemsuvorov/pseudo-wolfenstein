@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 using System.Numerics;
 
 namespace PseudoWolfenstein.Utils
@@ -33,6 +34,17 @@ namespace PseudoWolfenstein.Utils
             var x = self.X * MathF.Cos(angle) - self.Y * MathF.Sin(angle);
             var y = self.X * MathF.Sin(angle) + self.Y * MathF.Cos(angle);
             return new Vector2(x, y);
+        }
+
+        public static Vector2 Lengthen(this Vector2 self, float offset, Vector2 direction)
+        {
+            var translation = direction.SafeNormalize() * offset;
+
+            using var matrix = new System.Drawing.Drawing2D.Matrix();
+            matrix.Translate(translation.X, translation.Y);
+            var points = new PointF[] { new PointF(self.X, self.Y) };
+            matrix.TransformPoints(points);
+            return new Vector2(points[0].X, points[0].Y);
         }
     }
 }

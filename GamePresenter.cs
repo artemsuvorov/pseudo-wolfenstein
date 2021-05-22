@@ -10,29 +10,29 @@ namespace PseudoWolfenstein
     {
         private readonly Timer frameTimer;
         private readonly Timer animationTimer;
-        private readonly Viewport viewport;
         private readonly IGameForm gameForm;
         //private readonly MinimapForm minimapForm;
-        private readonly Player player;
-        private readonly Scene scene;
 
-        public GamePresenter(Scene scene, IGameForm gameForm)
+        private LevelCollection levels;
+        private Player player;
+        private Scene scene;
+
+        private bool isGameEnded = false;
+
+        public GamePresenter(IGameForm gameForm)
         {
-            frameTimer = new Timer { Interval = 16 };
+            frameTimer = new Timer { Interval = 20 };
             frameTimer.Tick += FrameUpdate;
             frameTimer.Tick += Time.OnGlobalTick;
-
-            this.viewport = gameForm.GetViewport();
-            this.scene = scene;
-            this.player = this.scene.Player;
-            this.player.Initialize(scene);
-
+            
             animationTimer = new Timer { Interval = 50 };
-            animationTimer.Tick += this.scene.Animate;
 
-             //minimapForm = new MinimapForm(viewport, scene);
+            //minimapForm = new MinimapForm(viewport, scene, player);
             this.gameForm = gameForm;
+            this.gameForm.KeyUp += OnGameFormKeyUp;
             this.gameForm.Load += Start;
+
+            StartNewGame();
         }
 
         ~GamePresenter()
@@ -42,7 +42,7 @@ namespace PseudoWolfenstein
 
         private void Start(object sender, EventArgs e)
         {
-             //minimapForm.Show();
+            //minimapForm.Show();
             frameTimer.Start();
             animationTimer.Start();
         }
@@ -53,10 +53,77 @@ namespace PseudoWolfenstein
             scene.Update();
 
             gameForm.DebugInfo.Update();
+            gameForm.Animate();
             //minimapForm.Gizmos.Update();
-            
+
             //minimapForm.Invalidate();
-            gameForm.Refresh();
+            gameForm.InvalidateAll();
+        }
+
+        private void StartNewGame()
+        {
+            if (this.levels is object)
+            {
+                levels.CurrentLevelFinished -= OnCurrentLevelFinished;
+                levels.AllLevelsFinished -= OnAllLevelsFinished;
+            }
+            if (this.player is object)
+            {
+                this.player.Died -= OnPlayerDied;
+            }
+
+            this.levels = new LevelCollection();
+            levels.CurrentLevelFinished += OnCurrentLevelFinished;
+            levels.AllLevelsFinished += OnAllLevelsFinished;
+            this.scene = levels.GetNextLevel();
+
+            this.player = new Player();
+            this.player.Died += OnPlayerDied;
+            this.player.Initialize(scene);
+            this.scene.LoadPlayer(player);
+
+            Initialize(this.scene);
+        }
+
+        private void Initialize(Scene scene)
+        {
+            animationTimer.Tick -= this.scene.Animate;
+
+            this.scene = scene;
+            if (scene is null) return;
+            
+            animationTimer.Tick += this.scene.Animate;
+            player.Initialize(this.scene);
+            scene.LoadPlayer(player);
+            gameForm.LoadScene(scene, player);
+        }
+
+        private void OnCurrentLevelFinished(object sender, EventArgs e)
+        {
+            var nextLevel = levels.GetNextLevel();
+            Initialize(nextLevel);
+        }
+
+        private void OnAllLevelsFinished(object sender, EventArgs e)
+        {
+            isGameEnded = true;
+            gameForm.ShowWinScreen();
+        }
+
+        private void OnPlayerDied(object sender, GameEventArgs e)
+        {
+            isGameEnded = true;
+            gameForm.ShowGameOverScreen();
+        }
+
+        private void OnGameFormKeyUp(object sender, KeyEventArgs e)
+        {
+            if (!isGameEnded) return;
+            if (e.KeyCode != Keys.Enter) return;
+
+            isGameEnded = false;
+            gameForm.HideGameEndScreen();
+            StartNewGame();
         }
     }
 }

@@ -5,7 +5,7 @@ namespace PseudoWolfenstein.Model
 {
     public class Pane : Polygon
     {
-        public Vector2 Center { get; private set; }
+        public Vector2 Center { get; protected set; }
 
         public Pane(char name, Vector2 position, Image texture)
             : base(name, texture,

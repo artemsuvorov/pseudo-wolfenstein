@@ -35,7 +35,7 @@ namespace PseudoWolfenstein.Model
                 ['F'] = (x, y) =>
                 {
                     var position = new Vector2((x+0.5f)*Settings.WorldWallSize, (y+0.5f)*Settings.WorldWallSize);
-                    var texture = Repository.Textures.IdleFritz;
+                    var texture = Repository.Textures.EnemyFrames.IdleFritz1;
                     var srcRect = new RectangleF(0, 0, 128, 128);
                     return new Enemy('F', position, texture, srcRect);
                 },
@@ -43,7 +43,7 @@ namespace PseudoWolfenstein.Model
                 { 
                     var position = new Vector2(x * Settings.WorldWallSize + Settings.WorldWallSize / 2f,
                          y * Settings.WorldWallSize + Settings.WorldWallSize / 2f);
-                    return new Player('P', position);
+                    return new PlaceHolder('P', position);
                 },
                 ['W'] = (x, y) =>
                 {
@@ -72,8 +72,8 @@ namespace PseudoWolfenstein.Model
                 ['H'] = (x, y) =>
                 {
                     var position = new Vector2((x + 0.5f) * Settings.WorldWallSize, (y + 0.5f) * Settings.WorldWallSize);
-                    var texture = Repository.Textures.Heal;
-                    return new Collectable('H', position, texture);
+                    var texture = Repository.Textures.HealPack;
+                    return new HealPack('H', position, texture);
                 },
                 ['M'] = (x, y) =>
                 {
@@ -102,8 +102,8 @@ namespace PseudoWolfenstein.Model
                 ['N'] = (x, y) =>
                 {
                     var position = new Vector2((x + 0.5f) * Settings.WorldWallSize, (y + 0.5f) * Settings.WorldWallSize);
-                    var texture = Repository.Textures.NewLevelVase;
-                    return new RotatingPane('N', position, texture);
+                    var texture = Repository.Textures.VaseFrames[0];
+                    return new NextLevelVase('N', position, texture);
                 },
                 ['X'] = (x, y) =>
                 {
@@ -117,7 +117,7 @@ namespace PseudoWolfenstein.Model
                     var texture = Repository.Textures.Puddle;
                     return new RotatingPane('I', position, texture);
                 },
-                ['D'] = (x,y) =>
+                ['D'] = (x, y) =>
                 {
                     var position = new Vector2((x + 0.5f) * Settings.WorldWallSize, (y + 0.5f) * Settings.WorldWallSize);
                     var texture = Repository.Textures.Door;
@@ -127,55 +127,55 @@ namespace PseudoWolfenstein.Model
                 {
                     var position = new Vector2((x + 0.5f) * Settings.WorldWallSize, (y + 0.5f) * Settings.WorldWallSize);
                     var texture = Repository.Textures.GreenDoor;
-                    return new Door('g', position, texture);
+                    return new GreenDoor('g', position, texture);
                 },
                 ['o'] = (x, y) =>
                 {
                     var position = new Vector2((x + 0.5f) * Settings.WorldWallSize, (y + 0.5f) * Settings.WorldWallSize);
                     var texture = Repository.Textures.OrangeDoor;
-                    return new Door('o', position, texture);
+                    return new OrangeDoor('o', position, texture);
                 },
                 ['b'] = (x, y) =>
                 {
                     var position = new Vector2((x + 0.5f) * Settings.WorldWallSize, (y + 0.5f) * Settings.WorldWallSize);
                     var texture = Repository.Textures.BlueDoor;
-                    return new Door('b', position, texture);
+                    return new BlueDoor('b', position, texture);
                 },
                 ['r'] = (x, y) =>
                 {
                     var position = new Vector2((x + 0.5f) * Settings.WorldWallSize, (y + 0.5f) * Settings.WorldWallSize);
                     var texture = Repository.Textures.RedDoor;
-                    return new Door('r', position, texture);
+                    return new RedDoor('r', position, texture);
                 },
                 ['q'] = (x, y) =>
                 {
                     var position = new Vector2((x + 0.5f) * Settings.WorldWallSize, (y + 0.5f) * Settings.WorldWallSize);
                     var texture = Repository.Textures.GreenKey;
-                    return new Collectable('q', position, texture);
+                    return new GreenKey('q', position, texture);
                 },
                 ['w'] = (x, y) =>
                 {
                     var position = new Vector2((x + 0.5f) * Settings.WorldWallSize, (y + 0.5f) * Settings.WorldWallSize);
                     var texture = Repository.Textures.OrangeKey;
-                    return new Collectable('w', position, texture);
+                    return new OrangeKey('w', position, texture);
                 },
                 ['e'] = (x, y) =>
                 {
                     var position = new Vector2((x + 0.5f) * Settings.WorldWallSize, (y + 0.5f) * Settings.WorldWallSize);
                     var texture = Repository.Textures.BlueKey;
-                    return new Collectable('e', position, texture);
+                    return new BlueKey('e', position, texture);
                 },
                 ['t'] = (x, y) =>
                 {
                     var position = new Vector2((x + 0.5f) * Settings.WorldWallSize, (y + 0.5f) * Settings.WorldWallSize);
                     var texture = Repository.Textures.RedKey;
-                    return new Collectable('t', position, texture);
+                    return new RedKey('t', position, texture);
                 },
                 ['p'] = (x, y) =>
                 {
                     var position = new Vector2((x + 0.5f) * Settings.WorldWallSize, (y + 0.5f) * Settings.WorldWallSize);
                     var texture = Repository.Textures.LockedDoor;
-                    return new Door('p', position, texture);
+                    return new LockedDoor('p', position, texture);
                 },
                 ['a'] = (x, y) =>
                 {
@@ -283,37 +283,37 @@ namespace PseudoWolfenstein.Model
                 {
                     var position = new Vector2((x + 0.5f) * Settings.WorldWallSize, (y + 0.5f) * Settings.WorldWallSize);
                     var texture = Repository.Textures.Knife;
-                    return new Collectable('5', position, texture);
+                    return new Knife('5', position, texture);
                 },
                 ['6'] = (x, y) =>
                 {
                     var position = new Vector2((x + 0.5f) * Settings.WorldWallSize, (y + 0.5f) * Settings.WorldWallSize);
                     var texture = Repository.Textures.Pistol;
-                    return new Collectable('6', position, texture);
+                    return new Pistol('6', position, texture);
                 },
                 ['7'] = (x, y) =>
                 {
                     var position = new Vector2((x + 0.5f) * Settings.WorldWallSize, (y + 0.5f) * Settings.WorldWallSize);
-                    var texture = Repository.Textures.Rifle;
-                    return new Collectable('7', position, texture);
+                    var texture = Repository.Textures.MachineGun;
+                    return new MachineGun('7', position, texture);
                 },
                 ['8'] = (x, y) =>
                 {
                     var position = new Vector2((x + 0.5f) * Settings.WorldWallSize, (y + 0.5f) * Settings.WorldWallSize);
-                    var texture = Repository.Textures.MachineGun;
-                    return new Collectable('8', position, texture);
+                    var texture = Repository.Textures.ChainGun;
+                    return new ChainGun('8', position, texture);
                 },
                 ['9'] = (x, y) =>
                 {
                     var position = new Vector2((x + 0.5f) * Settings.WorldWallSize, (y + 0.5f) * Settings.WorldWallSize);
-                    var texture = Repository.Textures.Flamethrower;
-                    return new Collectable('9', position, texture);
+                    var texture = Repository.Textures.FlameThrower;
+                    return new FlameThrower('9', position, texture);
                 },
                 ['0'] = (x, y) =>
                 {
                     var position = new Vector2((x + 0.5f) * Settings.WorldWallSize, (y + 0.5f) * Settings.WorldWallSize);
-                    var texture = Repository.Textures.Bazooka;
-                    return new Collectable('9', position, texture);
+                    var texture = Repository.Textures.RocketLauncher;
+                    return new RocketLauncher('9', position, texture);
                 },
             };
         }
