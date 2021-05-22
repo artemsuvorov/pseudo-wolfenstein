@@ -10,35 +10,29 @@ namespace PseudoWolfenstein
     {
         private readonly Timer frameTimer;
         private readonly Timer animationTimer;
-        private readonly Viewport viewport;
         private readonly IGameForm gameForm;
         //private readonly MinimapForm minimapForm;
-        private readonly LevelCollection levels;
 
+        private LevelCollection levels;
         private Player player;
         private Scene scene;
+
+        private bool isGameEnded = false;
 
         public GamePresenter(IGameForm gameForm)
         {
             frameTimer = new Timer { Interval = 30 };
             frameTimer.Tick += FrameUpdate;
             frameTimer.Tick += Time.OnGlobalTick;
-
-            this.viewport = gameForm.GetViewport();
-            this.levels = new LevelCollection();
-            levels.OnCurrentLevelFinished += OnCurrentLevelFinished;
-            this.scene = levels.GetNextLevel();
-
-            this.player = new Player();
-            this.player.Initialize(scene);
-            this.scene.LoadPlayer(player);
-
+            
             animationTimer = new Timer { Interval = 50 };
-            animationTimer.Tick += this.scene.Animate;
 
             //minimapForm = new MinimapForm(viewport, scene, player);
             this.gameForm = gameForm;
+            this.gameForm.KeyUp += OnGameFormKeyUp;
             this.gameForm.Load += Start;
+
+            StartNewGame();
         }
 
         ~GamePresenter()
@@ -49,7 +43,6 @@ namespace PseudoWolfenstein
         private void Start(object sender, EventArgs e)
         {
             //minimapForm.Show();
-            Initialize(this.scene);
             frameTimer.Start();
             animationTimer.Start();
         }
@@ -60,10 +53,36 @@ namespace PseudoWolfenstein
             scene.Update();
 
             gameForm.DebugInfo.Update();
+            gameForm.Animate();
             //minimapForm.Gizmos.Update();
 
             //minimapForm.Invalidate();
-            gameForm.Refresh();
+            gameForm.InvalidateAll();
+        }
+
+        private void StartNewGame()
+        {
+            if (this.levels is object)
+            {
+                levels.CurrentLevelFinished -= OnCurrentLevelFinished;
+                levels.AllLevelsFinished -= OnAllLevelsFinished;
+            }
+            if (this.player is object)
+            {
+                this.player.Died -= OnPlayerDied;
+            }
+
+            this.levels = new LevelCollection();
+            levels.CurrentLevelFinished += OnCurrentLevelFinished;
+            levels.AllLevelsFinished += OnAllLevelsFinished;
+            this.scene = levels.GetNextLevel();
+
+            this.player = new Player();
+            this.player.Died += OnPlayerDied;
+            this.player.Initialize(scene);
+            this.scene.LoadPlayer(player);
+
+            Initialize(this.scene);
         }
 
         private void Initialize(Scene scene)
@@ -71,8 +90,9 @@ namespace PseudoWolfenstein
             animationTimer.Tick -= this.scene.Animate;
 
             this.scene = scene;
+            if (scene is null) return;
+            
             animationTimer.Tick += this.scene.Animate;
-
             player.Initialize(this.scene);
             scene.LoadPlayer(player);
             gameForm.LoadScene(scene, player);
@@ -82,6 +102,27 @@ namespace PseudoWolfenstein
         {
             var nextLevel = levels.GetNextLevel();
             Initialize(nextLevel);
+        }
+
+        private void OnAllLevelsFinished(object sender, EventArgs e)
+        {
+            isGameEnded = true;
+            gameForm.ShowWinScreen();
+        }
+
+        private void OnPlayerDied(object sender, GameEventArgs e)
+        {
+            isGameEnded = true;
+            gameForm.ShowGameOverScreen();
+        }
+
+        private void OnGameFormKeyUp(object sender, KeyEventArgs e)
+        {
+            if (!isGameEnded) return;
+
+            isGameEnded = false;
+            gameForm.HideGameEndScreen();
+            StartNewGame();
         }
     }
 }

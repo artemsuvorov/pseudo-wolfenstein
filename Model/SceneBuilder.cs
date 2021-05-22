@@ -34,14 +34,19 @@ namespace PseudoWolfenstein.Model
                 "SSSSSSSSSSSSSSS\r\n";
 
             internal const string SingleBlockSceneStr =
-                "  R           \r\n" +
-                "  F           \r\n" +
-                "              \r\n" +
-                "              \r\n" +
-                "  SS          \r\n" +
-                "              \r\n" +
-                "  P           \r\n" +
-                "              \r\n";
+                "SSSSSSSSSSSSSSSSSSSSSS\r\n" +
+                "S         F          S\r\n" +
+                "S                    S\r\n" +
+                "S        BBB         S\r\n" +
+                "S                    S\r\n" +
+                "S                    S\r\n" +
+                "S         P          S\r\n" +
+                "S                    S\r\n" +
+                "S                    S\r\n" +
+                "S                    S\r\n" +
+                "S                    S\r\n" +
+                "S                    S\r\n" +
+                "SSSSSSSSSSSSSSSSSSSSSS\r\n";
 
             internal const string Level_1 =
                 //Real Prison
@@ -191,8 +196,8 @@ namespace PseudoWolfenstein.Model
                 var shapes = ParseShapes(width, height, lines);
                 RotateDoors(width, height, shapes);
 
-                var walls = shapes.Cast<Shape>().Where(shape => shape is Wall).Cast<Wall>().ToList();
-                var panes = shapes.Cast<Shape>().Where(shape => shape is Pane).Cast<Pane>().ToList();
+                //var walls = shapes.Cast<Shape>().Where(shape => shape is Wall).Cast<Wall>().ToList();
+                //var panes = shapes.Cast<Shape>().Where(shape => shape is Pane).Cast<Pane>().ToList();
                 var playerPosition = shapes.Cast<Shape>().First(shape => shape is PlaceHolder).Position;
                 //var merger = new ShapeUnifier(shapes);
                 //var isles = merger.GetAdjecentShapeIsles();
@@ -211,7 +216,7 @@ namespace PseudoWolfenstein.Model
                 //    return p;
                 //}).ToArray();
                 //var panes = shapes.Cast<Shape>().Where(shape => shape is Pane).Cast<Polygon>().ToArray();
-                return new Scene(name, playerPosition, walls, panes, width, height);
+                return new Scene(name, playerPosition, shapes, width, height);
             }
 
             private Shape[,] ParseShapes(int width, int height, string[] lines)

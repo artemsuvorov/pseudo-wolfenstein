@@ -18,14 +18,13 @@ namespace PseudoWolfenstein.Model
             Destroy();
         }
 
-        protected virtual void Collect(Player player) 
-        {
-            player.Score += 10;
-        }
+        protected virtual void Collect(Player player) { }
     }
 
     public class Ammo : Collectable
     {
+        private int ammoAmount = 15;
+
         public Ammo(char name, Vector2 position, Image texture)
             : base(name, position, texture)
         { }
@@ -33,7 +32,9 @@ namespace PseudoWolfenstein.Model
         protected override void Collect(Player player)
         {
             base.Collect(player);
-            player.Weaponry.Ammo += 10;
+            if (ammoAmount <= 0) return;
+            player.Weaponry.Ammo += ammoAmount;
+            ammoAmount -= ammoAmount;
         }
     }
 }

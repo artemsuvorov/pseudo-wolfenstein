@@ -23,7 +23,9 @@ namespace PseudoWolfenstein.Model
         public Weaponry Weaponry { get; private set; } = new Weaponry();
 
         public event GameEventHandler Moved;
+        public event GameEventHandler Damaged;
         public event GameEventHandler Shot;
+        public event GameEventHandler Died;
         public event GameEventHandler Interacting;
         
         private Scene scene;
@@ -122,9 +124,7 @@ namespace PseudoWolfenstein.Model
         private void Shoot()
         {
             if (Input.IsKeyDown(Keys.Space))
-            {
                 Weaponry.BeginShoot();
-            }
         }
 
         private void Interact()
@@ -149,7 +149,13 @@ namespace PseudoWolfenstein.Model
             if (damage <= 0) return;
             var newHealth = Health - damage;
             Health = newHealth > 0 ? newHealth : 0;
-            //if (Health == 0) Die();
+            Damaged?.Invoke(this, new GameEventArgs(scene, this));
+            if (Health == 0) Die();
+        }
+
+        private void Die()
+        {
+            Died?.Invoke(this, new GameEventArgs(scene, this));
         }
 
         private void OnWeaponShot(object sender, EventArgs e)

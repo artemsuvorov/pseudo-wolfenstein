@@ -6,47 +6,22 @@ using System.Numerics;
 
 namespace PseudoWolfenstein.Model
 {
-    internal static class EnemyAnimations
-    {
-        public readonly static Animation IdleAnimation1 = new(new[] { 0 }) { Looped = true };
-        public readonly static Animation IdleAnimation2 = new(new[] { 10 }) { Looped = true };
-        public readonly static Animation IdleAnimation3 = new(new[] { 11 }) { Looped = true };
-        public readonly static Animation IdleAnimation4 = new(new[] { 12 }) { Looped = true };
-        public readonly static Animation IdleAnimation5 = new(new[] { 13 }) { Looped = true };
-        public readonly static Animation IdleAnimation6 = new(new[] { 14 }) { Looped = true };
-        public readonly static Animation IdleAnimation7 = new(new[] { 15 }) { Looped = true };
-        public readonly static Animation IdleAnimation8 = new(new[] { 16 }) { Looped = true };
-
-        public readonly static Animation ShotAnimation = new(new[] { 1, 1, 1, 1 }) { Looped = true };
-        public readonly static Animation FireAnimation = new(new[] { 7, 7, 8, 8, 9, 9, 9, 8, 7 }) { Looped = true };
-        public readonly static Animation WalkAnimation = new(new[] { 17, 17, 18, 18, 19, 19, 20, 20 }) { Looped = true };
-        public readonly static Animation DeadAnimation = new(new[] { 2, 2, 3, 3, 4, 4, 5, 5, 6 });
-
-        public static Animation GetIdleAnimation(float angle)
-        {
-            angle = MathF.Abs(angle) % (2f * MathF.PI);
-            if (angle >= -1f * MathF.PI / 8f && angle < 1f * MathF.PI / 8f) return IdleAnimation1;
-            else if (angle >= 1f * MathF.PI / 8f && angle < 3f * MathF.PI / 8f) return IdleAnimation2;
-            else if (angle >= 3f * MathF.PI / 8f && angle < 5f * MathF.PI / 8f) return IdleAnimation3;
-            else if (angle >= 5f * MathF.PI / 8f && angle < 7f * MathF.PI / 8f) return IdleAnimation4;
-            else if (angle >= 7f * MathF.PI / 8f && angle < 9f * MathF.PI / 8f) return IdleAnimation5;
-            else if (angle >= 9f * MathF.PI / 8f && angle < 11f * MathF.PI / 8f) return IdleAnimation6;
-            else if (angle >= 11f * MathF.PI / 8f && angle < 13f * MathF.PI / 8f) return IdleAnimation7;
-            else return IdleAnimation8;
-        }
-    }
-
-    public class Enemy : Shotable
+    public class Enemy : Shotable, IAnimatable
     {
         public int Health { get; private set; } = 3;
         public float Rotation { get; private set; } = 0.0f;
 
         private const bool AiIsEnabled = true;
-        private const float VisibilityRange = 7f * Settings.WorldWallSize;
-        private const int DamageAmount = 20;
-        private const float MoveSpeed = Settings.PlayerMoveSpeed / 3f;
+        private const float VisibilityRange = 12f * Settings.WorldWallSize;
+        private const int DamageAmount = 16;
+        private const float MoveSpeed = Settings.PlayerMoveSpeed * 2f;
 
+        private readonly EnemyAi ai;
+        private Vector2? nextPosition;
+
+        private readonly EnemyAnimations animations;
         private Animation currentAnimation;
+
         private bool sawPlayer = false;
         private bool seeingPlayer = false;
 
@@ -57,18 +32,21 @@ namespace PseudoWolfenstein.Model
 
         public Enemy(char name, Vector2 position, Image texture, RectangleF srcRect)
             : base(name, position, texture, srcRect)
-        { }
+        {
+            animations = new EnemyAnimations();
+            ai = new EnemyAi(this);
+        }
 
         public void Update(Scene scene, Player player)
         {
             Look(scene, player);
-            Act(player);
+            Act(scene, player);
             Move(player);
         }
 
-        public void Animate(object sender, GameEventArgs e)
+        public void Animate()
         {
-            ChangeAnimation(e.Player);
+            ChangeAnimation();
 
             if (currentAnimation.IsContinuing)
             {
@@ -84,18 +62,18 @@ namespace PseudoWolfenstein.Model
             }
         }
 
-        private void ChangeAnimation(Player player)
+        private void ChangeAnimation()
         {
             if (isShot && !isDead)
-                currentAnimation = EnemyAnimations.ShotAnimation;
+                currentAnimation = animations.ShotAnimation;
             else if (isWalking && !isDead)
-                currentAnimation = EnemyAnimations.WalkAnimation;
+                currentAnimation = animations.WalkAnimation;
             else if (isFiring && !isDead)
-                currentAnimation = EnemyAnimations.FireAnimation;
+                currentAnimation = animations.FireAnimation;
             else if (isDead)
-                currentAnimation = EnemyAnimations.DeadAnimation;
+                currentAnimation = animations.DeadAnimation;
             else
-                currentAnimation = EnemyAnimations.IdleAnimation1;
+                currentAnimation = animations.IdleAnimation1;
             //{
             //    // todo: it doesn't work properly !!!
 
@@ -116,36 +94,54 @@ namespace PseudoWolfenstein.Model
             //}
         }
 
-        private void Act(Player player)
+        private void Act(Scene scene, Player player)
         {
-            if (!AiIsEnabled) 
+            if (!AiIsEnabled)
                 return;
 
             if (seeingPlayer && !isShot)
                 Fire(player);
             else if (sawPlayer)
-                MoveToPlayer(player);
+                MoveToPlayer(scene, player);
             else if (isShot)
-                EnemyAnimations.FireAnimation.Reset();
+                animations.FireAnimation.Reset();
         }
 
         private void Fire(Player player)
         {
             StopWalkingAnimation();
             BeginFireAnimation();
+            if (currentAnimation.Frame != animations.FireAnimationFrame) return;
+
+            var dst = (player.Position - Center).Length();
+            var dmg = MathF.Min(Settings.WorldWallSize * 35f * (1f / dst), DamageAmount);
+            player.ApplyDamage((int)dmg);
         }
 
-        private void MoveToPlayer(Player player)
+        private void MoveToPlayer(Scene scene, Player player)
         {
-            if (seeingPlayer || isShot || isDead) return;
-            isWalking = true;
+            if (seeingPlayer || isShot || isDead)
+                return;
 
-            // todo: make enemy not going through walls
-            // https://stackoverflow.com/questions/5303538/algorithm-to-find-the-shortest-path-with-obstacles
-            var target = player.Position;
-            var step = (target - Center).SafeNormalize() * MoveSpeed * TimeF.DeltaTime;
+            if (ai.HasPath && ai.PathEnd != player.Position)
+                ai.Reset(scene, player.Position);
+
+            if (!nextPosition.HasValue || IsCloseTo(nextPosition.Value))
+                this.nextPosition = ai.TryGetNextStep(scene, player.Position, out var nextPosition) ? nextPosition : null;
+
+            if (!nextPosition.HasValue) return;
+
+            isWalking = true;
+            var step = (nextPosition.Value - Center).SafeNormalize();
             Center += step;
             LookAt(player.Position);
+        }
+
+        private bool IsCloseTo(Vector2 target)
+        {
+            if (!nextPosition.HasValue) return false;
+            var dstVector = Center - target;
+            return dstVector.Length() < 1f;
         }
 
         private void Move(Player player)
@@ -213,12 +209,8 @@ namespace PseudoWolfenstein.Model
                 (player.Position, direction, Vertices[0], Vertices[1], out var enemyHitLocation);
             var enemyHitDst = (enemyHitLocation - player.Position).Length();
 
-            // todo: add visibility range constraint
-            if (((!wallHit && enemyHit) || (wallHit && wallHitDst > enemyHitDst)) && 
-                (enemyHit && enemyHitDst <= VisibilityRange))
-                return true;
-            else
-                return false;
+            return ((!wallHit && enemyHit) || (wallHit && wallHitDst > enemyHitDst)) &&
+                (enemyHit && enemyHitDst <= VisibilityRange);
         }
 
         private void ApplyDamage(int damage)

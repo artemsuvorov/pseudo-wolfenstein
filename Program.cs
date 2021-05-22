@@ -1,4 +1,3 @@
-using PseudoWolfenstein.Model;
 using PseudoWolfenstein.View;
 using System;
 using System.Windows.Forms;

@@ -12,14 +12,20 @@ namespace PseudoWolfenstein.Model
 
         public event EventHandler Shot;
 
+        private readonly Weapons weapons;
+        private readonly WeaponAnimations weaponAnimations;
+
         private bool isAnimating = false;
         private WeaponFireAnimation weaponAnimation;
 
         public Weaponry()
         {
+            weapons = new Weapons();
+            weaponAnimations = new WeaponAnimations();
+
             const WeaponType StartWeapon = WeaponType.Knife;
-            SelectedWeapon = Weapons.GetWeapon(StartWeapon);
-            weaponAnimation = WeaponAnimations.GetAnimation(StartWeapon);
+            SelectedWeapon = weapons.GetWeapon(StartWeapon);
+            weaponAnimation = weaponAnimations.GetAnimation(StartWeapon);
         }
 
         public void BeginShoot()
@@ -57,8 +63,8 @@ namespace PseudoWolfenstein.Model
             weaponAnimation?.Reset();
             isAnimating = false;
 
-            SelectedWeapon = Weapons.GetWeapon(weaponType);
-            weaponAnimation = WeaponAnimations.GetAnimation(weaponType);
+            SelectedWeapon = weapons.GetWeapon(weaponType);
+            weaponAnimation = weaponAnimations.GetAnimation(weaponType);
             weaponAnimation.Reset();
         }
 

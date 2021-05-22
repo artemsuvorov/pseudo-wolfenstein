@@ -28,11 +28,11 @@ namespace PseudoWolfenstein.Model
         }
     }
 
-    public static class Weapons
+    public class Weapons
     {
-        private static readonly IReadOnlyDictionary<WeaponType, Weapon> weapons;
+        private readonly IReadOnlyDictionary<WeaponType, Weapon> weapons;
 
-        static Weapons()
+        public Weapons()
         {
             weapons = new Dictionary<WeaponType, Weapon>
             {
@@ -45,7 +45,7 @@ namespace PseudoWolfenstein.Model
             };
         }
 
-        public static Weapon GetWeapon(WeaponType type)
+        public Weapon GetWeapon(WeaponType type)
         {
             return weapons[type];
         }

@@ -16,11 +16,11 @@ namespace PseudoWolfenstein.Model
         }
     }
 
-    public static class WeaponAnimations
+    public class WeaponAnimations
     {
-        private static readonly IReadOnlyDictionary<WeaponType, WeaponFireAnimation> animationFramesByWeapon;
+        private readonly IReadOnlyDictionary<WeaponType, WeaponFireAnimation> animationFramesByWeapon;
 
-        static WeaponAnimations()
+        public WeaponAnimations()
         {
             animationFramesByWeapon = new Dictionary<WeaponType, WeaponFireAnimation>()
             {
@@ -33,7 +33,7 @@ namespace PseudoWolfenstein.Model
             };
         }
 
-        public static WeaponFireAnimation GetAnimation(WeaponType weapon)
+        public WeaponFireAnimation GetAnimation(WeaponType weapon)
         {
             return animationFramesByWeapon[weapon];
         }

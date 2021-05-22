@@ -9,11 +9,12 @@ namespace PseudoWolfenstein.Model
         private readonly List<Scene> Levels = new();
         private int currentLevelIndex = 0;
 
-        public event EventHandler OnCurrentLevelFinished;
+        public event EventHandler CurrentLevelFinished;
+        public event EventHandler AllLevelsFinished;
 
         public LevelCollection()
         {
-            LoadLevel(Scene.SceneBuilder.SingleBlockSceneStr, "SingleBlockScene");
+            LoadLevel(Scene.SceneBuilder.Level_1, "Level1");
             //LoadLevel(Scene.SceneBuilder.Level_1, "Level1");
             //LoadLevel(Scene.SceneBuilder.Level_2, "Level2");
             //LoadLevel(Scene.SceneBuilder.Level_4, "Level4");
@@ -21,7 +22,10 @@ namespace PseudoWolfenstein.Model
 
         public Scene GetNextLevel()
         {
-            return Levels[currentLevelIndex++];
+            if (currentLevelIndex < Levels.Count)
+                return Levels[currentLevelIndex++];
+
+            return default;
         }
 
         private void LoadLevel(string levelSource, string name)
@@ -33,7 +37,10 @@ namespace PseudoWolfenstein.Model
 
         private void OnLevelFinished(object sender, GameEventArgs e)
         {
-            OnCurrentLevelFinished?.Invoke(this, EventArgs.Empty);
+            if (currentLevelIndex < Levels.Count)
+                CurrentLevelFinished?.Invoke(this, EventArgs.Empty);
+            else
+                AllLevelsFinished?.Invoke(this, EventArgs.Empty);
         }
     }
 }

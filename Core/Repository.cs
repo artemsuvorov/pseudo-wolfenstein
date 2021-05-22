@@ -22,7 +22,7 @@ namespace PseudoWolfenstein.Core
         {
             internal class EnemyTextureCollection
             {
-                private readonly List<Bitmap> frames = new(16);
+                private readonly List<Bitmap> frames = new(32);
 
                 public Bitmap this[int index]
                 {
@@ -88,9 +88,41 @@ namespace PseudoWolfenstein.Core
                 }
             }
 
+            internal class VaseTextureCollection
+            {
+                private readonly List<Bitmap> frames = new(4);
+
+                public Bitmap this[int index]
+                {
+                    get => frames[index];
+                }
+
+                public Bitmap Vase { get; private set; }
+                public Bitmap CrackedVase { get; private set; }
+                public Bitmap BrokenVase { get; private set; }
+
+                private readonly Func<string, Func<Bitmap, Color>, Bitmap> TextureLoader;
+
+                public VaseTextureCollection(Func<string, Func<Bitmap, Color>, Bitmap> textureLoader)
+                {
+                    TextureLoader = textureLoader;
+                    Vase = LoadVaseTextureFrame("Vase.bmp");
+                    CrackedVase = LoadVaseTextureFrame("VaseCracked.bmp");
+                    BrokenVase = LoadVaseTextureFrame("VaseBroken.bmp");
+                }
+
+                private Bitmap LoadVaseTextureFrame(string textureName)
+                {
+                    var texture = TextureLoader(textureName, texture => texture.GetPixel(0, 0));
+                    frames.Add(texture);
+                    return texture;
+                }
+            }
+
             private const int TextureRepoCapactity = 256;
 
             public EnemyTextureCollection EnemyFrames { get; private set; }
+            public VaseTextureCollection VaseFrames { get; private set; }
 
             public Bitmap WeaponsTileSet { get; private set; }
             public Bitmap StoneWall { get; private set; }
@@ -107,7 +139,6 @@ namespace PseudoWolfenstein.Core
             public Bitmap Heal { get; private set; }
             public Bitmap SmallTable { get; private set; }
             public Bitmap ScoreItemCross { get; private set; }
-            public Bitmap NextLevelVase { get; private set; }
             public Bitmap RedKey { get; set; }
             public Bitmap RedDoor { get; set; }
             public Bitmap OrangeDoor { get; set; }
@@ -129,8 +160,6 @@ namespace PseudoWolfenstein.Core
             public Bitmap ScoreItemChest { get; set; }
             public Bitmap ScoreItemCrown { get; set; }
             public Bitmap BrickWall { get; set; }
-            public Bitmap VaseCracks { get; set; }
-            public Bitmap BrokenVase { get; set; }
             public Bitmap Left { get; set; }
             public Bitmap Right { get; set; }
             public Bitmap Tree { get; set; }
@@ -143,6 +172,7 @@ namespace PseudoWolfenstein.Core
             public TextureRepository()
             {
                 EnemyFrames = new EnemyTextureCollection(LoadTexture);
+                VaseFrames = new VaseTextureCollection(LoadTexture);
 
                 //walls
                 StoneWall = LoadTexture("StoneWall.bmp");
@@ -192,11 +222,6 @@ namespace PseudoWolfenstein.Core
 
                 Door = LoadTexture("Door.bmp");
                 LockedDoor = LoadTexture("Door.bmp");
-
-                //new level items
-                NextLevelVase = LoadTexture("Vase.bmp", texture => texture.GetPixel(0, 0));
-                VaseCracks = LoadTexture("VaseCracks.bmp", texture => texture.GetPixel(0, 0));
-                BrokenVase = LoadTexture("BrokenVase.bmp", texture => texture.GetPixel(0, 0));
 
                 //Secrets
                 Flowey = LoadTexture("Flowey.bmp", texture => texture.GetPixel(0, 0));

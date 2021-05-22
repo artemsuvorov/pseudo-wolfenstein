@@ -16,8 +16,6 @@ namespace PseudoWolfenstein.View
 #endif
 
         private readonly Player player;
-        // todo: delete
-        private readonly Scene scene;
 
         private string DebugInfoMessage =>
             $"DEBUG SESSION INFO PseudoWolfenstein\r\n" +
@@ -30,10 +28,9 @@ namespace PseudoWolfenstein.View
 
         public bool IsDebugMode { get; private set; }
 
-        public DebugInfo(Player player, Scene scene)
+        public DebugInfo(Player player)
         {
             this.player = player;
-            this.scene = scene;
         }
 
         public void Update()

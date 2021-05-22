@@ -36,21 +36,15 @@ namespace PseudoWolfenstein.Utils
             return new Vector2(x, y);
         }
 
-        // todo: refactor it
         public static Vector2 Lengthen(this Vector2 self, float offset, Vector2 direction)
         {
-            //var magnitude = direction.Length();
             var translation = direction.SafeNormalize() * offset;
-            //direction.X /= magnitude;
-            //direction.Y /= magnitude;
-            //var translation = new PointF(offset * direction.X, offset * direction.Y);
 
-            using var m = new System.Drawing.Drawing2D.Matrix();
-            m.Translate(translation.X, translation.Y);
-            var pts = new PointF[] { new PointF(self.X, self.Y) };
-            m.TransformPoints(pts);
-            return new Vector2(pts[0].X, pts[0].Y);
+            using var matrix = new System.Drawing.Drawing2D.Matrix();
+            matrix.Translate(translation.X, translation.Y);
+            var points = new PointF[] { new PointF(self.X, self.Y) };
+            matrix.TransformPoints(points);
+            return new Vector2(points[0].X, points[0].Y);
         }
-
     }
 }

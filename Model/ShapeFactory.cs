@@ -102,7 +102,7 @@ namespace PseudoWolfenstein.Model
                 ['N'] = (x, y) =>
                 {
                     var position = new Vector2((x + 0.5f) * Settings.WorldWallSize, (y + 0.5f) * Settings.WorldWallSize);
-                    var texture = Repository.Textures.NextLevelVase;
+                    var texture = Repository.Textures.VaseFrames[0];
                     return new NextLevelVase('N', position, texture);
                 },
                 ['X'] = (x, y) =>
@@ -117,7 +117,7 @@ namespace PseudoWolfenstein.Model
                     var texture = Repository.Textures.Puddle;
                     return new RotatingPane('I', position, texture);
                 },
-                ['D'] = (x,y) =>
+                ['D'] = (x, y) =>
                 {
                     var position = new Vector2((x + 0.5f) * Settings.WorldWallSize, (y + 0.5f) * Settings.WorldWallSize);
                     var texture = Repository.Textures.Door;
