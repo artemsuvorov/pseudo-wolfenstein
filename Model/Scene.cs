@@ -162,7 +162,7 @@ namespace PseudoWolfenstein.Model
         public bool GetMinDistanceWallCross(Vector2 v1, Vector2 v2, out Vector2 location, out float minDistance)
         {
             if (player is null)
-                throw new InvalidOperationException("player cannot be null.");
+                throw new InvalidOperationException("Player cannot be null.");
 
             var crossFound = false;
             minDistance = float.MaxValue;

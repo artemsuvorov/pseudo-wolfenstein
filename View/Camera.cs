@@ -8,15 +8,17 @@ namespace PseudoWolfenstein.View
 {
     public class Camera
     {
-        private readonly Viewport viewport;
         private readonly Scene scene;
         private readonly Raycast raycast;
+        private readonly float viewWidth, viewHeight;
 
         public Camera(Viewport viewport, Scene scene, Player player)
         {
-            this.viewport = viewport;
             this.scene = scene;
             this.raycast = new Raycast(scene, player);
+
+            viewWidth = viewport.Width;
+            viewHeight = viewport.Height - 100f;
         }
 
         public void DrawView(Graphics graphics)
@@ -35,7 +37,7 @@ namespace PseudoWolfenstein.View
             if (raycastData is null || raycastData.Count <= 0) return;
 
             var sliceCount = raycastData.Count;
-            var sliceWidth = viewport.Width / (float)sliceCount;
+            var sliceWidth = viewWidth / sliceCount;
 
             for (var i = 0; i < sliceCount; i++)
                 DrawCrossingPoints(graphics, raycastData, i, sliceWidth);
@@ -45,8 +47,8 @@ namespace PseudoWolfenstein.View
         {
             using var ceilingBrush = new SolidBrush(Settings.CeilingColor);
             using var floorBrush = new SolidBrush(Settings.FloorColor);
-            var ceilingRect = new RectangleF(0, 0, viewport.Width, viewport.Height / 2f);
-            var floorRect = new RectangleF(0, viewport.Height / 2f, viewport.Width, viewport.Height);
+            var ceilingRect = new RectangleF(0, 0, viewWidth, viewHeight / 2f);
+            var floorRect = new RectangleF(0, viewHeight / 2f, viewWidth, viewHeight);
             graphics.FillRectangle(ceilingBrush, ceilingRect);
             graphics.FillRectangle(floorBrush, floorRect);
         }
@@ -54,13 +56,13 @@ namespace PseudoWolfenstein.View
         private float CalculateCeiling(float totalDistance)
         {
             var dst = totalDistance * Settings.RaycastProjectionCoeff / Settings.WorldWallSize;
-            var ceiling = 0.5f * viewport.Height - Player.FieldOfView * viewport.Height / dst;
+            var ceiling = 0.5f * viewHeight - Player.FieldOfView * viewHeight / dst;
             return ceiling;
         }
 
         private float CalculateWallHeight(float ceiling)
         {
-            return viewport.Height - 2.0f * ceiling;
+            return viewHeight - 2.0f * ceiling;
         }
 
         private void DrawCrossingPoints(Graphics graphics, RaycastData raycastData, int i, float sliceWidth)
@@ -111,7 +113,7 @@ namespace PseudoWolfenstein.View
                 edgeStart.Y - crossingPoint.Y : edgeStart.X - crossingPoint.X;
             var offsetX = MathF.Abs(wallCrossX) / Settings.WorldWallSize;
 
-            var d = ceiling * 32f - viewport.Height * 16f + wallHeight * 16f;
+            var d = ceiling * 32f - viewHeight * 16f + wallHeight * 16f;
             var texX = offsetX * texture.Width;
             var texY = d * texture.Height / wallHeight / 32f;
 

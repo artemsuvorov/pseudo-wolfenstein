@@ -117,6 +117,7 @@ namespace PseudoWolfenstein.View
                 Alignment = StringAlignment.Center
             };
             graphics.DrawString(WinMessage, font, Brushes.White, viewport.ClientRectangle, format);
+            graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.None;
         }
 
         private void DrawGameOverScreen(Graphics graphics)
@@ -134,6 +135,7 @@ namespace PseudoWolfenstein.View
                 Alignment = StringAlignment.Center
             };
             graphics.DrawString(WinMessage, font, Brushes.White, viewport.ClientRectangle, format);
+            graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.None;
         }
 
         private void DrawBackground(Graphics graphics, int width, int height)

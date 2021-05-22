@@ -172,6 +172,7 @@ namespace PseudoWolfenstein.Core
             public Bitmap ChainGun { get; set; }
             public Bitmap FlameThrower { get; set; }
             public Bitmap RocketLauncher { get; set; }
+            public Bitmap HUD { get; set; }
 
             private readonly HashSet<Bitmap> textures = new(TextureRepoCapactity);
 
@@ -240,6 +241,8 @@ namespace PseudoWolfenstein.Core
                 ChainGun = LoadTexture("ChainGun.png", texture => texture.GetPixel(0, 0));
                 FlameThrower = LoadTexture("FlameThrower.png", texture => texture.GetPixel(0, 0));
                 RocketLauncher = LoadTexture("RocketLauncher.png", texture => texture.GetPixel(0, 0));
+
+                HUD = LoadTexture("hud.png");
             }
 
             ~TextureRepository()

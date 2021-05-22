@@ -95,7 +95,7 @@ namespace PseudoWolfenstein.Model
             var weaponAnimationFrame = weaponAnimation.Frame;
 
             var dstx = (viewport.Width - WeaponSpriteSize * DstWeaponScale) / 2f;
-            var dsty = viewport.Height - WeaponSpriteSize * DstWeaponScale;
+            var dsty = viewport.Height - WeaponSpriteSize * DstWeaponScale - 100;
             var dstRect = new RectangleF(dstx, dsty, WeaponSpriteSize * DstWeaponScale, WeaponSpriteSize * DstWeaponScale);
 
             var srcx = (1 + weaponAnimationFrame) * (1f + WeaponSpriteSize);
