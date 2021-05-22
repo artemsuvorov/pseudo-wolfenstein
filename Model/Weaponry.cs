@@ -73,6 +73,14 @@ namespace PseudoWolfenstein.Model
             weaponAnimation.Reset();
         }
 
+        public void Equip(WeaponType type)
+        {
+            if (weapons.AddAvailableWeapon(type))
+                SelectWeapon(type);
+            else if (type != WeaponType.Knife)
+                Ammo += 15;
+        }
+
         private bool IsSelectable(WeaponType weaponType)
         {
             return !(isAnimating && weaponAnimation.IsContinuing) || weaponType == SelectedWeapon.Type;

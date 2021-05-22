@@ -166,6 +166,12 @@ namespace PseudoWolfenstein.Core
             public Bitmap SendWall { get; set; }
             public Bitmap GoldWall { get; set; }
             public Bitmap Flowey { get; set; }
+            public Bitmap Knife { get; set; }
+            public Bitmap Pistol { get; set; }
+            public Bitmap MachineGun { get; set; }
+            public Bitmap ChainGun { get; set; }
+            public Bitmap FlameThrower { get; set; }
+            public Bitmap RocketLauncher { get; set; }
 
             private readonly HashSet<Bitmap> textures = new(TextureRepoCapactity);
 
@@ -230,23 +236,11 @@ namespace PseudoWolfenstein.Core
                 WeaponsTileSet = LoadTexture("Weapons.png", texture => texture.GetPixel(0, 0));
                 Knife = LoadTexture("Knife.png", texture => texture.GetPixel(0, 0));
                 Pistol = LoadTexture("Pistol.png", texture => texture.GetPixel(0, 0));
-                Rifle = LoadTexture("Rifle.png", texture => texture.GetPixel(0, 0));
                 MachineGun = LoadTexture("MachineGun.png", texture => texture.GetPixel(0, 0));
-                Flamethrower = LoadTexture("Flamethrower.png", texture => texture.GetPixel(0, 0));
-                Bazooka = LoadTexture("Bazooka.png", texture => texture.GetPixel(0, 0));
+                ChainGun = LoadTexture("ChainGun.png", texture => texture.GetPixel(0, 0));
+                FlameThrower = LoadTexture("FlameThrower.png", texture => texture.GetPixel(0, 0));
+                RocketLauncher = LoadTexture("RocketLauncher.png", texture => texture.GetPixel(0, 0));
             }
-
-            public Bitmap Bazooka { get; set; }
-
-            public Bitmap Rifle { get; set; }
-
-            public Bitmap Flamethrower { get; set; }
-
-            public Bitmap MachineGun { get; set; }
-
-            public Bitmap Pistol { get; set; }
-
-            public Bitmap Knife { get; set; }
 
             ~TextureRepository()
             {

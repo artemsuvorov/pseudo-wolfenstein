@@ -168,7 +168,7 @@ namespace PseudoWolfenstein.Model
             minDistance = float.MaxValue;
             location = default(Vector2);
 
-            foreach (var wall in obstacles.Where(x => !(x is Shotable)).ToList())
+            foreach (var wall in obstacles.Where(x => !(x is Shotable) && !(x is Collectable)).ToList())
             {
                 for (var index = 1; index < wall.Vertices.Length + 1; index++)
                 {

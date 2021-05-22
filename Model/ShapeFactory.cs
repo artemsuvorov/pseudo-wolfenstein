@@ -283,37 +283,37 @@ namespace PseudoWolfenstein.Model
                 {
                     var position = new Vector2((x + 0.5f) * Settings.WorldWallSize, (y + 0.5f) * Settings.WorldWallSize);
                     var texture = Repository.Textures.Knife;
-                    return new Collectable('5', position, texture);
+                    return new Knife('5', position, texture);
                 },
                 ['6'] = (x, y) =>
                 {
                     var position = new Vector2((x + 0.5f) * Settings.WorldWallSize, (y + 0.5f) * Settings.WorldWallSize);
                     var texture = Repository.Textures.Pistol;
-                    return new Collectable('6', position, texture);
+                    return new Pistol('6', position, texture);
                 },
                 ['7'] = (x, y) =>
                 {
                     var position = new Vector2((x + 0.5f) * Settings.WorldWallSize, (y + 0.5f) * Settings.WorldWallSize);
-                    var texture = Repository.Textures.Rifle;
-                    return new Collectable('7', position, texture);
+                    var texture = Repository.Textures.MachineGun;
+                    return new MachineGun('7', position, texture);
                 },
                 ['8'] = (x, y) =>
                 {
                     var position = new Vector2((x + 0.5f) * Settings.WorldWallSize, (y + 0.5f) * Settings.WorldWallSize);
-                    var texture = Repository.Textures.MachineGun;
-                    return new Collectable('8', position, texture);
+                    var texture = Repository.Textures.ChainGun;
+                    return new ChainGun('8', position, texture);
                 },
                 ['9'] = (x, y) =>
                 {
                     var position = new Vector2((x + 0.5f) * Settings.WorldWallSize, (y + 0.5f) * Settings.WorldWallSize);
-                    var texture = Repository.Textures.Flamethrower;
-                    return new Collectable('9', position, texture);
+                    var texture = Repository.Textures.FlameThrower;
+                    return new FlameThrower('9', position, texture);
                 },
                 ['0'] = (x, y) =>
                 {
                     var position = new Vector2((x + 0.5f) * Settings.WorldWallSize, (y + 0.5f) * Settings.WorldWallSize);
-                    var texture = Repository.Textures.Bazooka;
-                    return new Collectable('9', position, texture);
+                    var texture = Repository.Textures.RocketLauncher;
+                    return new RocketLauncher('9', position, texture);
                 },
             };
         }

@@ -41,8 +41,8 @@ namespace PseudoWolfenstein.Model
                 [WeaponType.Pistol]         = new Weapon(WeaponType.Pistol, id: 1, damage: 1, blocksDistance: 15f),
                 [WeaponType.MachineGun]     = new Weapon(WeaponType.MachineGun, id: 2, damage: 1, blocksDistance: 15f),
                 [WeaponType.Chaingun]       = new Weapon(WeaponType.Chaingun, id: 3, damage: 1, blocksDistance: 15f),
-                [WeaponType.FlameThrower]   = new Weapon(WeaponType.FlameThrower, id: 4, damage: 1, blocksDistance: 4f),
-                [WeaponType.RocketLauncher] = new Weapon(WeaponType.RocketLauncher, id: 5, damage: 1, blocksDistance: 15f)
+                [WeaponType.FlameThrower]   = new Weapon(WeaponType.FlameThrower, id: 4, damage: 2, blocksDistance: 4f),
+                [WeaponType.RocketLauncher] = new Weapon(WeaponType.RocketLauncher, id: 5, damage: 5, blocksDistance: 15f)
             };
 
             availableWeapons = new HashSet<WeaponType>(6);
