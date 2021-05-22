@@ -46,41 +46,42 @@ namespace PseudoWolfenstein.Model
 
             internal const string Level_1 =
                 //Real Prison
-                "                                               WWW                 \r\n" +
-                "                                              W   W                \r\n" +
-                "                                              W W W                \r\n" +
-                "   SSSSSSSSS                 WWWWWWWWWWWWWWWWWWgW W                \r\n" +
-                "  Sx        f               W           W       WdW                \r\n" +
-                "  S        NS               WGWWW   WWWbWDWWWWWDWWWWWW             \r\n" +
-                "  S         L                W Sx   xS     Se       F S            \r\n" +
-                "  SDSSSSSSSS                   Sx   xS     SSSSSSSSSSqS            \r\n" +
-                "  S S                  SSSSSSSSSSSDSSS     S        SS             \r\n" +
-                "  S S                 S              S     S     H  S              \r\n" +
-                "  S S                 S              S     D        S              \r\n" +
-                "  S S                 S    F         S     S        S              \r\n" +
-                "  S S                 S              S     S        S              \r\n" +
-                "  S S                 S              S     S        S              \r\n" +
-                "  S S                 j              jBBDBBSSSSDSSSS               \r\n" +
-                "  BoBB                S         C    SB   B         B              \r\n" +
-                " B    BBBBBBBBBBBBBBBBSC             SB   B         J              \r\n" +
-                " T H                      F     F    SB   B   F    nB              \r\n" +
-                " B    BBBBBBBBBBBBBBBBSC             SB   B      F  J              \r\n" +
-                "  BDBB                SSSSSSSjSSSSSSSSB   B         B              \r\n" +
-                "  B B                 BBBBBBBBBBBBBBBBB   BBBBBBBBBBBBB            \r\n" +
-                "  B B                    BO       B           B        B           \r\n" +
-                "  B B                    J        D           D     CH J           \r\n" +
-                "  B B                    B        B           B        B           \r\n" +
-                "  BDBBBBJBBBBBJBBBBBJBBBB BBBBBBBBB           BBBBBBBBB            \r\n" +
-                "  B                     OB        B           B        B           \r\n" +
-                "  B       C       C  F   J  C     D           D      P J           \r\n" +
-                "  B                      B        B           B        B           \r\n" +
-                "  B            F      w  BBBBBBBBBB           BBBBBBBBB            \r\n" +
-                "  B                     dB                             B           \r\n" +
-                "  B     F C       C  F   J  F                       A  J           \r\n" +
-                "  B              n       B                             B           \r\n" +
-                "   BJBBBBJBBBBJBBBBBJBBBBBBBBBBBJBBBBBBBJBBBBBBBJBBBBBB            \r\n";
+                "                                               WWW           \r\n" +
+                "                                              W   W          \r\n" +
+                "                                              W W W          \r\n" +
+                "   SSSSSSSSS                 WWWWWWWWWWWWWWWWWWgW W          \r\n" +
+                "  Sx        f               W           W       WdW          \r\n" +
+                "  S        NS               WGWWW   WWWbWDWWWWWDWWWWWW       \r\n" +
+                "  S         L                W Sx   xS     Se       F S      \r\n" +
+                "  SDSSSSSSSS                   Sx   xS     SSSSSSSSSSqS      \r\n" +
+                "  S S                  SSSSSSSSSSSDSSS     S        SS       \r\n" +
+                "  S S                 S              S     S     H  S        \r\n" +
+                "  S S                 S              S     D        S        \r\n" +
+                "  S S                 S    F         S     S        S        \r\n" +
+                "  S S                 S              S     S        S        \r\n" +
+                "  S S                 S              S     S        S        \r\n" +
+                "  S S                 j              jBBDBBSSSSDSSSS         \r\n" +
+                "  BoBB                S         C    SB   B         B        \r\n" +
+                " B    BBBBBBBBBBBBBBBBSC             SB   B         J        \r\n" +
+                " T H                      F     F    SB   B   F    nB        \r\n" +
+                " B    BBBBBBBBBBBBBBBBSC             SB   B      F  J        \r\n" +
+                "  BDBB                SSSSSSSjSSSSSSSSB   B         B        \r\n" +
+                "  B B                 BBBBBBBBBBBBBBBBB   BBBBBBBBBBBBB      \r\n" +
+                "  B B                    BO       B           B        B     \r\n" +
+                "  B B                    J        D           D     CH J     \r\n" +
+                "  B B                    B        B           B        B     \r\n" +
+                "  BDBBBBJBBBBBJBBBBBJBBBB BBBBBBBBB           BBBBBBBBB      \r\n" +
+                "  B                     OB        B           B        B     \r\n" +
+                "  B       C       C  F   J  C     D           D      P J     \r\n" +
+                "  B                      B        B           B        B     \r\n" +
+                "  B            F      w  BBBBBBBBBB           BBBBBBBBB      \r\n" +
+                "  B                     dB                             B     \r\n" +
+                "  B     F C       C  F   J  F                       A  J     \r\n" +
+                "  B              n       B                             B     \r\n" +
+                "   BJBBBBJBBBBJBBBBBJBBBBBBBBBBBJBBBBBBBJBBBBBBBJBBBBBB      \r\n";
 
             internal const string Level_2 =
+                //Welcome to the Hell
                 " kkkkkkkkkkkkkkkkk  SSSSSSSSSSSSSS                                                                          \r\n" +
                 " k       D       k S  F           S   SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS        \r\n" +
                 " k m G   kkkkkkSDSS        F       S S                               S                              S       \r\n" +
@@ -126,10 +127,7 @@ namespace PseudoWolfenstein.Model
                 "               R                                                                                            \r\n";
 
             internal const string Level_4 =
-                "                                                                                                            \r\n" +
-                "                                                                                                            \r\n" +
-                "                                                                                                            \r\n" +
-                "                                                                                                            \r\n" +
+                //
                 "           KKKKKKKKKKKKKKKKKKKKKKKKKKKKKK            SSSSjSSSSSSSSSSSSSSSjSSSSSSSSSSSSSSjSSSSSSSS           \r\n" +
                 "          Kx         O      n           xK          S           O          F         n          HS          \r\n" +
                 "          K    C        F        C       K          S F  C    F    F     C     F           F     QSSSS      \r\n" +
@@ -178,10 +176,112 @@ namespace PseudoWolfenstein.Model
                 "        Ke  D       F            xS                                                                         \r\n" +
                 "         KKKKKKKKKKKKKKKKKKKKKKKKK                                                                          \r\n" +
                 "                                                                                                            \r\n" +
-                "                                                                                                            \r\n" +
-                "                                                                                                            \r\n" +
-                "                                                                                                            \r\n" +
                 "                                                                                                                ";
+            internal const string Level_5 =
+                //Last chance
+                "                                                                                                                                \r\n" +
+                "                                                                                                                                \r\n" +
+                "                                                                                                                                \r\n" +
+                "                                                                                                                                \r\n" +
+                "                                                                                                                                \r\n" +
+                "                                                                                                                                \r\n" +
+                "                                                                                                                                \r\n" +
+                "                                                                                                                                \r\n" +
+                "                                                                                                                                \r\n" +
+                "                                                                                                                                \r\n" +
+                "                                                                                                                                \r\n" +
+                "                                                                                                                                \r\n" +
+                "                                                                                                                                \r\n" +
+                "                                                                                                                                \r\n" +
+                "                                                                                                                                \r\n" +
+                "                                                                                                                                \r\n" +
+                "                                                                                                                                \r\n" +
+                "                                                                                                                                \r\n" +
+                "                                                    BBBBBBBBBBBBBBBBBBBB                                                        \r\n" +
+                "                                                   B                    B                                                       \r\n" +
+                "                                                  B                      B                                                      \r\n" +
+                "                                                 B                        B                                                     \r\n" +
+                "                                                B          B B B B B B B   B                                                    \r\n" +
+                "                                               B          B B B B B B B B   B                                                   \r\n" +
+                "                                              B          B B B B B B B B B   B                                                  \r\n" +
+                "                                             B          B B B B B B B B B B   B                                                 \r\n" +
+                "                                            B          B B B B B B B B B B B   B                                                \r\n" +
+                "                                            Q         B B B B B B B B B B B B  B                                                \r\n" +
+                "                                            D        B B B B B B B B B B B B B B                                                \r\n" +
+                "                                            Q         B B B B B B B B B B B B  B                                                \r\n" +
+                "                                            B          B B B B B B B B B B B   B                                                \r\n" +
+                "                                             B          B B B B B B B B B B   B                                                 \r\n" +
+                "                                              B          B B B B B B B B B   B                                                  \r\n" +
+                "                                               B          B B B B B B B B   B                                                   \r\n" +
+                "                                                B          B B B B B B B   B                                                    \r\n" +
+                "                                                 B                        B                                                     \r\n" +
+                "                                                  B                      B                                                      \r\n" +
+                "                                                   B                    B                                                       \r\n" +
+                "                                                    BBBBBBBBBBBBBBBBBBBB                                                        \r\n" +
+                "                                                                                                                                \r\n" +
+                "                                                                                                                                \r\n" +
+                "                      BBBBBBBB                                                            BBBQBBBB                              \r\n" +
+                "                  BBBB        BBBB                                                    BBBBB       BBBB                          \r\n" +
+                "               BBB                BBB                  SSSQDQSSS                   BBB                BBB                       \r\n" +
+                "             BB                      BB               S         S                BB                      BB                     \r\n" +
+                "            B                          B             S           S              B                          B                    \r\n" +
+                "           B                            B           S             S            B                            B                   \r\n" +
+                "          B                              B         S               S          B                              B                  \r\n" +
+                "         B                                B        S               S         B                                B                 \r\n" +
+                "        B                                  B       S               S        B                                  B                \r\n" +
+                "        Q                                  SSSSSSSSQ               QSSSSSSSSQ                                  B                \r\n" +
+                "        D                                  D       D       P       D        D                                  B                \r\n" +
+                "        Q                                  SSSSSSSSQ               QSSSSSSSSQ                                  B                \r\n" +
+                "        B                                  B       S               S        B                                  B                \r\n" +
+                "         B                                B        S               S         B                                B                 \r\n" +
+                "          B                              B         S               S          B                              B                  \r\n" +
+                "           B                            B           S             S            B                            B                   \r\n" +
+                "            B                          B             S           S              B                          B                    \r\n" +
+                "             BB                      BB               S         S                BB                      BB                     \r\n" +
+                "               BBB                BBB                  SSSQDQSSS                   BBB                BBB                       \r\n" +
+                "                  BBBB        BBBB                                                    BBBBB       BBBB                          \r\n" +
+                "                      BBBBBBBB                                                            BBBQDQBB                              \r\n" +
+                "                                                                                             B B                                \r\n" +
+                "                       BBBBBBBB                                                              B B                                \r\n" +
+                "                   BBBB        BBBB                                                          B B                                \r\n" +
+                "                BBB                BBB                                                       B B                                \r\n" +
+                "              BB                      BB                                                     B B                                \r\n" +
+                "             B            BBBBBBBBB     B                                                    B B                                \r\n" +
+                "            B          BBB         BBB   B                                                   B B                                \r\n" +
+                "           B          B               B   B                                                  B B                                \r\n" +
+                "          B          B                 B   B                                                 QDQ                                \r\n" +
+                "         B          B                   B   B                                                                                   \r\n" +
+                "         Q         B                     B  B                                                                                   \r\n" +
+                "         D         B                     B  B                                                                                   \r\n" +
+                "         Q         B                     B  B                                                                                   \r\n" +
+                "         B          B                   B   B                                                                                   \r\n" +
+                "          B          B                 B   B                                                                                    \r\n" +
+                "           B          B               B   B                                                                                     \r\n" +
+                "            B          BBB         BBB   B                                                                                      \r\n" +
+                "             B            BBBBBBBBB     B                                                                                       \r\n" +
+                "              BB                      BB                                                                                        \r\n" +
+                "                BBB                BBB                                                                                          \r\n" +
+                "                   BBBB        BBBB                                                                                             \r\n" +
+                "                       BBBBBBBB                                                                                                 \r\n" +
+                "                                                                                                                                \r\n" +
+                "                                                                                                                                \r\n" +
+                "                                                                                                                                \r\n" +
+                "                                                                                                                                \r\n" +
+                "                                                                                                                                \r\n" +
+                "                                                                                                                                \r\n" +
+                "                                                                                                                                \r\n" +
+                "                                                                                                                                \r\n" +
+                "                                                                                                                                \r\n" +
+                "                                                                                                                                \r\n" +
+                "                                                                                                                                \r\n" +
+                "                                                                                                                                \r\n" +
+                "                                                                                                                                \r\n" +
+                "                                                                                                                                \r\n" +
+                "                                                                                                                                \r\n" +
+                "                                                                                                                                \r\n" +
+                "                                                                                                                                \r\n" +
+                "                                                                                                                                \r\n" +
+                "                                                                                                                                    ";
 
             public Scene Default => FromString(DefaultSceneStr);         
 

@@ -30,7 +30,7 @@ namespace PseudoWolfenstein
             animationTimer = new Timer { Interval = 50 };
             animationTimer.Tick += this.scene.Animate;
 
-             //minimapForm = new MinimapForm(viewport, scene);
+            //minimapForm = new MinimapForm(viewport, scene);
             this.gameForm = gameForm;
             this.gameForm.Load += Start;
         }
@@ -42,7 +42,7 @@ namespace PseudoWolfenstein
 
         private void Start(object sender, EventArgs e)
         {
-             //minimapForm.Show();
+            //minimapForm.Show();
             frameTimer.Start();
             animationTimer.Start();
         }
