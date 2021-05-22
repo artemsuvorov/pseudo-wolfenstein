@@ -22,6 +22,11 @@ namespace PseudoWolfenstein.Model
         public int Score { get; set; } = 0;
         public Weaponry Weaponry { get; private set; } = new Weaponry();
 
+        public int RedKeyCount { get; internal set; }
+        public int GreenKeyCount { get; internal set; }
+        public int BlueKeyCount { get; internal set; }
+        public int OrangeKeyCount { get; internal set; }
+
         public event GameEventHandler Moved;
         public event GameEventHandler Damaged;
         public event GameEventHandler Shot;
@@ -58,7 +63,9 @@ namespace PseudoWolfenstein.Model
 
         public void Heal(int amount)
         {
-            Health = (int)MathF.Min(MathF.Max(0, Health + amount), 100);
+            if (amount <= 0) return;
+            var newHealth = Health + amount;
+            Health = newHealth < 100 ? newHealth : 100;
         }
 
         private void SelectWeapon()

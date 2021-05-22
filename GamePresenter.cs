@@ -21,7 +21,7 @@ namespace PseudoWolfenstein
 
         public GamePresenter(IGameForm gameForm)
         {
-            frameTimer = new Timer { Interval = 30 };
+            frameTimer = new Timer { Interval = 20 };
             frameTimer.Tick += FrameUpdate;
             frameTimer.Tick += Time.OnGlobalTick;
             
@@ -119,6 +119,7 @@ namespace PseudoWolfenstein
         private void OnGameFormKeyUp(object sender, KeyEventArgs e)
         {
             if (!isGameEnded) return;
+            if (e.KeyCode != Keys.Enter) return;
 
             isGameEnded = false;
             gameForm.HideGameEndScreen();

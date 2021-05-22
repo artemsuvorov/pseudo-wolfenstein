@@ -30,11 +30,12 @@ namespace PseudoWolfenstein.Model
 
     public class Weapons
     {
-        private readonly IReadOnlyDictionary<WeaponType, Weapon> weapons;
+        private readonly Dictionary<WeaponType, Weapon> weapons;
+        private readonly HashSet<WeaponType> availableWeapons;
 
         public Weapons()
         {
-            weapons = new Dictionary<WeaponType, Weapon>
+            weapons = new Dictionary<WeaponType, Weapon>(6)
             {
                 [WeaponType.Knife]          = new Weapon(WeaponType.Knife, id: 0, damage: 1, blocksDistance: 1f),
                 [WeaponType.Pistol]         = new Weapon(WeaponType.Pistol, id: 1, damage: 1, blocksDistance: 15f),
@@ -43,9 +44,29 @@ namespace PseudoWolfenstein.Model
                 [WeaponType.FlameThrower]   = new Weapon(WeaponType.FlameThrower, id: 4, damage: 1, blocksDistance: 4f),
                 [WeaponType.RocketLauncher] = new Weapon(WeaponType.RocketLauncher, id: 5, damage: 1, blocksDistance: 15f)
             };
+
+            availableWeapons = new HashSet<WeaponType>(6);
+            AddAvailableWeapon(WeaponType.Knife);
+            AddAvailableWeapon(WeaponType.Pistol);
         }
 
-        public Weapon GetWeapon(WeaponType type)
+        public bool AddAvailableWeapon(WeaponType type)
+        {
+            return availableWeapons.Add(type);
+        }
+
+        public bool TryGetAvailableWeapon(WeaponType type, out Weapon weapon)
+        {
+            if (!availableWeapons.Contains(type))
+            {
+                weapon = default;
+                return false;
+            }   
+            weapon = GetWeapon(type);
+            return true;
+        }
+
+        private Weapon GetWeapon(WeaponType type)
         {
             return weapons[type];
         }

@@ -7,7 +7,7 @@ namespace PseudoWolfenstein.View
 {
     public class UserInterface
     {
-        private const int DamageAnimationLength = 3;
+        private const int DamageAnimationLength = 5;
 
         private readonly Player player;
 

@@ -14,9 +14,8 @@ namespace PseudoWolfenstein.Model
 
         public LevelCollection()
         {
-            LoadLevel(Scene.SceneBuilder.Level_1, "Level1");
             //LoadLevel(Scene.SceneBuilder.Level_1, "Level1");
-            //LoadLevel(Scene.SceneBuilder.Level_2, "Level2");
+            LoadLevel(Scene.SceneBuilder.Level_2, "Level2");
             //LoadLevel(Scene.SceneBuilder.Level_4, "Level4");
         }
 

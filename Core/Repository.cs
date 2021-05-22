@@ -136,7 +136,7 @@ namespace PseudoWolfenstein.Core
             public Bitmap Puddle { get; private set; }
             public Bitmap Bones { get; private set; }
             public Bitmap Ammo { get; private set; }
-            public Bitmap Heal { get; private set; }
+            public Bitmap HealPack { get; private set; }
             public Bitmap SmallTable { get; private set; }
             public Bitmap ScoreItemCross { get; private set; }
             public Bitmap RedKey { get; set; }
@@ -205,7 +205,7 @@ namespace PseudoWolfenstein.Core
 
                 //collectable items
                 Ammo = LoadTexture("Ammo.bmp", texture => texture.GetPixel(0, 0));
-                Heal = LoadTexture("Heal.bmp", texture => texture.GetPixel(0, 0));
+                HealPack = LoadTexture("Heal.bmp", texture => texture.GetPixel(0, 0));
                 ScoreItemCross = LoadTexture("Cross.bmp", texture => texture.GetPixel(0, 0));
                 ScoreItemChest = LoadTexture("Chest.bmp", texture => texture.GetPixel(0, 0));
                 ScoreItemCrown = LoadTexture("Crown.bmp", texture => texture.GetPixel(0, 0));

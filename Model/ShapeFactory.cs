@@ -72,8 +72,8 @@ namespace PseudoWolfenstein.Model
                 ['H'] = (x, y) =>
                 {
                     var position = new Vector2((x + 0.5f) * Settings.WorldWallSize, (y + 0.5f) * Settings.WorldWallSize);
-                    var texture = Repository.Textures.Heal;
-                    return new Collectable('H', position, texture);
+                    var texture = Repository.Textures.HealPack;
+                    return new HealPack('H', position, texture);
                 },
                 ['M'] = (x, y) =>
                 {
@@ -127,55 +127,55 @@ namespace PseudoWolfenstein.Model
                 {
                     var position = new Vector2((x + 0.5f) * Settings.WorldWallSize, (y + 0.5f) * Settings.WorldWallSize);
                     var texture = Repository.Textures.GreenDoor;
-                    return new Door('g', position, texture);
+                    return new GreenDoor('g', position, texture);
                 },
                 ['o'] = (x, y) =>
                 {
                     var position = new Vector2((x + 0.5f) * Settings.WorldWallSize, (y + 0.5f) * Settings.WorldWallSize);
                     var texture = Repository.Textures.OrangeDoor;
-                    return new Door('o', position, texture);
+                    return new OrangeDoor('o', position, texture);
                 },
                 ['b'] = (x, y) =>
                 {
                     var position = new Vector2((x + 0.5f) * Settings.WorldWallSize, (y + 0.5f) * Settings.WorldWallSize);
                     var texture = Repository.Textures.BlueDoor;
-                    return new Door('b', position, texture);
+                    return new BlueDoor('b', position, texture);
                 },
                 ['r'] = (x, y) =>
                 {
                     var position = new Vector2((x + 0.5f) * Settings.WorldWallSize, (y + 0.5f) * Settings.WorldWallSize);
                     var texture = Repository.Textures.RedDoor;
-                    return new Door('r', position, texture);
+                    return new RedDoor('r', position, texture);
                 },
                 ['q'] = (x, y) =>
                 {
                     var position = new Vector2((x + 0.5f) * Settings.WorldWallSize, (y + 0.5f) * Settings.WorldWallSize);
                     var texture = Repository.Textures.GreenKey;
-                    return new Collectable('q', position, texture);
+                    return new GreenKey('q', position, texture);
                 },
                 ['w'] = (x, y) =>
                 {
                     var position = new Vector2((x + 0.5f) * Settings.WorldWallSize, (y + 0.5f) * Settings.WorldWallSize);
                     var texture = Repository.Textures.OrangeKey;
-                    return new Collectable('w', position, texture);
+                    return new OrangeKey('w', position, texture);
                 },
                 ['e'] = (x, y) =>
                 {
                     var position = new Vector2((x + 0.5f) * Settings.WorldWallSize, (y + 0.5f) * Settings.WorldWallSize);
                     var texture = Repository.Textures.BlueKey;
-                    return new Collectable('e', position, texture);
+                    return new BlueKey('e', position, texture);
                 },
                 ['t'] = (x, y) =>
                 {
                     var position = new Vector2((x + 0.5f) * Settings.WorldWallSize, (y + 0.5f) * Settings.WorldWallSize);
                     var texture = Repository.Textures.RedKey;
-                    return new Collectable('t', position, texture);
+                    return new RedKey('t', position, texture);
                 },
                 ['p'] = (x, y) =>
                 {
                     var position = new Vector2((x + 0.5f) * Settings.WorldWallSize, (y + 0.5f) * Settings.WorldWallSize);
                     var texture = Repository.Textures.LockedDoor;
-                    return new Door('p', position, texture);
+                    return new LockedDoor('p', position, texture);
                 },
                 ['a'] = (x, y) =>
                 {

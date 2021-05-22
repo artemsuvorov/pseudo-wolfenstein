@@ -7,6 +7,8 @@ namespace PseudoWolfenstein.Model
 {
     public class Weaponry
     {
+        private const WeaponType StartWeapon = WeaponType.Pistol;
+
         public Weapon SelectedWeapon { get; private set; }
         public int Ammo { get; set; } = 5;
 
@@ -23,8 +25,10 @@ namespace PseudoWolfenstein.Model
             weapons = new Weapons();
             weaponAnimations = new WeaponAnimations();
 
-            const WeaponType StartWeapon = WeaponType.Knife;
-            SelectedWeapon = weapons.GetWeapon(StartWeapon);
+            if (!weapons.TryGetAvailableWeapon(StartWeapon, out var weapon))
+                throw new InvalidOperationException("There is no starting weapon in the weaponry.");
+
+            SelectedWeapon = weapon;
             weaponAnimation = weaponAnimations.GetAnimation(StartWeapon);
         }
 
@@ -63,7 +67,8 @@ namespace PseudoWolfenstein.Model
             weaponAnimation?.Reset();
             isAnimating = false;
 
-            SelectedWeapon = weapons.GetWeapon(weaponType);
+            if (!weapons.TryGetAvailableWeapon(weaponType, out var weapon)) return;
+            SelectedWeapon = weapon;
             weaponAnimation = weaponAnimations.GetAnimation(weaponType);
             weaponAnimation.Reset();
         }
