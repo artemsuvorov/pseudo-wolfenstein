@@ -13,7 +13,7 @@ namespace PseudoWolfenstein.Model
 
         private const bool AiIsEnabled = true;
         private const float VisibilityRange = 12f * Settings.WorldWallSize;
-        private const int DamageAmount = 16;
+        private const int DamageAmount = 14;
         private const float MoveSpeed = Settings.PlayerMoveSpeed * 2f;
 
         private readonly EnemyAi ai;
@@ -114,7 +114,7 @@ namespace PseudoWolfenstein.Model
             if (currentAnimation.Frame != animations.FireAnimationFrame) return;
 
             var dst = (player.Position - Center).Length();
-            var dmg = MathF.Min(Settings.WorldWallSize * 35f * (1f / dst), DamageAmount);
+            var dmg = MathF.Min(Settings.WorldWallSize * 20 * (1f / dst), DamageAmount);
             player.ApplyDamage((int)dmg);
         }
 

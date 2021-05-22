@@ -52,8 +52,8 @@ namespace PseudoWolfenstein.Model
                 //Real Prison
                 "                                               WWW                 \r\n" +
                 "                                              W   W                \r\n" +
-                "                                              W W W                \r\n" +
-                "   SSSSSSSSS                 WWWWWWWWWWWWWWWWWWgW W                \r\n" +
+                "                             W                W W W                \r\n" +
+                "   SSSSSSSSS                WAWWWWWWWWWWWWWWWWWgW W                \r\n" +
                 "  Sx        f               W           W       WdW                \r\n" +
                 "  S        NS               WGWWW   WWWbWDWWWWWDWWWWWW             \r\n" +
                 "  S         L                W Sx   xS     Se       F S            \r\n" +
@@ -66,9 +66,9 @@ namespace PseudoWolfenstein.Model
                 "  S S                 S              S     S        S              \r\n" +
                 "  S S                 j              jBBDBBSSSSDSSSS               \r\n" +
                 "  BoBB                S         C    SB   B         B              \r\n" +
-                " B    BBBBBBBBBBBBBBBBSC             SB   B         J              \r\n" +
-                " T H                      F     F    SB   B   F    nB              \r\n" +
-                " B    BBBBBBBBBBBBBBBBSC             SB   B      F  J              \r\n" +
+                " B H  BBBBBBBBBBBBBBBBSC             SB   B         J              \r\n" +
+                " T                        F     F    SB   B   F    nB              \r\n" +
+                " B A  BBBBBBBBBBBBBBBBSC           A SB   B      F  J              \r\n" +
                 "  BDBB                SSSSSSSjSSSSSSSSB   B         B              \r\n" +
                 "  B B                 BBBBBBBBBBBBBBBBB   BBBBBBBBBBBBB            \r\n" +
                 "  B B                    BO       B           B        B           \r\n" +
