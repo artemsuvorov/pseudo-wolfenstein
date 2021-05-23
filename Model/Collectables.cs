@@ -5,7 +5,7 @@ namespace PseudoWolfenstein.Model
 {
     public class AmmoPack : Collectable
     {
-        private int ammoAmount = 15;
+        private int ammoAmount = 8;
 
         public AmmoPack(char name, Vector2 position, Image texture)
             : base(name, position, texture)
