@@ -9,11 +9,14 @@ namespace PseudoWolfenstein.Model
     public class Enemy : Shotable, IAnimatable
     {
         public int Health { get; private set; } = 3;
-        public float Rotation { get; private set; } = 0.0f;
+        //public float Rotation { get; private set; } = 0.0f;
+
+        private Scene scene;
+        private Player player;
 
         private const bool AiIsEnabled = true;
         private const float VisibilityRange = 12f * Settings.WorldWallSize;
-        private const int DamageAmount = 14;
+        private const int DamageAmount = 15;
         private const float MoveSpeed = Settings.PlayerMoveSpeed * 2f;
 
         private readonly EnemyAi ai;
@@ -37,11 +40,17 @@ namespace PseudoWolfenstein.Model
             ai = new EnemyAi(this);
         }
 
-        public void Update(Scene scene, Player player)
+        public void Initialize(Scene scene, Player player)
         {
-            Look(scene, player);
-            Act(scene, player);
-            Move(player);
+            this.scene = scene;
+            this.player = player;
+        }
+
+        public void Update()
+        {
+            Look();
+            Act();
+            //Move();
         }
 
         public void Animate()
@@ -94,31 +103,31 @@ namespace PseudoWolfenstein.Model
             //}
         }
 
-        private void Act(Scene scene, Player player)
+        private void Act()
         {
             if (!AiIsEnabled)
                 return;
 
             if (seeingPlayer && !isShot)
-                Fire(player);
+                Fire();
             else if (sawPlayer)
-                MoveToPlayer(scene, player);
+                MoveToPlayer();
             else if (isShot)
                 animations.FireAnimation.Reset();
         }
 
-        private void Fire(Player player)
+        private void Fire()
         {
             StopWalkingAnimation();
             BeginFireAnimation();
             if (currentAnimation.Frame != animations.FireAnimationFrame) return;
 
             var dst = (player.Position - Center).Length();
-            var dmg = MathF.Min(Settings.WorldWallSize * 20 * (1f / dst), DamageAmount);
+            var dmg = MathF.Min(Settings.WorldWallSize * 30f * (1f / dst), DamageAmount);
             player.ApplyDamage((int)dmg);
         }
 
-        private void MoveToPlayer(Scene scene, Player player)
+        private void MoveToPlayer()
         {
             if (seeingPlayer || isShot || isDead)
                 return;
@@ -144,37 +153,37 @@ namespace PseudoWolfenstein.Model
             return dstVector.Length() < 1f;
         }
 
-        private void Move(Player player)
+        //private void Move()
+        //{
+        //    if (AiIsEnabled) return;
+
+        //    if (Input.IsKeyDown(System.Windows.Forms.Keys.J))
+        //        Rotation += Player.RotationSpeed * TimeF.DeltaTime;
+        //    else if (Input.IsKeyDown(System.Windows.Forms.Keys.L))
+        //        Rotation -= Player.RotationSpeed * TimeF.DeltaTime;
+
+        //    float dx = 0.0f, dy = 0.0f;
+        //    if (Input.IsKeyDown(System.Windows.Forms.Keys.I))
+        //    {
+        //        dx = 1.0f * MathF.Cos(Rotation) * Player.MoveSpeed * TimeF.DeltaTime;
+        //        dy = 1.0f * MathF.Sin(Rotation) * Player.MoveSpeed * TimeF.DeltaTime;
+        //    }
+        //    else if (Input.IsKeyDown(System.Windows.Forms.Keys.K))
+        //    {
+        //        dx = -1.0f * MathF.Cos(Rotation) * Player.MoveSpeed * TimeF.DeltaTime;
+        //        dy = -1.0f * MathF.Sin(Rotation) * Player.MoveSpeed * TimeF.DeltaTime;
+        //    }
+        //    Center += new Vector2(dx, dy);
+        //    LookAt(player.Position);
+        //}
+
+        private void Look()
         {
-            if (AiIsEnabled) return;
-
-            if (Input.IsKeyDown(System.Windows.Forms.Keys.J))
-                Rotation += Player.RotationSpeed * TimeF.DeltaTime;
-            else if (Input.IsKeyDown(System.Windows.Forms.Keys.L))
-                Rotation -= Player.RotationSpeed * TimeF.DeltaTime;
-
-            float dx = 0.0f, dy = 0.0f;
-            if (Input.IsKeyDown(System.Windows.Forms.Keys.I))
-            {
-                dx = 1.0f * MathF.Cos(Rotation) * Player.MoveSpeed * TimeF.DeltaTime;
-                dy = 1.0f * MathF.Sin(Rotation) * Player.MoveSpeed * TimeF.DeltaTime;
-            }
-            else if (Input.IsKeyDown(System.Windows.Forms.Keys.K))
-            {
-                dx = -1.0f * MathF.Cos(Rotation) * Player.MoveSpeed * TimeF.DeltaTime;
-                dy = -1.0f * MathF.Sin(Rotation) * Player.MoveSpeed * TimeF.DeltaTime;
-            }
-            Center += new Vector2(dx, dy);
-            LookAt(player.Position);
-        }
-
-        private void Look(Scene scene, Player player)
-        {
-            var playerIsVisible = IsPlayerVisible(scene, player);
+            var playerIsVisible = IsPlayerVisible();
             if (playerIsVisible)
             {
                 sawPlayer = true;
-                Rotation = Vector2.UnitX.AngleTo(player.Position);
+                //Rotation = Vector2.UnitX.AngleTo(player.Position);
             }
             seeingPlayer = playerIsVisible;
         }
@@ -200,7 +209,7 @@ namespace PseudoWolfenstein.Model
             isShot = true;
         }
 
-        private bool IsPlayerVisible(Scene scene, Player player)
+        private bool IsPlayerVisible()
         {
             var direction = Center.Lengthen(5, direction: Center - player.Position);
             var wallHit = scene.GetMinDistanceWallCross
@@ -224,6 +233,7 @@ namespace PseudoWolfenstein.Model
         private void Die()
         {
             isDead = true;
+            player.Score += 50;
         }
     }
 }

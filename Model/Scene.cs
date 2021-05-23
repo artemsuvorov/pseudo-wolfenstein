@@ -75,6 +75,8 @@ namespace PseudoWolfenstein.Model
         {
             this.player = player;
 
+            foreach (var enemy in enemies)
+                enemy.Initialize(this, this.player);
             foreach (var door in doors)
                 this.player.Interacting += door.Open;
             foreach (var shotable in shotables)
@@ -124,7 +126,7 @@ namespace PseudoWolfenstein.Model
         {
             player?.Update();
             foreach (var enemy in enemies)
-                enemy.Update(this, player);
+                enemy.Update();
         }
 
         public void Animate(object sender, EventArgs e)

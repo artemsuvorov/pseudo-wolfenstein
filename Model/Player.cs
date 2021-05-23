@@ -68,6 +68,26 @@ namespace PseudoWolfenstein.Model
             Health = newHealth < 100 ? newHealth : 100;
         }
 
+        public void ApplyDamage(int damage)
+        {
+            if (damage <= 0) return;
+            var newHealth = Health - damage;
+            Health = newHealth > 0 ? newHealth : 0;
+            Damaged?.Invoke(this, new GameEventArgs(scene, this));
+            if (Health == 0) Die();
+        }
+
+        // todo: remove this from player class
+        public override void Draw(Graphics graphics)
+        {
+            using var objectFillBrush = new SolidBrush(Settings.GameObjectFillColor);
+            using var objectStrokePen = new Pen(Settings.GameObjectStrokeColor, Settings.ObjectStrokeWidth);
+
+            float x = X - Settings.PlayerRadius / 2f, y = Y - Settings.PlayerRadius / 2f;
+            graphics.FillEllipse(objectFillBrush, x, y, Settings.PlayerRadius, Settings.PlayerRadius);
+            graphics.DrawEllipse(objectStrokePen, x, y, Settings.PlayerRadius, Settings.PlayerRadius);
+        }
+
         private void SelectWeapon()
         {
             if (Input.IsKeyDown(Keys.D1)) Weaponry.SelectWeapon(WeaponType.Knife);
@@ -138,26 +158,6 @@ namespace PseudoWolfenstein.Model
         {
             if (Input.IsKeyDown(Keys.F))
                 Interacting?.Invoke(this, new GameEventArgs(scene, this));
-        }
-
-        // todo: remove this from player class
-        public override void Draw(Graphics graphics)
-        {
-            using var objectFillBrush = new SolidBrush(Settings.GameObjectFillColor);
-            using var objectStrokePen = new Pen(Settings.GameObjectStrokeColor, Settings.ObjectStrokeWidth);
-
-            float x = X - Settings.PlayerRadius / 2f, y = Y - Settings.PlayerRadius / 2f;
-            graphics.FillEllipse(objectFillBrush, x, y, Settings.PlayerRadius, Settings.PlayerRadius);
-            graphics.DrawEllipse(objectStrokePen, x, y, Settings.PlayerRadius, Settings.PlayerRadius);
-        }
-
-        internal void ApplyDamage(int damage)
-        {
-            if (damage <= 0) return;
-            var newHealth = Health - damage;
-            Health = newHealth > 0 ? newHealth : 0;
-            Damaged?.Invoke(this, new GameEventArgs(scene, this));
-            if (Health == 0) Die();
         }
 
         private void Die()
