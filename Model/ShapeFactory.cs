@@ -85,7 +85,7 @@ namespace PseudoWolfenstein.Model
                 {
                     var position = new Vector2((x + 0.5f) * Settings.WorldWallSize, (y + 0.5f) * Settings.WorldWallSize);
                     var texture = Repository.Textures.Ammo;
-                    return new Ammo('A', position, texture);
+                    return new AmmoPack('A', position, texture);
                 },
                 ['O'] = (x, y) =>
                 {
@@ -97,7 +97,7 @@ namespace PseudoWolfenstein.Model
                 {
                     var position = new Vector2((x + 0.5f) * Settings.WorldWallSize, (y + 0.5f) * Settings.WorldWallSize);
                     var texture = Repository.Textures.ScoreItemCross;
-                    return new Collectable('G', position, texture);
+                    return new CrossItem('G', position, texture);
                 },
                 ['N'] = (x, y) =>
                 {
@@ -253,13 +253,13 @@ namespace PseudoWolfenstein.Model
                 {
                     var position = new Vector2((x + 0.5f) * Settings.WorldWallSize, (y + 0.5f) * Settings.WorldWallSize);
                     var texture = Repository.Textures.ScoreItemChest;
-                    return new Collectable('d', position, texture);
+                    return new ChestItem('d', position, texture);
                 },
                 ['m'] = (x, y) =>
                 {
                     var position = new Vector2((x + 0.5f) * Settings.WorldWallSize, (y + 0.5f) * Settings.WorldWallSize);
                     var texture = Repository.Textures.ScoreItemCrown;
-                    return new Collectable('m', position, texture);
+                    return new CrownItem('m', position, texture);
                 },
                 ['n'] = (x, y) =>
                 {

@@ -3,11 +3,11 @@ using System.Numerics;
 
 namespace PseudoWolfenstein.Model
 {
-    public class Ammo : Collectable
+    public class AmmoPack : Collectable
     {
         private int ammoAmount = 15;
 
-        public Ammo(char name, Vector2 position, Image texture)
+        public AmmoPack(char name, Vector2 position, Image texture)
             : base(name, position, texture)
         { }
 
@@ -17,6 +17,57 @@ namespace PseudoWolfenstein.Model
             player.Weaponry.Ammo += ammoAmount;
             base.Collect(player);
             ammoAmount -= ammoAmount;
+        }
+    }
+
+    public class CrossItem : Collectable
+    {
+        private int score = 200;
+
+        public CrossItem(char name, Vector2 position, Image texture)
+            : base(name, position, texture)
+        { }
+
+        protected override void Collect(Player player)
+        {
+            if (score <= 0) return;
+            player.Score += score;
+            base.Collect(player);
+            score -= score;
+        }
+    }
+
+    public class CrownItem : Collectable
+    {
+        private int score = 500;
+
+        public CrownItem(char name, Vector2 position, Image texture)
+            : base(name, position, texture)
+        { }
+
+        protected override void Collect(Player player)
+        {
+            if (score <= 0) return;
+            player.Score += score;
+            base.Collect(player);
+            score -= score;
+        }
+    }
+
+    public class ChestItem : Collectable
+    {
+        private int score = 1000;
+
+        public ChestItem(char name, Vector2 position, Image texture)
+            : base(name, position, texture)
+        { }
+
+        protected override void Collect(Player player)
+        {
+            if (score <= 0) return;
+            player.Score += score;
+            base.Collect(player);
+            score -= score;
         }
     }
 

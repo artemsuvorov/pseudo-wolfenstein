@@ -73,20 +73,20 @@ namespace PseudoWolfenstein.View
             var r = new Ray(player.Position, -player.Rotation);
             graphics.DrawLine(gizmosStrokePen1, r.Start.X, r.Start.Y, r.End.X, r.End.Y);
 
-            graphics.FillEllipse(gizmosFillBrush, -5, -5, 10, 10);
-            foreach (var enemy in scene.Enemies)
-            {
-                var c = enemy.Center + System.Numerics.Vector2.UnitX.RotateCounterClockwise(enemy.Rotation) * 25f;
-                graphics.DrawLine(gizmosStrokePen1, enemy.Center.X, enemy.Center.Y, c.X, c.Y);
-                //graphics.DrawLine(gizmosStrokePen1, player.X, player.Y, enemy.Center.X, enemy.Center.Y);
+            //graphics.FillEllipse(gizmosFillBrush, -5, -5, 10, 10);
+            //foreach (var enemy in scene.Enemies)
+            //{
+            //    var c = enemy.Center + System.Numerics.Vector2.UnitX.RotateCounterClockwise(enemy.Rotation) * 25f;
+            //    graphics.DrawLine(gizmosStrokePen1, enemy.Center.X, enemy.Center.Y, c.X, c.Y);
+            //    //graphics.DrawLine(gizmosStrokePen1, player.X, player.Y, enemy.Center.X, enemy.Center.Y);
 
-                //var b = enemy.Center - player.Position;
-                //var a = Vector2.UnitX.RotateCounterClockwise(enemy.rotation) - enemy.Center;
-                //graphics.DrawLine(gizmosStrokePen1, 0f, 0f, b.X, b.Y);
-                //graphics.DrawLine(gizmosStrokePen1, b.X, b.Y, a.X, a.Y);
-                //graphics.FillEllipse(gizmosFillBrush, b.X - 5, b.Y - 5, 10, 10);
-                //graphics.FillEllipse(gizmosFillBrush, a.X - 5, a.Y - 5, 10, 10);
-            }
+            //    //var b = enemy.Center - player.Position;
+            //    //var a = Vector2.UnitX.RotateCounterClockwise(enemy.rotation) - enemy.Center;
+            //    //graphics.DrawLine(gizmosStrokePen1, 0f, 0f, b.X, b.Y);
+            //    //graphics.DrawLine(gizmosStrokePen1, b.X, b.Y, a.X, a.Y);
+            //    //graphics.FillEllipse(gizmosFillBrush, b.X - 5, b.Y - 5, 10, 10);
+            //    //graphics.FillEllipse(gizmosFillBrush, a.X - 5, a.Y - 5, 10, 10);
+            //}
             //foreach (var pane in scene.Panes)
             //    foreach (var vertex in pane.Vertices)
             //        graphics.FillEllipse(gizmosFillBrush, vertex.X - 5, vertex.Y - 5, 10, 10);

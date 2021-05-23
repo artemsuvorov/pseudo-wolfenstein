@@ -10,7 +10,7 @@ namespace PseudoWolfenstein.Model
         private const WeaponType StartWeapon = WeaponType.Pistol;
 
         public Weapon SelectedWeapon { get; private set; }
-        public int Ammo { get; set; } = 5;
+        public int Ammo { get; set; } = 7;
 
         public event EventHandler Shot;
 
