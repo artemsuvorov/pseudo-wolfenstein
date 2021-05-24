@@ -1,7 +1,8 @@
 ﻿using PseudoWolfenstein.Core;
 using PseudoWolfenstein.Model;
+using PseudoWolfenstein.Utils;
 using System.Drawing;
-using System.Linq;
+using System.Numerics;
 using System.Windows.Forms;
 
 namespace PseudoWolfenstein.View
@@ -14,16 +15,16 @@ namespace PseudoWolfenstein.View
 
         internal Gizmos Gizmos { get; private set; }
 
-        public MinimapForm(Viewport viewport, Scene scene)
+        public MinimapForm(Viewport viewport, Scene scene, Player player)
         {
             this.viewport = viewport;
             this.scene = scene;
-            this.player = scene.Player;
+            this.player = player;
 
             DoubleBuffered = true;
             Size = new Size(1000, 800);
 
-            Gizmos = new Gizmos(this.viewport, this.scene.Player);
+            Gizmos = new Gizmos(this.viewport, player);
             Paint += Redraw;
             Paint += Gizmos.Redraw;
         }
@@ -53,7 +54,7 @@ namespace PseudoWolfenstein.View
                 player.MotionDirection.X * 100 + player.X,
                 player.MotionDirection.Y * 100 + player.Y);
 
-            var raycast = new Raycast(scene).CastRaysAt(scene.Obstacles);
+            var raycast = new Raycast(scene, player).CastRaysAt(scene.Obstacles);
             using var gizmosFillBrush = new SolidBrush(Settings.GizmosFillColor);
 
             foreach (var entry in raycast)
@@ -71,9 +72,24 @@ namespace PseudoWolfenstein.View
 
             var r = new Ray(player.Position, -player.Rotation);
             graphics.DrawLine(gizmosStrokePen1, r.Start.X, r.Start.Y, r.End.X, r.End.Y);
-            foreach (var pane in scene.Panes)
-                foreach (var vertex in pane.Vertices)
-                    graphics.FillEllipse(gizmosFillBrush, vertex.X - 5, vertex.Y - 5, 10, 10);
+
+            //graphics.FillEllipse(gizmosFillBrush, -5, -5, 10, 10);
+            //foreach (var enemy in scene.Enemies)
+            //{
+            //    var c = enemy.Center + System.Numerics.Vector2.UnitX.RotateCounterClockwise(enemy.Rotation) * 25f;
+            //    graphics.DrawLine(gizmosStrokePen1, enemy.Center.X, enemy.Center.Y, c.X, c.Y);
+            //    //graphics.DrawLine(gizmosStrokePen1, player.X, player.Y, enemy.Center.X, enemy.Center.Y);
+
+            //    //var b = enemy.Center - player.Position;
+            //    //var a = Vector2.UnitX.RotateCounterClockwise(enemy.rotation) - enemy.Center;
+            //    //graphics.DrawLine(gizmosStrokePen1, 0f, 0f, b.X, b.Y);
+            //    //graphics.DrawLine(gizmosStrokePen1, b.X, b.Y, a.X, a.Y);
+            //    //graphics.FillEllipse(gizmosFillBrush, b.X - 5, b.Y - 5, 10, 10);
+            //    //graphics.FillEllipse(gizmosFillBrush, a.X - 5, a.Y - 5, 10, 10);
+            //}
+            //foreach (var pane in scene.Panes)
+            //    foreach (var vertex in pane.Vertices)
+            //        graphics.FillEllipse(gizmosFillBrush, vertex.X - 5, vertex.Y - 5, 10, 10);
         }
     }
 }

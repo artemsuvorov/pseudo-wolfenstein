@@ -2,6 +2,7 @@
 using PseudoWolfenstein.Model;
 using PseudoWolfenstein.Utils;
 using System.Drawing;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace PseudoWolfenstein.View
@@ -23,7 +24,7 @@ namespace PseudoWolfenstein.View
             $"Player Rotation: { player.Rotation.ToDegrees() }\r\n" +
             $"Player Health:  { player.Health }\r\n" +
             $"Player Ammo  :  { player.Weaponry.Ammo }\r\n" +
-            $"Player SCORE :  { player.Score }";
+            $"Player SCORE :  { player.Score }\r\n";
 
         public bool IsDebugMode { get; private set; }
 

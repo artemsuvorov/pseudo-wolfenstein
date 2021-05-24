@@ -31,7 +31,7 @@
             // GameForm
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            this.ClientSize = new System.Drawing.Size(722, 833);
+            this.ClientSize = new System.Drawing.Size(1184, 761);
             this.DoubleBuffered = true;
             this.Font = new System.Drawing.Font("Consolas", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.KeyPreview = true;

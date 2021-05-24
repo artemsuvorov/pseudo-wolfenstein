@@ -26,7 +26,8 @@ namespace PseudoWolfenstein
 
         public const float ObjectStrokeWidth = 4.0f;
 
-        public static readonly Color ViewportBackgroundColor = Color.FromArgb(56, 56, 56);
+        public static readonly Color CeilingColor = Color.FromArgb(56, 56, 56);
+        public static readonly Color FloorColor = Color.FromArgb(100, 100, 100);
         public static readonly Color FormBackgroundColor = Color.FromArgb(0, 64, 64);
         public static readonly Color GameObjectFillColor = Color.FromArgb(207, 0, 49);
         public static readonly Color GameObjectStrokeColor = Color.FromArgb(128, 0, 25);

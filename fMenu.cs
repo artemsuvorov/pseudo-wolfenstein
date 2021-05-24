@@ -22,10 +22,8 @@ namespace PseudoWolfenstein
 
         private void button1_Click(object sender, EventArgs e)
         {
-            var src = Scene.SceneBuilder.Level_1;
-            var scene = Scene.Builder.FromString(src);
-            var gameForm = new GameForm(scene);
-            _ = new GamePresenter(scene, gameForm);
+            var gameForm = new GameForm();
+            _ = new GamePresenter(gameForm);
             gameForm.Closed += OnGameFormClosed;
             soundPlayer.Stop();
             this.Hide();
