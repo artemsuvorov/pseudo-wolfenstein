@@ -15,6 +15,8 @@ namespace PseudoWolfenstein.View
         event MouseEventHandler MouseUp;
     }
 
+    
+
     public interface IGameForm : IInputClient, IViewport
     {
         event EventHandler Load;
@@ -30,6 +32,7 @@ namespace PseudoWolfenstein.View
         private readonly UserInterface userInterface;
         private readonly Viewport viewport;
         private readonly CameraView cameraView;
+        
 
         public GameForm(Scene scene)
         {
@@ -58,6 +61,11 @@ namespace PseudoWolfenstein.View
         {
             using var backgroundBrush = new SolidBrush(Settings.FormBackgroundColor);
             graphics.FillRectangle(backgroundBrush, 0, 0, width, height);
+
+        }
+
+        private void GameForm_Load(object sender, EventArgs e)
+        {
 
         }
     }

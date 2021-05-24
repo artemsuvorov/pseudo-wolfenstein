@@ -2,26 +2,33 @@ using PseudoWolfenstein.Model;
 using PseudoWolfenstein.View;
 using System;
 using System.Windows.Forms;
+using System.Media;
 
 namespace PseudoWolfenstein
 {
-    static class Program
+    public static class Program
     {
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
+        static void StopMusic(SoundPlayer x)
+        {
+            x.Stop();
+        }
         [STAThread]
+        
         static void Main()
         {
             Application.SetHighDpiMode(HighDpiMode.SystemAware);
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-
-            var src = Scene.SceneBuilder.Level_1;
-            var scene = Scene.Builder.FromString(src);
-            var gameForm = new GameForm(scene);
-            _ = new GamePresenter(scene, gameForm);
-            Application.Run(gameForm);
+         
+            var soundPlayer = new SoundPlayer(@"D:\pseudo-wolfenstein\wolf_menu.wav");
+            soundPlayer.PlayLooping();
+            var fMenu = new fMenu(soundPlayer);
+            Application.Run(fMenu);
         }
+
     }
+
 }

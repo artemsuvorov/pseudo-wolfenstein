@@ -31,14 +31,16 @@
             // GameForm
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            this.ClientSize = new System.Drawing.Size(1184, 761);
+            this.ClientSize = new System.Drawing.Size(722, 833);
             this.DoubleBuffered = true;
             this.Font = new System.Drawing.Font("Consolas", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.KeyPreview = true;
             this.Margin = new System.Windows.Forms.Padding(5);
             this.Name = "GameForm";
             this.Text = "PseudoWolfenstein";
+            this.Load += new System.EventHandler(this.GameForm_Load);
             this.ResumeLayout(false);
+
         }
     }
 }
