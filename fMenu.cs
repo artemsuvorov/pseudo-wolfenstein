@@ -9,6 +9,7 @@ namespace PseudoWolfenstein
     public partial class fMenu : Form
     {
         private readonly SoundPlayer soundPlayer;
+        private GameForm gameForm;
 
         private fMenu()
         {
@@ -22,7 +23,7 @@ namespace PseudoWolfenstein
 
         private void button1_Click(object sender, EventArgs e)
         {
-            var gameForm = new GameForm();
+            gameForm = new GameForm();
             _ = new GamePresenter(gameForm);
             gameForm.Closed += OnGameFormClosed;
             soundPlayer.Stop();
@@ -32,6 +33,8 @@ namespace PseudoWolfenstein
 
         private void OnGameFormClosed(object sender, EventArgs e)
         {
+            soundPlayer.PlayLooping();
+            gameForm.Closed -= OnGameFormClosed;
             this.Show();
         }
 
