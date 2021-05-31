@@ -11,7 +11,7 @@ namespace PseudoWolfenstein.View
     public class Viewport : IViewport
     {
         //public const int DefaultWidth = 800, DefaultHeight = 600;
-        public const int DefaultWidth = 800, DefaultHeight = 640;
+        public const int DefaultWidth = 800, DefaultHeight = 600;
 
         private readonly IViewport display;
 

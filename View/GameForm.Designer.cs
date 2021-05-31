@@ -38,7 +38,9 @@
             this.Margin = new System.Windows.Forms.Padding(5);
             this.Name = "GameForm";
             this.Text = "PseudoWolfenstein";
+            this.Load += new System.EventHandler(this.GameForm_Load);
             this.ResumeLayout(false);
+
         }
     }
 }

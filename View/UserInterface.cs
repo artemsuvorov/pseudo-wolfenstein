@@ -64,7 +64,7 @@ namespace PseudoWolfenstein.View
         private void DrawString(string value, float offset, Viewport viewport, Graphics graphics)
         {
             using var brush = new SolidBrush(Color.FromArgb(216, 216, 252));
-            using var font = new Font("Consolas", 32f, FontStyle.Bold);
+            using var font = new Font("Consolas", 24f, FontStyle.Bold);
             var format = new StringFormat
             {
                 LineAlignment = StringAlignment.Center,

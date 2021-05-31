@@ -1,6 +1,7 @@
 using PseudoWolfenstein.View;
 using System;
 using System.Windows.Forms;
+using System.Media;
 
 namespace PseudoWolfenstein
 {
@@ -10,16 +11,19 @@ namespace PseudoWolfenstein
         /// The main entry point for the application.
         /// </summary>
         [STAThread]
+        
         private static void Main()
         {
             Application.SetHighDpiMode(HighDpiMode.SystemAware);
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            
-            var gameForm = new GameForm();
-            _ = new GamePresenter(gameForm);
-
-            Application.Run(gameForm);
+         
+            var soundPlayer = new SoundPlayer(@"D:\pseudo-wolfenstein\wolf_menu.wav");
+            soundPlayer.PlayLooping();
+            var fMenu = new fMenu(soundPlayer);
+            Application.Run(fMenu);
         }
+
     }
+
 }

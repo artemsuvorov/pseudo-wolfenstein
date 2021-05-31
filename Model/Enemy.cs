@@ -16,7 +16,7 @@ namespace PseudoWolfenstein.Model
 
         private const bool AiIsEnabled = true;
         private const float VisibilityRange = 12f * Settings.WorldWallSize;
-        private const int DamageAmount = 15;
+        private const int DamageAmount = 3;
         private const float MoveSpeed = Settings.PlayerMoveSpeed * 2f;
 
         private readonly EnemyAi ai;

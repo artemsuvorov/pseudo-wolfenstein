@@ -309,11 +309,11 @@ namespace PseudoWolfenstein.Model
                     var texture = Repository.Textures.FlameThrower;
                     return new FlameThrower('9', position, texture);
                 },
-                ['0'] = (x, y) =>
+                ['4'] = (x, y) =>
                 {
                     var position = new Vector2((x + 0.5f) * Settings.WorldWallSize, (y + 0.5f) * Settings.WorldWallSize);
                     var texture = Repository.Textures.RocketLauncher;
-                    return new RocketLauncher('9', position, texture);
+                    return new RocketLauncher('4', position, texture);
                 },
             };
         }
