@@ -8,16 +8,53 @@ namespace PseudoWolfenstein.Core
     internal static class Repository
     {
         private static TextureRepository textures;
+        private static MusicRepository music;
+        private static ImageRepository images;
 
         public static string ProjectDirectoryPath =>
             Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "..\\..\\..\\"));
 
         public static TextureRepository Textures => textures ??= new TextureRepository();
+        public static ImageRepository Images => images ??= new ImageRepository();
+        public static MusicRepository Music => music ??= new MusicRepository();
 
-        public static string GetTexturePath(string textureName)
+        private static string GetTexturePath(string textureName)
         {
-            return Path.Combine(ProjectDirectoryPath, "Textures", textureName);
+            return GetFilePath(directory: "Textures", textureName);
         }
+
+        private static string GetMusicPath(string fileName)
+        {
+            return GetFilePath(directory: "Music", fileName);
+        }
+
+        private static string GetFilePath(string directory, string fileName)
+        {
+            return Path.Combine(ProjectDirectoryPath, directory, fileName);
+        }
+
+        internal class MusicRepository
+        {
+            public string MenuBackgroundMusicPath { get; private set; }
+
+            public MusicRepository()
+            {
+                MenuBackgroundMusicPath = GetMusicPath("menu-background.wav");
+            }
+        }
+
+        internal class ImageRepository
+        {
+            public Bitmap MenuBackground { get; private set; }
+            public Icon Icon { get; private set; }
+
+            public ImageRepository()
+            {
+                MenuBackground = new Bitmap(GetFilePath("Assets", "background.png"));
+                Icon = new Icon(GetFilePath("Assets", "icon.ico"));
+            }
+        }
+
         internal class TextureRepository
         {
             internal class EnemyTextureCollection
@@ -50,7 +87,6 @@ namespace PseudoWolfenstein.Core
                 public Bitmap FritzWalk2 { get; private set; }
                 public Bitmap FritzWalk3 { get; private set; }
                 public Bitmap FritzWalk4 { get; private set; }
-
 
                 private readonly Func<string, Func<Bitmap, Color>, Bitmap> TextureLoader;
 

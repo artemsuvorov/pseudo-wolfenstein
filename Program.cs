@@ -17,11 +17,9 @@ namespace PseudoWolfenstein
             Application.SetHighDpiMode(HighDpiMode.SystemAware);
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-         
-            var soundPlayer = new SoundPlayer(@"D:\pseudo-wolfenstein\wolf_menu.wav");
-            soundPlayer.PlayLooping();
-            var fMenu = new fMenu(soundPlayer);
-            Application.Run(fMenu);
+
+            var menu = new MenuForm();
+            Application.Run(menu);
         }
 
     }
