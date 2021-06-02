@@ -1,27 +1,28 @@
 ﻿using System;
 using System.Media;
 using System.Windows.Forms;
-using PseudoWolfenstein.Model;
+using PseudoWolfenstein.Core;
 using PseudoWolfenstein.View;
 
 namespace PseudoWolfenstein
 {
-    public partial class fMenu : Form
+    public partial class MenuForm : Form
     {
         private readonly SoundPlayer soundPlayer;
         private GameForm gameForm;
 
-        private fMenu()
+        public MenuForm()
         {
             InitializeComponent();
+            Icon = Repository.Images.Icon;
+            BackgroundImage = Repository.Images.MenuBackground;
+
+            var path = Repository.Music.MenuBackgroundMusicPath;
+            soundPlayer = new SoundPlayer(path);
+            soundPlayer.PlayLooping();
         }
 
-        public fMenu(SoundPlayer soundPlayer) : this()
-        {
-            this.soundPlayer = soundPlayer;
-        }
-
-        private void button1_Click(object sender, EventArgs e)
+        private void OnNewGameButtonClick(object sender, EventArgs e)
         {
             gameForm = new GameForm();
             _ = new GamePresenter(gameForm);
@@ -36,10 +37,6 @@ namespace PseudoWolfenstein
             soundPlayer.PlayLooping();
             gameForm.Closed -= OnGameFormClosed;
             this.Show();
-        }
-
-        private void fMenu_Load(object sender, EventArgs e)
-        {
         }
 
         private void ButtonExitClick(object sender, EventArgs e)
